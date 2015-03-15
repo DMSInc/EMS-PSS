@@ -2,212 +2,206 @@
 <html>
 <style type="text/css">
 #topDiv{
-	position: absolute;
-	top: 0%;
-	left: 0%;
-	height: 15%;
-	width: 100%;
-	background-color: #90C695;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  height: 15%;
+  width: 100%;
+  background-color: #90C695;
 }
 #backDiv{
-	position: absolute;
-	top: 15%;
-	left: 0%;
-	height: 85%;
-	width: 100%;
-	background-color: #1BBC9B;
+  position: absolute;
+  top: 15%;
+  left: 0%;
+  height: 85%;
+  width: 100%;
+  background-color: #1BBC9B;
 }
 #middleDiv{
-	position: absolute;
-	top: 15%;
-	left: 20%;
-	height: 5%;
-	width: 80%;
+  position: absolute;
+  top: 15%;
+  left: 20%;
+  height: 5%;
+  width: 80%;
 }
 #appLabel{
-	position:absolute;
-	left: 2%;
-	top: -30%;
-	font-size: 300%;
-	color: white;
+  position:absolute;
+  left: 2%;
+  top: -30%;
+  font-size: 300%;
+  color: white;
 }
 .middleDivBtn{
-	background-color: #019875;
-	color: white;
-	height: 100%;
-	top: 0%;
-	width: 20%;
+  background-color: #019875;
+  color: white;
+  height: 100%;
+  top: 0%;
+  width: 20%;
 }
 #userBtn{
-	position: absolute;
-	left: 0%;
+  position: absolute;
+  left: 0%;
 }
 #actionBtn{
-	position: absolute;
-	left: 20%;
-}
-#empBtn{
-	position: absolute;
-	left: 40%;
+  position: absolute;
+  left: 20%;
 }
 #aboutBtn{
-	position: absolute;
-	left: 60%;
+  position: absolute;
+  left: 40%;
+}
+#extraBtn{
+  position: absolute;;
+  left: 60%;
 }
 #addEmp{
-	position:absolute;
-	top: 25%;
-	background-color: #330066;
-	//background-color: rgb(28, 184, 65);
-	color: white;
-	visibility: hidden;
+  position:absolute;
+  top: 25%;
+  background-color: #330066;
+  color: white;
 }
 #modEmp{
-	position:absolute;
-	top: 37%;
-	background-color: #333366;
-	//background-color: rgb(202, 60, 60);
-	color: white;
-	visibility: hidden;
+  position:absolute;
+  top: 37%;
+  background-color: #333366;
+  color: white;
 }
 #delEmp{
-	position:absolute;
-	top: 49%;
-	background-color: #336666;
-	//background-color:rgb(223, 117, 20);
-	color: white;
-	visibility: hidden;
+  position:absolute;
+  top: 49%;
+  background-color: #336666;
+  color: white;
 }
-#searchEmp{
-	position:absolute;
-	top: 61%;
-	background-color: #339966;
-	//background-color: rgb(66, 184, 221);
-	color: white;
-	visibility: hidden;
+#timeCardEmp{
+  position:absolute;
+  top: 61%;
+  background-color: #339966;
+  color: white;
 }
 .buttonStyles{
     color: white;
-    width:0%;
-   	height: 8%;
-   	left:-1%;
+    width:15%;
+    height: 8%;
+    left:-1%;
     border-radius: 4px;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
 #generalUser{
-	position: absolute;
-	top: 37%;
-	color: white;
-	background-color: #006666;
+  position: absolute;
+  top: 37%;
+  color: white;
+  background-color: #006666;
+  visibility: hidden;
 }
 #adminUser{
-	position: absolute;
-	top: 49%;
-	color: white;
-	background-color: #006633;
+  position: absolute;
+  top: 49%;
+  color: white;
+  background-color: #006633;
+  visibility: hidden;
 }
 .buttonStylesUser{
     color: white;
-    width:15%;
-   	height: 8%;
-   	left:-1%;
+    width:0%;
+    height: 8%;
+    left:-1%;
     border-radius: 4px;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
 #logOutOfTheApp{
-	position: absolute;
-	left: 90%;
-	top: 20%;
+  position: absolute;
+  left: 90%;
+  top: 20%;
 }
 #copyright{
-	position: absolute;
-	left: 80%;
-	top: 90%;
-	width: 21%;
-	color: white;
+  position: absolute;
+  left: 80%;
+  top: 90%;
+  width: 21%;
+  color: white;
 }
 </style>
 <head>
-	<title>EMS-PSS</title>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <title>EMS-PSS</title>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
 <script type="text/javascript">
 var ok;
 $(document).ready(function(){
     $("#actionBtn").click(function(){
- 		$("#generalUser").animate(
-        	{
-        		width:"0%",
-        	},600,function(){
-        		document.getElementById("generalUser").style.visibility="hidden";
-        	});
+    $("#generalUser").animate(
+          {
+            width:"0%",
+          },600,function(){
+            document.getElementById("generalUser").style.visibility="hidden";
+          });
 
-      		$("#adminUser").animate(
-        	{
-        		width:"0%"
-        	},600,function(){
-        		document.getElementById("adminUser").style.visibility="hidden";
-		    	document.getElementById("addEmp").style.visibility="visible";
-		    	document.getElementById("modEmp").style.visibility="visible";
-		    	document.getElementById("delEmp").style.visibility="visible";
-		    	document.getElementById("searchEmp").style.visibility="visible";
-		        $("#addEmp").animate(
-		        	{
-		        		width:"15%"
-		        	},"slow");
-		        $("#modEmp").animate(
-		        	{
-		        		width:"15%"
-		        	},"slow");
-		        $("#delEmp").animate(
-		        	{
-		        		width:"15%"
-		        	},"slow");
-		        $("#searchEmp").animate(
-		        	{
-		        		width:"15%"
-		        	},"slow");
-    	});
+          $("#adminUser").animate(
+          {
+            width:"0%"
+          },600,function(){
+            document.getElementById("adminUser").style.visibility="hidden";
+          document.getElementById("addEmp").style.visibility="visible";
+          document.getElementById("modEmp").style.visibility="visible";
+          document.getElementById("delEmp").style.visibility="visible";
+          document.getElementById("timeCardEmp").style.visibility="visible";
+            $("#addEmp").animate(
+              {
+                width:"15%"
+              },"slow");
+            $("#modEmp").animate(
+              {
+                width:"15%"
+              },"slow");
+            $("#delEmp").animate(
+              {
+                width:"15%"
+              },"slow");
+            $("#timeCardEmp").animate(
+              {
+                width:"15%"
+              },"slow");
+      });
     });
 });
 
 
 $(document).ready(function(){
     $("#userBtn").click(function(){
-		$("#addEmp").animate(
-    	{
-    		width:"0%"
-    	},600,function(){
-    		document.getElementById("addEmp").style.visibility="hidden";
-    	});
-    	$("#delEmp").animate(
-    	{
-    		width:"0%"
-    	},600,function(){
-    		document.getElementById("delEmp").style.visibility="hidden";
-    	});
-    	$("#modEmp").animate(
-    	{
-    		width:"0%"
-    	},600,function(){
-    		document.getElementById("modEmp").style.visibility="hidden";
-    	});
-    	$("#searchEmp").animate(
-    	{
-    		width:"0%"
-    	},600,function(){
-    		document.getElementById("searchEmp").style.visibility="hidden";
-	    	document.getElementById("generalUser").style.visibility="visible";
-	    	document.getElementById("adminUser").style.visibility="visible";
-	    	$("#generalUser").animate(
-	    	{
-	    		width:"15%"
-	    	},600);
-	    	$("#adminUser").animate(
-	    	{
-	    		width:"15%"
-	    	},600);
-   		});
+    $("#addEmp").animate(
+      {
+        width:"0%"
+      },600,function(){
+        document.getElementById("addEmp").style.visibility="hidden";
+      });
+      $("#delEmp").animate(
+      {
+        width:"0%"
+      },600,function(){
+        document.getElementById("delEmp").style.visibility="hidden";
+      });
+      $("#modEmp").animate(
+      {
+        width:"0%"
+      },600,function(){
+        document.getElementById("modEmp").style.visibility="hidden";
+      });
+      $("#timeCardEmp").animate(
+      {
+        width:"0%"
+      },600,function(){
+        document.getElementById("timeCardEmp").style.visibility="hidden";
+        document.getElementById("generalUser").style.visibility="visible";
+        document.getElementById("adminUser").style.visibility="visible";
+        $("#generalUser").animate(
+        {
+          width:"15%"
+        },600);
+        $("#adminUser").animate(
+        {
+          width:"15%"
+        },600);
+      });
     });
 });
 
@@ -215,26 +209,26 @@ $(document).ready(function(){
 </script>
 </head>
 <body>
-	<div id="topDiv">
-		<p id="appLabel">EMS-PSS</p>
-		<button id="logOutOfTheApp">Log Out</button>
-	</div>
+  <div id="topDiv">
+    <p id="appLabel">EMS-PSS</p>
+    <button id="logOutOfTheApp">Log Out</button>
+  </div>
 
-	<div id="backDiv">	
-		<button id="addEmp" class="buttonStyles">Add Employee</button>
-		<button id="modEmp" class="buttonStyles">Modify Employee</button>
-		<button id="delEmp" class="buttonStyles">Delete Employee</button>
-		<button id="searchEmp" class="buttonStyles">Search Employee</button>
-		<button id="generalUser" class="buttonStylesUser">General User</button>
-		<button id="adminUser" class="buttonStylesUser">Administrative User</button>
-		<p id="copyright">Developed & Maintained by DMS Inc.</p>
-	</div>
+  <div id="backDiv">  
+    <button id="addEmp" class="buttonStyles">Add Employee</button>
+    <button id="modEmp" class="buttonStyles">Modify Employee</button>
+    <button id="delEmp" class="buttonStyles">Delete Employee</button>
+    <button id="timeCardEmp" class="buttonStyles">Time Card</button>
+    <button id="generalUser" class="buttonStylesUser">General User</button>
+    <button id="adminUser" class="buttonStylesUser">Administrative User</button>
+    <p id="copyright">Developed & Maintained by DMS Inc.</p>
+  </div>
 
-	<div id="middleDiv">
-		<button id="userBtn" class="middleDivBtn">USER</button>
-		<button id="actionBtn" class="middleDivBtn">ACTION</button>
-		<button id="empBtn" class="middleDivBtn">EMPLOYEE</button>
-		<button id="aboutBtn" class="middleDivBtn">ABOUT US</button>
-	</div>
+  <div id="middleDiv">
+    <button id="userBtn" class="middleDivBtn">USER</button>
+    <button id="actionBtn" class="middleDivBtn">EMPLOYEE MAINTAINENECE</button>
+    <button id="aboutBtn" class="middleDivBtn">ABOUT US</button>
+    <button id="extraBtn" class="middleDivBtn">EXTRA</button>
+  </div>
 </body>
 </html>
