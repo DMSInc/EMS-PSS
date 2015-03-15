@@ -112,6 +112,49 @@
     border-radius: 4px;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
+#empForm{
+    position: absolute;
+    left: 27%;
+    top: 10%;
+    height: 80%;
+    width: 50%;
+    overflow-y: scroll; 
+    background-color: #B8B8B8;
+    visibility: hidden;
+    opacity: 0;
+}
+.empTypeBtn{
+    height: 17%;
+    width: 20%;
+    background-color: darkcyan;
+}
+#choiceFTEmp{
+    position: absolute;
+    left: 15%;
+    top: 15%;
+}
+    #choicePTEmp{
+    position: absolute;
+    left: 65%;
+    top: 15%;
+}
+    #choiceSEmp{
+    position: absolute;
+    left: 15%;
+    top: 60%;
+}
+    #choiceCEmp{
+    position: absolute;
+    left: 65%;
+    top: 60%;
+}
+    #empSelected{
+    position: absolute;
+    left: 80%;
+    top: 90%;
+    height: 8%;
+    width: 15%;
+    }
 #logOutOfTheApp{
   position: absolute;
   left: 90%;
@@ -131,6 +174,21 @@
 
 <script type="text/javascript">
 var ok;
+   
+$(document).ready(function(){
+        $( "#addEmp" ).click(function() {
+        document.getElementById("empForm").style.visibility ="visible";
+        $( "#empForm" ).fadeTo( 1000, 1 );
+    });
+});
+    
+$(document).ready(function(){
+    $("#choiceFTEmp").click(function(){
+        document.getElementById("empForm").style.visibility="hidden";
+        document.getElementById("addEmpForm").style.visibility="visible";
+    });
+});
+    
 $(document).ready(function(){
     $("#actionBtn").click(function(){
     $("#generalUser").animate(
@@ -219,13 +277,28 @@ $(document).ready(function(){
   </div>
 
   <div id="backDiv">  
-    <button id="addEmp" class="buttonStyles">Add Employee</button>
+    <button id="addEmp" class="buttonStyles" onclick="addEmployee()">Add Employee</button>
     <button id="modEmp" class="buttonStyles">Modify Employee</button>
     <button id="delEmp" class="buttonStyles">Delete Employee</button>
     <button id="timeCardEmp" class="buttonStyles">Time Card</button>
     <button id="generalUser" class="buttonStylesUser">General User</button>
     <button id="adminUser" class="buttonStylesUser">Administrative User</button>
-    <p id="copyright">Developed & Maintained by DMS Inc.</p>
+        <div id="empForm">
+   
+                <button id="choiceFTEmp" class="empTypeBtn">Full Time Employee</button>
+                <button id="choicePTEmp" class="empTypeBtn">Part Time Employee</button>
+                <button id="choiceSEmp" class="empTypeBtn">Season Employee</button>
+                <button id="choiceCEmp" class="empTypeBtn">Contract Employee</button>
+                <button id="empSelected">Continue..</button>
+            
+        </div>
+      
+        <div id="empAddForm">
+            <label>First Name</label><input type="text" id="fname"/>  
+        </div>
+      
+      <p id="copyright">Developed & Maintained by DMS Inc.</p>
+      
   </div>
 
   <div id="middleDiv">
@@ -237,5 +310,6 @@ $(document).ready(function(){
       <button id="searchBtn" class="middleDivBtn">SEARCH EMPLOYEE</button>
   </div>
     
+
 </body>
 </html>
