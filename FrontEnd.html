@@ -8,6 +8,7 @@
   height: 15%;
   width: 100%;
   background-color: #90C695;
+  //background-color: white;
 }
 #backDiv{
   position: absolute;
@@ -16,6 +17,7 @@
   height: 85%;
   width: 100%;
   background-color: #1BBC9B;
+    //background-color: white;
 }
 #middleDiv{
   position: absolute;
@@ -112,7 +114,7 @@
     border-radius: 4px;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
-#empForm{
+.centerDiv{
     position: absolute;
     left: 27%;
     top: 10%;
@@ -120,8 +122,73 @@
     width: 50%;
     overflow-y: scroll; 
     background-color: #B8B8B8;
-    visibility: hidden;
     opacity: 0;
+}
+#selectEmpTypeDiv{
+visibility: hidden;
+}
+#addEmpDiv{
+visibility: hidden;
+}
+#fnameLabel{
+    position: absolute;
+    left: 10%;
+    top: 10%;
+}
+#fnameText{
+    position: absolute;
+    left: 30%;
+    top: 10%;
+}
+#lnameLabel{
+    position: absolute;
+    left: 10%;
+    top: 20%;
+}
+#lnameText{
+    position: absolute;
+    left: 30%;
+    top: 20%
+}
+#companyLabel{
+    position: absolute;
+    left: 10%;
+    top: 30%;
+}
+#compText{
+    position: absolute;
+    left: 30%;
+    top: 30%;
+}
+#sinLabel{
+    position: absolute;
+    left: 10%;
+    top: 40%;
+}
+#sinText{
+    position: absolute;
+    left: 30%;
+    top: 40%
+}
+#dobLabel{
+    position: absolute;
+    left: 10%;
+    top: 50%;
+}
+#dobText{
+    position: absolute;
+    left: 30%;
+    top: 50%
+}
+#dohLabel{
+    position: absolute;
+    left: 10%;
+    top: 60%;
+}
+#dohText{
+    position: absolute;
+    left: 30%;
+    top: 60%
 }
 .empTypeBtn{
     height: 17%;
@@ -133,28 +200,28 @@
     left: 15%;
     top: 15%;
 }
-    #choicePTEmp{
+#choicePTEmp{
     position: absolute;
     left: 65%;
     top: 15%;
 }
-    #choiceSEmp{
+#choiceSEmp{
     position: absolute;
     left: 15%;
     top: 60%;
 }
-    #choiceCEmp{
+#choiceCEmp{
     position: absolute;
     left: 65%;
     top: 60%;
 }
-    #empSelected{
+#empSelected{
     position: absolute;
     left: 80%;
     top: 90%;
     height: 8%;
     width: 15%;
-    }
+}
 #logOutOfTheApp{
   position: absolute;
   left: 90%;
@@ -175,17 +242,23 @@
 <script type="text/javascript">
 var ok;
    
+//show all employee types as buttons
 $(document).ready(function(){
         $( "#addEmp" ).click(function() {
-        document.getElementById("empForm").style.visibility ="visible";
-        $( "#empForm" ).fadeTo( 1000, 1 );
+        document.getElementById("selectEmpTypeDiv").style.visibility ="visible";
+        $( "#selectEmpTypeDiv" ).fadeTo( 1000, 1);       
     });
 });
     
+//user selected to add full time employee .    
 $(document).ready(function(){
     $("#choiceFTEmp").click(function(){
-        document.getElementById("empForm").style.visibility="hidden";
-        document.getElementById("addEmpForm").style.visibility="visible";
+        $( "#selectEmpTypeDiv" ).fadeTo( 1000, 0,function(){
+        document.getElementById("selectEmpTypeDiv").style.visibility="hidden";
+        document.getElementById("addEmpDiv").style.visibility="visible";
+            $( "#addEmpDiv" ).fadeTo( 1000, 1)
+        });
+    
     });
 });
     
@@ -202,7 +275,7 @@ $(document).ready(function(){
           {
             width:"0%"
           },600,function(){
-            document.getElementById("adminUser").style.visibility="hidden";
+          document.getElementById("adminUser").style.visibility="hidden";
           document.getElementById("addEmp").style.visibility="visible";
           document.getElementById("modEmp").style.visibility="visible";
           document.getElementById("delEmp").style.visibility="visible";
@@ -283,28 +356,28 @@ $(document).ready(function(){
     <button id="timeCardEmp" class="buttonStyles">Time Card</button>
     <button id="generalUser" class="buttonStylesUser">General User</button>
     <button id="adminUser" class="buttonStylesUser">Administrative User</button>
-        <div id="empForm">
-   
-                <button id="choiceFTEmp" class="empTypeBtn">Full Time Employee</button>
-                <button id="choicePTEmp" class="empTypeBtn">Part Time Employee</button>
-                <button id="choiceSEmp" class="empTypeBtn">Season Employee</button>
-                <button id="choiceCEmp" class="empTypeBtn">Contract Employee</button>
-                <button id="empSelected">Continue..</button>
-            
+        <div id="selectEmpTypeDiv" class="centerDiv"> 
+            <button id="choiceFTEmp" class="empTypeBtn">Full Time Employee</button>
+            <button id="choicePTEmp" class="empTypeBtn">Part Time Employee</button>
+            <button id="choiceSEmp" class="empTypeBtn">Season Employee</button>
+            <button id="choiceCEmp" class="empTypeBtn">Contract Employee</button>
+            <button id="empSelected">Continue..</button>   
         </div>
       
-        <div id="empAddForm">
-            <label>First Name</label><input type="text" id="fname"/>  
-        </div>
-      
-      <p id="copyright">Developed & Maintained by DMS Inc.</p>
-      
+          <div id="addEmpDiv" class="centerDiv">
+            <label id="fnameLabel">First Name</label><input type="text" id="fnameText"/>
+            <label id="lnameLabel">Last Name</label><input type="text" id="lnameText"/>
+            <label id="companyLabel">Company</label><input type="text" id="compText"/>
+            <label id="sinLabel">SIN</label><input type="text" id="sinText"/>
+            <label id="dobLabel">Date OF Birth</label><input type="text" id="dobText"/>
+            <label id="dohLabel">Date Of Hire</label><input type="text" id="dohText"/>
+          </div>
+      <p id="copyright">Developed & Maintained by DMS Inc.</p>   
   </div>
 
   <div id="middleDiv">
     <button id="userBtn" class="middleDivBtn">USER</button>
     <button id="actionBtn" class="middleDivBtn">EMPLOYEE MAINTAINENECE</button>
-   
     <button id="empReportsBtn" class="middleDivBtn">EMPLOYEE REPORTS</button>
     <button id="adminBtn" class="middleDivBtn">EMS SYSTEM ADMIN</button>
       <button id="searchBtn" class="middleDivBtn">SEARCH EMPLOYEE</button>
