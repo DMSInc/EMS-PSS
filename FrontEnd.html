@@ -44,7 +44,7 @@
   position: absolute;
   left: 0%;
 }
-#actionBtn{
+#empMaintainence{
   position: absolute;
   left: 16%;
 }
@@ -215,12 +215,19 @@ visibility: hidden;
     left: 65%;
     top: 60%;
 }
-#empSelected{
+#goBack{
     position: absolute;
     left: 80%;
     top: 90%;
     height: 8%;
     width: 15%;
+}
+.cancelImage{
+    position: absolute;
+    left: 95%;
+    top: 2%;
+    height: 5%;
+    width: 4%;
 }
 #logOutOfTheApp{
   position: absolute;
@@ -241,29 +248,70 @@ visibility: hidden;
 
 <script type="text/javascript">
 var ok;
-   
+var maintaineneceType="";
+var employeeSelected="";
 //show all employee types as buttons
 $(document).ready(function(){
-        $( "#addEmp" ).click(function() {
-        document.getElementById("selectEmpTypeDiv").style.visibility ="visible";
-        $( "#selectEmpTypeDiv" ).fadeTo( 1000, 1);       
-    });
+    if(maintaineneceType!="addEmployee")
+    {
+            $( "#addEmp" ).click(function() {
+            document.getElementById("selectEmpTypeDiv").style.visibility ="visible";
+            $( "#selectEmpTypeDiv" ).fadeTo( 1000, 1);   
+                maintaineneceType="addEmployee";
+                
+        });
+    }
 });
     
 //user selected to add full time employee .    
 $(document).ready(function(){
     $("#choiceFTEmp").click(function(){
+        employeeSelected="true";
         $( "#selectEmpTypeDiv" ).fadeTo( 1000, 0,function(){
         document.getElementById("selectEmpTypeDiv").style.visibility="hidden";
         document.getElementById("addEmpDiv").style.visibility="visible";
-            $( "#addEmpDiv" ).fadeTo( 1000, 1)
+            $( "#addEmpDiv" ).fadeTo( 1000, 1);
         });
-    
     });
 });
     
 $(document).ready(function(){
-    $("#actionBtn").click(function(){
+    $("#goBack").click(function(){      
+        if(maintaineneceType=="addEmployee")
+        {
+            $("#addEmpDiv").fadeTo(1000,0,function(){
+                 document.getElementById("addEmpDiv").style.visibility="hidden";
+                document.getElementById("selectEmpTypeDiv").style.visibility ="visible";
+               $( "#selectEmpTypeDiv" ).fadeTo( 1000, 1);  
+            });     
+        }
+    });
+});
+    
+$(document).ready(function(){
+$("#cancelImageEmpType").click(function(){
+        if(maintaineneceType=="addEmployee")
+        {
+            $("#selectEmpTypeDiv").fadeTo(1000,0,function(){
+           document.getElementById("selectEmpTypeDiv").style.visibility="hidden";
+            });
+            
+        }
+    });
+});
+    
+$(document).ready(function(){
+$("#cancelImageAddEmp").click(function(){
+        if(employeeSelected=="true")
+        {
+            $("#addEmpDiv").fadeTo(1000,0,function(){
+             document.getElementById("addEmpDiv").style.visibility="hidden";
+            });     
+        }
+    });
+});
+$(document).ready(function(){
+    $("#empMaintainence").click(function(){
     $("#generalUser").animate(
           {
             width:"0%",
@@ -350,18 +398,19 @@ $(document).ready(function(){
   </div>
 
   <div id="backDiv">  
-    <button id="addEmp" class="buttonStyles" onclick="addEmployee()">Add Employee</button>
+    <button id="addEmp" class="buttonStyles">Add Employee</button>
     <button id="modEmp" class="buttonStyles">Modify Employee</button>
     <button id="delEmp" class="buttonStyles">Delete Employee</button>
     <button id="timeCardEmp" class="buttonStyles">Time Card</button>
     <button id="generalUser" class="buttonStylesUser">General User</button>
     <button id="adminUser" class="buttonStylesUser">Administrative User</button>
+      
         <div id="selectEmpTypeDiv" class="centerDiv"> 
             <button id="choiceFTEmp" class="empTypeBtn">Full Time Employee</button>
             <button id="choicePTEmp" class="empTypeBtn">Part Time Employee</button>
             <button id="choiceSEmp" class="empTypeBtn">Season Employee</button>
-            <button id="choiceCEmp" class="empTypeBtn">Contract Employee</button>
-            <button id="empSelected">Continue..</button>   
+            <button id="choiceCEmp" class="empTypeBtn">Contract Employee</button>  
+            <input type="image" src="cancel.png" id="cancelImageEmpType" class="cancelImage"/>
         </div>
       
           <div id="addEmpDiv" class="centerDiv">
@@ -371,13 +420,15 @@ $(document).ready(function(){
             <label id="sinLabel">SIN</label><input type="text" id="sinText"/>
             <label id="dobLabel">Date OF Birth</label><input type="text" id="dobText"/>
             <label id="dohLabel">Date Of Hire</label><input type="text" id="dohText"/>
+               <input type="image" src="cancel.png" id="cancelImageAddEmp" class="cancelImage"/>
+            <button id="goBack">Back</button> 
           </div>
       <p id="copyright">Developed & Maintained by DMS Inc.</p>   
   </div>
 
   <div id="middleDiv">
     <button id="userBtn" class="middleDivBtn">USER</button>
-    <button id="actionBtn" class="middleDivBtn">EMPLOYEE MAINTAINENECE</button>
+    <button id="empMaintainence" class="middleDivBtn">EMPLOYEE MAINTAINENECE</button>
     <button id="empReportsBtn" class="middleDivBtn">EMPLOYEE REPORTS</button>
     <button id="adminBtn" class="middleDivBtn">EMS SYSTEM ADMIN</button>
       <button id="searchBtn" class="middleDivBtn">SEARCH EMPLOYEE</button>
