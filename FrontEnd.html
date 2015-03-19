@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
-<style type="text/css">
+<head>
+    <style type="text/css">
 #topDiv{
   position: absolute;
   top: 0%;
@@ -8,7 +9,6 @@
   height: 15%;
   width: 100%;
   background-color: #90C695;
-  //background-color: white;
 }
 #backDiv{
   position: absolute;
@@ -17,7 +17,7 @@
   height: 85%;
   width: 100%;
   background-color: #1BBC9B;
-    //background-color: white;
+   
 }
 #middleDiv{
   position: absolute;
@@ -120,8 +120,8 @@
     top: 10%;
     height: 80%;
     width: 50%;
-    overflow-y: scroll; 
-    background-color: #B8B8B8;
+    overflow-y:scroll;
+    background-color:#B8B8B8;
     opacity: 0;
 }
 #selectEmpTypeDiv{
@@ -148,7 +148,7 @@ visibility: hidden;
 #lnameText{
     position: absolute;
     left: 30%;
-    top: 20%
+    top: 20%;
 }
 #companyLabel{
     position: absolute;
@@ -168,7 +168,7 @@ visibility: hidden;
 #sinText{
     position: absolute;
     left: 30%;
-    top: 40%
+    top: 40%;
 }
 #dobLabel{
     position: absolute;
@@ -178,7 +178,7 @@ visibility: hidden;
 #dobText{
     position: absolute;
     left: 30%;
-    top: 50%
+    top: 50%;
 }
 #dohLabel{
     position: absolute;
@@ -188,7 +188,7 @@ visibility: hidden;
 #dohText{
     position: absolute;
     left: 30%;
-    top: 60%
+    top: 60%;
 }
 .empTypeBtn{
     height: 17%;
@@ -242,149 +242,181 @@ visibility: hidden;
   color: white;
 }
 </style>
-<head>
+
   <title>EMS-PSS</title>
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
 <script type="text/javascript">
-var ok;
-var maintaineneceType="";
-var employeeSelected="";
-//show all employee types as buttons
-$(document).ready(function(){
-    if(maintaineneceType!="addEmployee")
-    {
-            $( "#addEmp" ).click(function() {
-            document.getElementById("selectEmpTypeDiv").style.visibility ="visible";
-            $( "#selectEmpTypeDiv" ).fadeTo( 1000, 1);   
-                maintaineneceType="addEmployee";
+var maintaineneceType = "";
+var employeeSelected = "";
+
+$(document).ready(function () {
+    "use strict";
+    if (maintaineneceType !== "addEmployee") {
+        $("#addEmp").click(function () {
+            document.getElementById("selectEmpTypeDiv").style.visibility = "visible";
+            $("#selectEmpTypeDiv").fadeTo(1000, 1);
+            maintaineneceType = "addEmployee";
                 
         });
     }
 });
     
 //user selected to add full time employee .    
-$(document).ready(function(){
-    $("#choiceFTEmp").click(function(){
-        employeeSelected="true";
-        $( "#selectEmpTypeDiv" ).fadeTo( 1000, 0,function(){
-        document.getElementById("selectEmpTypeDiv").style.visibility="hidden";
-        document.getElementById("addEmpDiv").style.visibility="visible";
-            $( "#addEmpDiv" ).fadeTo( 1000, 1);
+$(document).ready(function () {
+    "use strict";
+    $("#choiceFTEmp").click(function () {
+        employeeSelected = "true";
+        $("#selectEmpTypeDiv").fadeTo(1000, 0, function () {
+            document.getElementById("selectEmpTypeDiv").style.visibility = "hidden";
+            document.getElementById("addEmpDiv").style.visibility = "visible";
+            $("#addEmpDiv").fadeTo(1000, 1);
         });
     });
 });
     
-$(document).ready(function(){
-    $("#goBack").click(function(){      
-        if(maintaineneceType=="addEmployee")
-        {
-            $("#addEmpDiv").fadeTo(1000,0,function(){
-                 document.getElementById("addEmpDiv").style.visibility="hidden";
-                document.getElementById("selectEmpTypeDiv").style.visibility ="visible";
-               $( "#selectEmpTypeDiv" ).fadeTo( 1000, 1);  
-            });     
+$(document).ready(function () {
+    "use strict";
+    $("#goBack").click(function () {
+        if (maintaineneceType === "addEmployee") {
+            $("#addEmpDiv").fadeTo(1000, 0, function () {
+                document.getElementById("addEmpDiv").style.visibility = "hidden";
+                document.getElementById("selectEmpTypeDiv").style.visibility = "visible";
+                $("#selectEmpTypeDiv").fadeTo(1000, 1);
+            });
         }
     });
 });
     
-$(document).ready(function(){
-$("#cancelImageEmpType").click(function(){
-        if(maintaineneceType=="addEmployee")
-        {
-            $("#selectEmpTypeDiv").fadeTo(1000,0,function(){
-           document.getElementById("selectEmpTypeDiv").style.visibility="hidden";
+$(document).ready(function () {
+    "use strict";
+    $("#cancelImageEmpType").click(function () {
+        if (maintaineneceType === "addEmployee") {
+            $("#selectEmpTypeDiv").fadeTo(1000, 0, function () {
+                document.getElementById("selectEmpTypeDiv").style.visibility = "hidden";
             });
             
         }
     });
 });
     
-$(document).ready(function(){
-$("#cancelImageAddEmp").click(function(){
-        if(employeeSelected=="true")
-        {
-            $("#addEmpDiv").fadeTo(1000,0,function(){
-             document.getElementById("addEmpDiv").style.visibility="hidden";
-            });     
+$(document).ready(function () {
+    "use strict";
+    $("#cancelImageAddEmp").click(function () {
+        if (employeeSelected === "true") {
+            $("#addEmpDiv").fadeTo(1000, 0, function () {
+                document.getElementById("addEmpDiv").style.visibility = "hidden";
+            });
         }
     });
 });
-$(document).ready(function(){
-    $("#empMaintainence").click(function(){
-    $("#generalUser").animate(
-          {
-            width:"0%",
-          },600,function(){
-            document.getElementById("generalUser").style.visibility="hidden";
-          });
+$(document).ready(function () {
+    "use strict";
+    $("#empMaintainence").click(function () {
+        $("#generalUser").animate(
+            {
+                width: "0%"
+            },
+            600,
+            function () {
+                document.getElementById("generalUser").style.visibility = "hidden";
+            }
+        );
 
-          $("#adminUser").animate(
-          {
-            width:"0%"
-          },600,function(){
-          document.getElementById("adminUser").style.visibility="hidden";
-          document.getElementById("addEmp").style.visibility="visible";
-          document.getElementById("modEmp").style.visibility="visible";
-          document.getElementById("delEmp").style.visibility="visible";
-          document.getElementById("timeCardEmp").style.visibility="visible";
-            $("#addEmp").animate(
-              {
-                width:"15%"
-              },"slow");
-            $("#modEmp").animate(
-              {
-                width:"15%"
-              },"slow");
-            $("#delEmp").animate(
-              {
-                width:"15%"
-              },"slow");
-            $("#timeCardEmp").animate(
-              {
-                width:"15%"
-              },"slow");
-      });
+        $("#adminUser").animate(
+            {
+                width: "0%"
+            },
+            600,
+            function () {
+                document.getElementById("adminUser").style.visibility = "hidden";
+                document.getElementById("addEmp").style.visibility = "visible";
+                document.getElementById("modEmp").style.visibility = "visible";
+                document.getElementById("delEmp").style.visibility = "visible";
+                document.getElementById("timeCardEmp").style.visibility = "visible";
+                $("#addEmp").animate(
+                    {
+                        width: "15%"
+                    },
+                    "slow"
+                );
+                $("#modEmp").animate(
+                    {
+                        width: "15%"
+                    },
+                    "slow"
+                );
+                $("#delEmp").animate(
+                    {
+                        width: "15%"
+                    },
+                    "slow"
+                );
+                $("#timeCardEmp").animate(
+                    {
+                        width: "15%"
+                    },
+                    "slow"
+                );
+            }
+        );
     });
 });
 
 
-$(document).ready(function(){
-    $("#userBtn").click(function(){
-    $("#addEmp").animate(
-      {
-        width:"0%"
-      },600,function(){
-        document.getElementById("addEmp").style.visibility="hidden";
-      });
-      $("#delEmp").animate(
-      {
-        width:"0%"
-      },600,function(){
-        document.getElementById("delEmp").style.visibility="hidden";
-      });
-      $("#modEmp").animate(
-      {
-        width:"0%"
-      },600,function(){
-        document.getElementById("modEmp").style.visibility="hidden";
-      });
-      $("#timeCardEmp").animate(
-      {
-        width:"0%"
-      },600,function(){
-        document.getElementById("timeCardEmp").style.visibility="hidden";
-        document.getElementById("generalUser").style.visibility="visible";
-        document.getElementById("adminUser").style.visibility="visible";
-        $("#generalUser").animate(
-        {
-          width:"15%"
-        },600);
-        $("#adminUser").animate(
-        {
-          width:"15%"
-        },600);
-      });
+$(document).ready(function () {
+    "use strict";
+    $("#userBtn").click(function () {
+        $("#addEmp").animate(
+            {
+                width: "0%"
+            },
+            600,
+            function () {
+                document.getElementById("addEmp").style.visibility = "hidden";
+            }
+        );
+        $("#delEmp").animate(
+            {
+                width: "0%"
+            },
+            600,
+            function () {
+                document.getElementById("delEmp").style.visibility = "hidden";
+            }
+        );
+        $("#modEmp").animate(
+            {
+                width: "0%"
+            },
+            600,
+            function () {
+                document.getElementById("modEmp").style.visibility = "hidden";
+            }
+        );
+        $("#timeCardEmp").animate(
+            {
+                width: "0%"
+            },
+            600,
+            function () {
+                document.getElementById("timeCardEmp").style.visibility = "hidden";
+                document.getElementById("generalUser").style.visibility = "visible";
+                document.getElementById("adminUser").style.visibility = "visible";
+                $("#generalUser").animate(
+                    {
+                        width: "15%"
+                    },
+                    600
+                );
+                $("#adminUser").animate(
+                    {
+                        width: "15%"
+                    },
+                    600
+                );
+            }
+        );
     });
 });
 
