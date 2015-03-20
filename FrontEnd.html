@@ -127,7 +127,7 @@
 #selectEmpTypeDiv{
 visibility: hidden;
 }
-#addEmpDiv{
+#genUserAddingEmp{
 visibility: hidden;
 }
 #fnameLabel{
@@ -140,6 +140,7 @@ visibility: hidden;
     position: absolute;
     left: 40%;
     top: 10%;
+
 }
 #lnameLabel{
     position: absolute;
@@ -249,7 +250,7 @@ visibility: hidden;
 
 <script type="text/javascript">
 var maintaineneceType = "";
-var employeeSelected = "";
+var isEmpTypeSelected = "";
 
 $(document).ready(function () {
     "use strict";
@@ -263,25 +264,54 @@ $(document).ready(function () {
     }
 });
     
-//user selected to add full time employee .    
+//general user selected to add full time employee .    
 $(document).ready(function () {
     "use strict";
     $("#choiceFTEmp").click(function () {
-        employeeSelected = "true";
+        isEmpTypeSelected = "true";
         $("#selectEmpTypeDiv").fadeTo(1000, 0, function () {
             document.getElementById("selectEmpTypeDiv").style.visibility = "hidden";
-            document.getElementById("addEmpDiv").style.visibility = "visible";
-            $("#addEmpDiv").fadeTo(1000, 1);
+            document.getElementById("genUserAddingEmp").style.visibility = "visible";
+            $("#genUserAddingEmp").fadeTo(1000, 1);
         });
     });
 });
     
+    
+//general user selected to add part time employee .    
+$(document).ready(function () {
+    "use strict";
+    $("#choicePTEmp").click(function () {
+        isEmpTypeSelected = "true";
+        $("#selectEmpTypeDiv").fadeTo(1000, 0, function () {
+            document.getElementById("selectEmpTypeDiv").style.visibility = "hidden";
+            document.getElementById("genUserAddingEmp").style.visibility = "visible";
+            $("#genUserAddingEmp").fadeTo(1000, 1);
+        });
+    });
+});
+    
+//general user selected to add seasonal employee .    
+$(document).ready(function () {
+    "use strict";
+    $("#choiceSEmp").click(function () {
+        isEmpTypeSelected = "true";
+        $("#selectEmpTypeDiv").fadeTo(1000, 0, function () {
+            document.getElementById("selectEmpTypeDiv").style.visibility = "hidden";
+            document.getElementById("genUserAddingEmp").style.visibility = "visible";
+            $("#genUserAddingEmp").fadeTo(1000, 1);
+        });
+    });
+});
+    
+//go back to employee type div, to select employee type.    
 $(document).ready(function () {
     "use strict";
     $("#goBack").click(function () {
+        isEmpTypeSelected = "false";
         if (maintaineneceType === "addEmployee") {
-            $("#addEmpDiv").fadeTo(1000, 0, function () {
-                document.getElementById("addEmpDiv").style.visibility = "hidden";
+            $("#genUserAddingEmp").fadeTo(1000, 0, function () {
+                document.getElementById("genUserAddingEmp").style.visibility = "hidden";
                 document.getElementById("selectEmpTypeDiv").style.visibility = "visible";
                 $("#selectEmpTypeDiv").fadeTo(1000, 1);
             });
@@ -304,13 +334,14 @@ $(document).ready(function () {
 $(document).ready(function () {
     "use strict";
     $("#cancelImageAddEmp").click(function () {
-        if (employeeSelected === "true") {
-            $("#addEmpDiv").fadeTo(1000, 0, function () {
-                document.getElementById("addEmpDiv").style.visibility = "hidden";
+        if (isEmpTypeSelected === "true") {
+            $("#genUserAddingEmp").fadeTo(1000, 0, function () {
+                document.getElementById("genUserAddingEmp").style.visibility = "hidden";
             });
         }
     });
 });
+    
 $(document).ready(function () {
     "use strict";
     $("#empMaintainence").click(function () {
@@ -446,7 +477,7 @@ $(document).ready(function () {
             <input type="image" src="cancel.png" id="cancelImageEmpType" class="cancelImage"/>
         </div>
       
-          <div id="addEmpDiv" class="centerDiv">
+          <div id="genUserAddingEmp" class="centerDiv">
             <label id="fnameLabel">First Name</label><input type="text" id="fnameText"/>
             <label id="lnameLabel">Last Name</label><input type="text" id="lnameText"/>
             <label id="companyLabel">Company</label><input type="text" id="compText"/>
