@@ -192,6 +192,30 @@ visibility: hidden;
     left: 40%;
     top: 60%;
 }
+#seasonTypeLabel{
+    position: absolute;
+    left: 10%;
+    top: 70%;
+    visibility: hidden;
+}
+#seasonTypeDD{
+    position: absolute;
+    left: 40%;
+    top: 70%;
+    visibility: hidden;
+}
+#seasonYearLabel{
+    position: absolute;
+    left: 10%;
+    top: 80%;
+    visibility: hidden;
+}
+#seasonYearText{
+    position: absolute;
+    left: 40%;
+    top: 80%;
+    visibility: hidden;
+}
 .empTypeBtn{
     height: 17%;
     width: 20%;
@@ -272,6 +296,10 @@ $(document).ready(function () {
         $("#selectEmpTypeDiv").fadeTo(1000, 0, function () {
             document.getElementById("selectEmpTypeDiv").style.visibility = "hidden";
             document.getElementById("genUserAddingEmp").style.visibility = "visible";
+            document.getElementById("seasonTypeLabel").style.visibility = "hidden";
+            document.getElementById("seasonTypeDD").style.visibility = "hidden";
+            document.getElementById("seasonYearLabel").style.visibility = "hidden";
+            document.getElementById("seasonYearText").style.visibility = "hidden";
             $("#genUserAddingEmp").fadeTo(1000, 1);
         });
     });
@@ -286,6 +314,10 @@ $(document).ready(function () {
         $("#selectEmpTypeDiv").fadeTo(1000, 0, function () {
             document.getElementById("selectEmpTypeDiv").style.visibility = "hidden";
             document.getElementById("genUserAddingEmp").style.visibility = "visible";
+            document.getElementById("seasonTypeLabel").style.visibility = "hidden";
+            document.getElementById("seasonTypeDD").style.visibility = "hidden";
+            document.getElementById("seasonYearLabel").style.visibility = "hidden";
+            document.getElementById("seasonYearText").style.visibility = "hidden";
             $("#genUserAddingEmp").fadeTo(1000, 1);
         });
     });
@@ -299,6 +331,10 @@ $(document).ready(function () {
         $("#selectEmpTypeDiv").fadeTo(1000, 0, function () {
             document.getElementById("selectEmpTypeDiv").style.visibility = "hidden";
             document.getElementById("genUserAddingEmp").style.visibility = "visible";
+            document.getElementById("seasonTypeLabel").style.visibility = "visible";
+            document.getElementById("seasonTypeDD").style.visibility = "visible";
+            document.getElementById("seasonYearLabel").style.visibility = "visible";
+            document.getElementById("seasonYearText").style.visibility = "visible";
             $("#genUserAddingEmp").fadeTo(1000, 1);
         });
     });
@@ -484,7 +520,15 @@ $(document).ready(function () {
             <label id="sinLabel">SIN</label><input type="text" id="sinText"/>
             <label id="dobLabel">Date OF Birth</label><input type="text" id="dobText"/>
             <label id="dohLabel">Date Of Hire</label><input type="text" id="dohText"/>
-               <input type="image" src="cancel.png" id="cancelImageAddEmp" class="cancelImage"/>
+            <label id="seasonTypeLabel">Season</label>
+              <select id="seasonTypeDD">
+                <option value="winter">Winter</option>
+                <option value="spring">Spring</option>
+                <option value="fall">Fall</option>
+                <option value="summer">Summer</option>
+            </select> 
+            <label id="seasonYearLabel">Season Year</label><input type="text" id="seasonYearText"/>
+            <input type="image" src="cancel.png" id="cancelImageAddEmp" class="cancelImage"/>
             <button id="goBack">Back</button> 
           </div>
       <p id="copyright">Developed & Maintained by DMS Inc.</p>   
