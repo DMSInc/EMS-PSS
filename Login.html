@@ -1,1 +1,340 @@
 
+<!DOCTYPE html>
+<html>
+<style type="text/css">
+#topDiv{
+	position: absolute;
+	top: 0%;
+	left: 0%;
+	height: 15%;
+	width: 100%;
+	background-color: black;
+}
+#backDiv{
+	position: absolute;
+	top: 15%;
+	left: 0%;
+	height: 85%;
+	width: 100%;
+	background-color: #800000;
+}
+#middleDiv{
+	position: absolute;
+	top: 15%;
+	left: 20%;
+	height: 5%;
+	width: 80%;
+	visibility: hidden;
+}
+#appLabel{
+	position:absolute;
+	left: 2%;
+	top: -30%;
+	font-size: 300%;
+	color: white;
+}
+.middleDivBtn{
+	background-color: #006600;
+	color: white;
+	height: 100%;
+	top: 0%;
+	width: 20%;
+}
+#userBtn{
+	position: absolute;
+	left: 0%;
+
+}
+#actionBtn{
+	position: absolute;
+	left: 20%;
+
+}
+#empBtn{
+	position: absolute;
+	left: 40%;
+
+}
+#aboutBtn{
+	position: absolute;
+	left: 60%;
+
+}
+#addEmp{
+	position:absolute;
+	top: 25%;
+	background-color: #330066;
+	//background-color: rgb(28, 184, 65);
+	color: white;
+	visibility: hidden;
+}
+#modEmp{
+	position:absolute;
+	top: 37%;
+	background-color: #333366;
+	//background-color: rgb(202, 60, 60);
+	color: white;
+	visibility: hidden;
+}
+#delEmp{
+	position:absolute;
+	top: 49%;
+	background-color: #336666;
+	//background-color:rgb(223, 117, 20);
+	color: white;
+	visibility: hidden;
+}
+#searchEmp{
+	position:absolute;
+	top: 61%;
+	background-color: #339966;
+	//background-color: rgb(66, 184, 221);
+	color: white;
+	visibility: hidden;
+}
+.buttonStyles{
+    color: white;
+    width:0%;
+   	height: 8%;
+   	left:-1%;
+    border-radius: 4px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+#generalUser{
+	position: absolute;
+	top: 37%;
+	color: white;
+	background-color: #006666;
+	visibility: hidden;
+}
+#adminUser{
+	position: absolute;
+	top: 49%;
+	color: white;
+	background-color: #006633;
+	visibility: hidden;
+}
+.buttonStylesUser{
+    color: white;
+    width:15%;
+   	height: 8%;
+   	left:-1%;
+    border-radius: 4px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+#logOutOfTheApp{
+	position: absolute;
+	left: 90%;
+	top: 20%;
+	visibility: hidden;
+}
+#formDiv{
+	position: absolute;
+	color: white;
+	left: 50%;
+	top: 30%;
+}
+</style>
+<head>
+	<title>testing</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+<script type="text/javascript">
+var ok;
+$(document).ready(function(){
+    $("#actionBtn").click(function(){
+ 		$("#generalUser").animate(
+        	{
+        		width:"0%",
+        	},600,function(){
+        		document.getElementById("generalUser").style.visibility="hidden";
+        	});
+
+      		$("#adminUser").animate(
+        	{
+        		width:"0%"
+        	},600,function(){
+        		document.getElementById("adminUser").style.visibility="hidden";
+		    	document.getElementById("addEmp").style.visibility="visible";
+		    	document.getElementById("modEmp").style.visibility="visible";
+		    	document.getElementById("delEmp").style.visibility="visible";
+		    	document.getElementById("searchEmp").style.visibility="visible";
+		        $("#addEmp").animate(
+		        	{
+		        		width:"15%"
+		        	},"slow");
+		        $("#modEmp").animate(
+		        	{
+		        		width:"15%"
+		        	},"slow");
+		        $("#delEmp").animate(
+		        	{
+		        		width:"15%"
+		        	},"slow");
+		        $("#searchEmp").animate(
+		        	{
+		        		width:"15%"
+		        	},"slow");
+    	});
+    });
+});
+
+
+$(document).ready(function(){
+    $("#userBtn").click(function(){
+		$("#addEmp").animate(
+    	{
+    		width:"0%"
+    	},600,function(){
+    		document.getElementById("addEmp").style.visibility="hidden";
+    	});
+    	$("#delEmp").animate(
+    	{
+    		width:"0%"
+    	},600,function(){
+    		document.getElementById("delEmp").style.visibility="hidden";
+    	});
+    	$("#modEmp").animate(
+    	{
+    		width:"0%"
+    	},600,function(){
+    		document.getElementById("modEmp").style.visibility="hidden";
+    	});
+    	$("#searchEmp").animate(
+    	{
+    		width:"0%"
+    	},600,function(){
+    		document.getElementById("searchEmp").style.visibility="hidden";
+	    	document.getElementById("generalUser").style.visibility="visible";
+	    	document.getElementById("adminUser").style.visibility="visible";
+	    	$("#generalUser").animate(
+	    	{
+	    		width:"15%"
+	    	},600);
+	    	$("#adminUser").animate(
+	    	{
+	    		width:"15%"
+	    	},600);
+   		});
+    });
+});
+
+$(document).ready(function(){
+    $("#submitBtn").click(function(){
+		$("#middleDiv").animate(
+    	{
+    		
+    	},600,function(){
+    		document.getElementById("middleDiv").style.visibility="visible";
+    	});
+    	$("#logOutOfTheApp").animate(
+    	{
+    		
+    	},600,function(){
+    		document.getElementById("logOutOfTheApp").style.visibility="visible";
+    	});
+		$("#formDiv").animate(
+    	{
+    		
+    	},600,function(){
+    		document.getElementById("formDiv").style.visibility="hidden";
+    	});
+    });
+});
+
+$(document).ready(function(){
+    $("#logOutOfTheApp").click(function(){
+		$("#middleDiv").animate(
+    	{
+    		
+    	},600,function(){
+    		document.getElementById("middleDiv").style.visibility="hidden";
+    	});
+    	$("#logOutOfTheApp").animate(
+    	{
+    		
+    	},600,function(){
+    		document.getElementById("logOutOfTheApp").style.visibility="hidden";
+    	});
+
+		$("#generalUser").animate(
+    	{
+    		
+    	},600,function(){
+    		document.getElementById("generalUser").style.visibility="hidden";
+    	});
+		$("#adminUser").animate(
+    	{
+    		
+    	},600,function(){
+    		document.getElementById("adminUser").style.visibility="hidden";
+    	});
+		
+      	$("#addEmp").animate(
+    	{
+    		
+    	},600,function(){
+    		document.getElementById("addEmp").style.visibility="hidden";
+    	});
+		$("#modEmp").animate(
+    	{
+    		
+    	},600,function(){
+    		document.getElementById("modEmp").style.visibility="hidden";
+    	});
+		$("#delEmp").animate(
+    	{
+    		
+    	},600,function(){
+    		document.getElementById("delEmp").style.visibility="hidden";
+    	});
+		$("#searchEmp").animate(
+    	{
+    		
+    	},600,function(){
+    		document.getElementById("searchEmp").style.visibility="hidden";
+    	});
+		$("#formDiv").animate(
+    	{
+    		
+    	},600,function(){
+    		document.getElementById("formDiv").style.visibility="visible";
+    	});
+    });
+});
+</script>
+</head>
+<body>
+	<div id="topDiv">
+		<p id="appLabel">EMS-PSS</p>
+		<button id="logOutOfTheApp">Log Out</button>
+	</div>
+
+	<div id="backDiv">	
+		<button id="addEmp" class="buttonStyles">Add Employee</button>
+		<button id="modEmp" class="buttonStyles">Modify Employee</button>
+		<button id="delEmp" class="buttonStyles">Delete Employee</button>
+		<button id="searchEmp" class="buttonStyles">Search Employee</button>
+		<button id="generalUser" class="buttonStylesUser">General User</button>
+		<button id="adminUser" class="buttonStylesUser">Administrative User</button>
+	</div>
+
+	<div id="middleDiv">
+		<button id="userBtn" class="middleDivBtn">USER</button>
+		<button id="actionBtn" class="middleDivBtn">ACTION</button>
+		<button id="empBtn" class="middleDivBtn">EMPLOYEE</button>
+		<button id="aboutBtn" class="middleDivBtn">ABOUT US</button>
+	</div>
+	
+	<div id="formDiv">	
+			User Name:<br>
+			<input type="text" id="userNameInput">
+			<br>
+			Password:<br>
+			<input type="text" id="passwordInput" >
+			<br><br>
+			<input id="submitBtn" type="submit" value="Login">
+	</div>
+
+</body>
+</html>
