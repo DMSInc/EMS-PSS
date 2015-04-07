@@ -1,7 +1,3 @@
-<?php
-session_start();
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +8,9 @@ session_start();
   left: 0%;
   height: 15%;
   width: 100%;
+//  background-color: #90C695;
     background-color: #808080;
+    //background-image: url("gradient.jpg");
 }
 #backDiv{
   position: absolute;
@@ -20,7 +18,11 @@ session_start();
   left: 0%;
   height: 85%;
   width: 100%;
-  background-color: #084347 ;
+  
+      background-color: #084347 ;
+    //background-color: #F0F0F0;
+    //background-image: url("gradient.jpg");
+   
 }
 #middleDiv{
   position: absolute;
@@ -42,53 +44,53 @@ session_start();
     color: black;
   height: 100%;
   top: 0%;
-  width: 20%;
+  width: 16%;
    
  
 }
-#empMaintainence{
+#userBtn{
   position: absolute;
   left: 0%;
 }
+#empMaintainence{
+  position: absolute;
+  left: 16%;
+}
 #empReportsBtn{
   position: absolute;
-  left: 20%;
+  left: 32%;
 }
 #adminBtn{
   position: absolute;
-  left: 40%;
+  left: 48%;
 }
 #searchBtn{
  position: absolute;
- left: 60%;
+ left: 64%;
 }
 #addEmp{
   position:absolute;
   top: 25%;
   background-color: #330066;
   color: white;
-     visibility: hidden;
 }
 #modEmp{
   position:absolute;
   top: 37%;
   background-color: #333366;
   color: white;
-     visibility: hidden;
 }
 #delEmp{
   position:absolute;
   top: 49%;
   background-color: #336666;
   color: white;
-     visibility: hidden;
 }
 #timeCardEmp{
   position:absolute;
   top: 61%;
   background-color: #339966;
   color: white;
-     visibility: hidden;
 }
 .buttonStyles{
     color: #006633;
@@ -98,7 +100,20 @@ session_start();
     border-radius: 4px;
     text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
 }
-
+#generalUser{
+  position: absolute;
+  top: 37%;
+  color: white;
+  background-color: #006666;
+  visibility: hidden;
+}
+#adminUser{
+  position: absolute;
+  top: 49%;
+  color: white;
+  background-color: #006633;
+  visibility: hidden;
+}
 .buttonStylesUser{
     color: white;
     width:0%;
@@ -118,22 +133,26 @@ session_start();
     background-color:#E6E6E6 ;
     //background-color:#336666 ;
     opacity: 0;
+    border-radius: 3%;
+    box-shadow: 6px 6px 3px #888888;
 }
 #selectEmpTypeDiv{
-    visibility: hidden;
+visibility: hidden;
 }
 #genUserAddingEmp{
-    visibility: hidden;
+visibility: hidden;
 }
 #fnameLabel{
     position: absolute;
     left: 10%;
     top: 10%;
+
 }
 #fnameText{
     position: absolute;
     left: 40%;
     top: 10%;
+
 }
 #lnameLabel{
     position: absolute;
@@ -212,12 +231,17 @@ session_start();
 .empTypeBtn{
     height: 17%;
     width: 26%;
+   // background-color: F5A9A9 ;
+   // border-radius: 10%;
+    
+    
+ //display: inline-block;
+    //text-decoration: none;
     color: #fff;
     font-weight: lighter;
     background-color: #538fbe;
     //padding: 20px 70px;
     font-size: 12px;
-    font-family: serif;
     border: 1px solid #2d6898;
     background-image: linear-gradient(bottom, rgb(73,132,180) 0%, rgb(97,155,203) 100%);
     background-image: -o-linear-gradient(bottom, rgb(73,132,180) 0%, rgb(97,155,203) 100%);
@@ -240,7 +264,7 @@ session_start();
 }
 #choicePTEmp{
     position: absolute;
-    left: 59%;
+    left: 65%;
     top: 15%;
 }
 #choiceSEmp{
@@ -250,7 +274,7 @@ session_start();
 }
 #choiceCEmp{
     position: absolute;
-    left: 59%;
+    left: 65%;
     top: 60%;
 }
 #goBack{
@@ -262,10 +286,10 @@ session_start();
 }
 .cancelImage{
     position: absolute;
-    left: 92%;
-    top: -2%;
-    height: 15%;
-    width: 10%;
+    left: 96%;
+    top: 0%;
+    height: 5%;
+    width: 4%;
 }
 #logOutOfTheApp{
   position: absolute;
@@ -287,28 +311,7 @@ session_start();
 <script type="text/javascript">
 var maintaineneceType = "";
 var isEmpTypeSelected = "";
-var userType="";
-    
-   $(document).ready(function () {
-    userType="<?php echo $_SESSION["userType"]; ?>";
-       if(userType==="A")
-       {
-           document.getElementById("addEmp").style.visibility = "visible";
-           document.getElementById("modEmp").style.visibility = "visible";
-           document.getElementById("delEmp").style.visibility = "visible";
-           document.getElementById("timeCardEmp").style.visibility = "visible";
-       }
-       else
-       {
-           if(userType==="G")
-           {
-               document.getElementById("addEmp").style.visibility = "visible";
-               document.getElementById("timeCardEmp").style.visibility = "visible";
-           }
-       }
-   });
 
-    
 $(document).ready(function () {
     "use strict";
     if (maintaineneceType !== "addEmployee") {
@@ -414,10 +417,7 @@ $(document).ready(function () {
 $(document).ready(function () {
     "use strict";
     $("#empMaintainence").click(function () {
-        
-        
-        //remmove the genral and admin user code, because it does not exist.
-       /* $("#generalUser").animate(
+        $("#generalUser").animate(
             {
                 width: "0%"
             },
@@ -425,15 +425,15 @@ $(document).ready(function () {
             function () {
                 document.getElementById("generalUser").style.visibility = "hidden";
             }
-        );*/
+        );
 
-       /* $("#adminUser").animate(
+        $("#adminUser").animate(
             {
                 width: "0%"
             },
             600,
             function () {
-                document.getElementById("adminUser").style.visibility = "hidden"; 
+                document.getElementById("adminUser").style.visibility = "hidden";
                 document.getElementById("addEmp").style.visibility = "visible";
                 document.getElementById("modEmp").style.visibility = "visible";
                 document.getElementById("delEmp").style.visibility = "visible";
@@ -463,7 +463,7 @@ $(document).ready(function () {
                     "slow"
                 );
             }
-        );*/
+        );
     });
 });
 
@@ -524,6 +524,63 @@ $(document).ready(function () {
     });
 });
 
+function  SaralyValidator(saraly,bAdmin)
+{
+	var result = false;
+	if(!isNaN(saraly))
+	{
+		if(bAdmin)
+		{
+			if(saraly > 0 )
+			{
+				result = true;
+			}
+		}
+		else
+		{
+			if(saraly >= 0 )
+			{
+				result = true;
+			}
+		}
+	}
+	
+	return result;
+	
+}
+
+function seasonValidation(value){
+
+	var allowedWords = ['winter','spring','summer','fall'];
+
+	if(allowedWords.indexOf(value.trim().toLowerCase()) > -1){
+
+     return true;
+
+	}
+	else{
+
+     return false;
+	}
+}
+
+function letterValidation(inputValue){
+
+	var isLetter = true;
+	var patt = /^[a-zA-Z'.]{1,40}$/;
+	var letterCheck = inputValue;
+	if(letterCheck == null || letterCheck == "")
+	{
+		isLetter = false;
+	}
+	else{
+	
+		if(inputValue.match(patt) == null){
+		isLetter = false;
+		}
+	}
+	return isLetter;
+}
 
 </script>
 </head>
@@ -538,6 +595,8 @@ $(document).ready(function () {
     <button id="modEmp" class="buttonStyles">Modify Employee</button>
     <button id="delEmp" class="buttonStyles">Delete Employee</button>
     <button id="timeCardEmp" class="buttonStyles">Time Card</button>
+    <button id="generalUser" class="buttonStylesUser">General User</button>
+    <button id="adminUser" class="buttonStylesUser">Administrative User</button>
       
         <div id="selectEmpTypeDiv" class="centerDiv"> 
             <button id="choiceFTEmp" class="empTypeBtn">Full Time Employee</button>
@@ -569,10 +628,13 @@ $(document).ready(function () {
   </div>
 
   <div id="middleDiv">
+    <button id="userBtn" class="middleDivBtn">USER</button>
     <button id="empMaintainence" class="middleDivBtn">EMPLOYEE MAINTAINENECE</button>
     <button id="empReportsBtn" class="middleDivBtn">EMPLOYEE REPORTS</button>
     <button id="adminBtn" class="middleDivBtn">EMS SYSTEM ADMIN</button>
-    <button id="searchBtn" class="middleDivBtn">SEARCH EMPLOYEE</button>
+      <button id="searchBtn" class="middleDivBtn">SEARCH EMPLOYEE</button>
   </div>
+    
+
 </body>
 </html>
