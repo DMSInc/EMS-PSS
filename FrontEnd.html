@@ -549,6 +549,39 @@ function  SaralyValidator(saraly,bAdmin)
 	
 }
 
+function seasonValidation(value){
+
+	var allowedWords = ['winter','spring','summer','fall'];
+
+	if(allowedWords.indexOf(value.trim().toLowerCase()) > -1){
+
+     return true;
+
+	}
+	else{
+
+     return false;
+	}
+}
+
+function letterValidation(inputValue){
+
+	var isLetter = true;
+	var patt = /^[a-zA-Z'.]{1,40}$/;
+	var letterCheck = inputValue;
+	if(letterCheck == null || letterCheck == "")
+	{
+		isLetter = false;
+	}
+	else{
+	
+		if(inputValue.match(patt) == null){
+		isLetter = false;
+		}
+	}
+	return isLetter;
+}
+
 </script>
 </head>
 <body>
