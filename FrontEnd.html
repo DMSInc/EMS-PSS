@@ -524,6 +524,30 @@ $(document).ready(function () {
     });
 });
 
+function  SaralyValidator(saraly,bAdmin)
+{
+	var result = false;
+	if(!isNaN(saraly))
+	{
+		if(bAdmin)
+		{
+			if(saraly > 0 )
+			{
+				result = true;
+			}
+		}
+		else
+		{
+			if(saraly >= 0 )
+			{
+				result = true;
+			}
+		}
+	}
+	
+	return result;
+	
+}
 
 </script>
 </head>
