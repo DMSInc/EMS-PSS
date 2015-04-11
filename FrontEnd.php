@@ -142,16 +142,41 @@ session_start();
 #genUserAddingEmp{
     visibility: hidden;
 }
-#adminUserAddingEmp{
+#adminUserAddingFTEmp{
+    visibility: hidden;
+}
+#adminUserAddingPTEmp{
+    visibility: hidden;
+}
+#adminUserAddingSEmp{
+    visibility: hidden;
+}
+#adminUserAddingCEmp{
     visibility: hidden;
 }
 #genUserTimeCard{
 visibility:hidden;
 }
+        .submitBtn{
+        position:absolute;
+            left:40%;
+        }
+        #btnSubmitFT{
+        top:90%;
+        }
+         #btnSubmitPT{
+        top:90%;
+        }
+         #btnSubmitS{
+        top:80%;
+        }
+        #btnSubmitC{
+        top:80%;
+        }
 #adminUserTimeCard{
 visibility:hidden;
 }    
-        #employeeType{
+        .employeeType{
         position:absolute;
             top:5%;
             left:20%;
@@ -219,22 +244,22 @@ visibility:hidden;
 .seasonL{
     position: absolute;
     left: 10%;
-    top: 70%;
+    top: 60%;
 }
 .season{
     position: absolute;
     left: 40%;
-    top: 70%;
+    top: 60%;
 }
 .seasonyearL{
     position: absolute;
     left: 10%;
-    top: 80%;
+    top: 70%;
 }
 .seasonyear{
     position: absolute;
     left: 40%;
-    top: 80%;
+    top: 70%;
 }
 #dotLabelAdmin{
     position: absolute;
@@ -259,12 +284,12 @@ visibility:hidden;
          #hourlyRateLabelAdmin{
     position: absolute;
     left: 10%;
-    top: 90%;
+    top: 80%;
 }
 #hourlyRate{
     position: absolute;
     left: 40%;
-    top: 90%;
+    top: 80%;
 } 
          #piecePayLabelAdmin{
     position: absolute;
@@ -276,7 +301,83 @@ visibility:hidden;
     left: 40%;
     top: 100%;
 } 
+        #lnameLabelAdminC{
+        position:absolute;
+            left:10%;
+            top:10%;
+        }
+         #lnameTextAdminC{
+        position:absolute;
+            left:40%;
+            top:10%;
+        }
         
+        #companyLabelAdminC{
+        position:absolute;
+            left:10%;
+            top:20%;
+        }
+         #compTextAdminC{
+        position:absolute;
+            left:40%;
+            top:20%;
+        }
+        
+        #sinLabelAdminC{
+        position:absolute;
+            left:10%;
+            top:30%;
+        }
+         #sinTextAdminC{
+        position:absolute;
+            left:40%;
+            top:30%;
+        }
+        
+        #dobLabelAdminC{
+        position:absolute;
+            left:10%;
+            top:40%;
+        }
+         #dobTextAdminC{
+        position:absolute;
+            left:40%;
+            top:40%;
+        }
+        
+        #csdLabelAdminC{
+        position:absolute;
+            left:10%;
+            top:50%;
+        }
+         #csdTextAdminC{
+        position:absolute;
+            left:40%;
+            top:50%;
+        }
+        
+        #cstopDLabelAdminC{
+        position:absolute;
+            left:10%;
+            top:60%;
+        }
+         #cstopDTextAdminC{
+        position:absolute;
+            left:40%;
+            top:60%;
+        }
+        
+        #contractAmountLabelC{
+        position:absolute;
+            left:10%;
+            top:70%;
+        }
+         #contractAmountC{
+        position:absolute;
+            left:40%;
+            top:70%;
+        }
+    
 .empTypeBtn{
     height: 17%;
     width: 26%;
@@ -582,10 +683,10 @@ function timeCardDivsAdmin()
             {
                 //check which add emp divs are open
                 //hide all add amp divs
-                if(document.getElementById("adminUserAddingEmp").style.visibility == "visible")
+                if(document.getElementById("adminUserAddingFTEmp").style.visibility == "visible")
                 {        
-                     $("#adminUserAddingEmp").fadeTo(1000, 0,function(){
-                         document.getElementById("adminUserAddingEmp").style.visibility = "hidden";
+                     $("#adminUserAddingFTEmp").fadeTo(1000, 0,function(){
+                         document.getElementById("adminUserAddingFTEmp").style.visibility = "hidden";
                          //show card time divs
                         document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
                         $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
@@ -594,18 +695,57 @@ document.getElementById("addEmployeeLabelAdmin").innerHTML="Time Card Admin";
                 }
                 else
                 {
-                    if(document.getElementById("selectEmpTypeDivForAdminUser").style.visibility == "visible")
-                    {
-                        $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0,function(){
-                         document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
-
-                        //show card time divs
-                        document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
-                        $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
-                            document.getElementById("addEmployeeLabelAdmin").innerHTML="Time Card Admin";
-                     });
+                    if(document.getElementById("adminUserAddingPTEmp").style.visibility == "visible")
+                    {        
+                         $("#adminUserAddingPTEmp").fadeTo(1000, 0,function(){
+                             document.getElementById("adminUserAddingPTEmp").style.visibility = "hidden";
+                             //show card time divs
+                            document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
+                            $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
+    document.getElementById("addEmployeeLabelAdmin").innerHTML="Time Card Admin";
+                         });
                     }
-                }    
+                    else
+                    {
+                        if(document.getElementById("adminUserAddingSEmp").style.visibility == "visible")
+                        {        
+                             $("#adminUserAddingSEmp").fadeTo(1000, 0,function(){
+                                 document.getElementById("adminUserAddingSEmp").style.visibility = "hidden";
+                                 //show card time divs
+                                document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
+                                $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
+        document.getElementById("addEmployeeLabelAdmin").innerHTML="Time Card Admin";
+                             });
+                        }
+                        else
+                        {
+                            if(document.getElementById("adminUserAddingCEmp").style.visibility == "visible")
+                            {        
+                                 $("#adminUserAddingCEmp").fadeTo(1000, 0,function(){
+                                     document.getElementById("adminUserAddingCEmp").style.visibility = "hidden";
+                                     //show card time divs
+                                    document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
+                                    $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
+                                    document.getElementById("addEmployeeLabelAdmin").innerHTML="Time Card Admin";
+                                 });
+                            }
+                            else
+                            {
+                                if(document.getElementById("selectEmpTypeDivForAdminUser").style.visibility == "visible")
+                                {
+                                    $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0,function(){
+                                     document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
+
+                                    //show card time divs
+                                    document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
+                                    $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
+                                        document.getElementById("addEmployeeLabelAdmin").innerHTML="Time Card Admin";
+                                 });
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }     
     }
@@ -690,25 +830,9 @@ $(document).ready(function () {
         if(maintaineneceType=="addEmployee"){
                 $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function () {
                 document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
-                document.getElementById("adminUserAddingEmp").style.visibility = "visible";
-                document.getElementById("fnameLabelAdmin").style.visibility = "visible";
-                document.getElementById("fnameTextAdmin").style.visibility = "visible";
-                document.getElementById("seasonTypeLabelAdmin").style.visibility = "hidden";
-                document.getElementById("seasonTypeDDAdmin").style.visibility = "hidden";
-                document.getElementById("seasonYearLabelAdmin").style.visibility = "hidden";
-                document.getElementById("seasonYearTextAdmin").style.visibility = "hidden";
-                document.getElementById("salary").style.visibility = "visible";
-                document.getElementById("salaryLabelAdmin").style.visibility = "visible";
-                document.getElementById("hourlyRate").style.visibility = "hidden";
-                document.getElementById("hourlyRateLabelAdmin").style.visibility = "hidden";
-                document.getElementById("piecePay").style.visibility = "hidden";
-                document.getElementById("piecePayLabelAdmin").style.visibility = "hidden";
-                document.getElementById("dotLabelAdmin").style.visibility = "visible";
-                document.getElementById("dotTextAdmin").style.visibility = "visible";
-                document.getElementById("dohLabelAdmin").style.visibility = "visible";
-                document.getElementById("dohTextAdmin").style.visibility = "visible";
-                $("#adminUserAddingEmp").fadeTo(1000, 1);
-                document.getElementById("employeeType").innerHTML = "Fulltime Employee";
+                document.getElementById("adminUserAddingFTEmp").style.visibility = "visible";
+                $("#adminUserAddingFTEmp").fadeTo(1000, 1);
+                document.getElementById("employeeTypeFT").innerHTML = "Fulltime Employee";
             });
         }
         else
@@ -769,25 +893,9 @@ $(document).ready(function () {
          if(maintaineneceType=="addEmployee"){
             $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function () {
                 document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
-                document.getElementById("adminUserAddingEmp").style.visibility = "visible";
-                document.getElementById("fnameLabelAdmin").style.visibility = "visible";
-                document.getElementById("fnameTextAdmin").style.visibility = "visible";
-                document.getElementById("seasonTypeLabelAdmin").style.visibility = "hidden";
-                document.getElementById("seasonTypeDDAdmin").style.visibility = "hidden";
-                document.getElementById("seasonYearLabelAdmin").style.visibility = "hidden";
-                document.getElementById("seasonYearTextAdmin").style.visibility = "hidden";
-                document.getElementById("salary").style.visibility = "hidden";
-                document.getElementById("salaryLabelAdmin").style.visibility = "hidden";
-                document.getElementById("hourlyRate").style.visibility = "visible";
-                document.getElementById("hourlyRateLabelAdmin").style.visibility = "visible";
-                document.getElementById("piecePay").style.visibility = "hidden";
-                document.getElementById("piecePayLabelAdmin").style.visibility = "hidden";
-                document.getElementById("dotLabelAdmin").style.visibility = "visible";
-                document.getElementById("dotTextAdmin").style.visibility = "visible";
-                document.getElementById("dohLabelAdmin").style.visibility = "visible";
-                document.getElementById("dohTextAdmin").style.visibility = "visible";
-                $("#adminUserAddingEmp").fadeTo(1000, 1);
-                 document.getElementById("employeeType").innerHTML = "Parttime Employee";
+                document.getElementById("adminUserAddingPTEmp").style.visibility = "visible";
+                $("#adminUserAddingPTEmp").fadeTo(1000, 1);
+                 document.getElementById("employeeTypePT").innerHTML = "Parttime Employee";
             });
         }
         else
@@ -850,27 +958,9 @@ $(document).ready(function () {
         if(maintaineneceType=="addEmployee"){    
         $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function () {
                 document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
-                document.getElementById("adminUserAddingEmp").style.visibility = "visible";
-                document.getElementById("fnameLabelAdmin").style.visibility = "visible";
-                document.getElementById("fnameTextAdmin").style.visibility = "visible";
-                document.getElementById("seasonTypeLabelAdmin").style.visibility = "visible";
-                document.getElementById("seasonTypeDDAdmin").style.visibility = "visible";
-                document.getElementById("seasonYearLabelAdmin").style.visibility = "visible";
-                document.getElementById("seasonYearTextAdmin").style.visibility = "visible";
-            
-                document.getElementById("dotLabelAdmin").style.visibility = "hidden";
-                document.getElementById("dotTextAdmin").style.visibility = "hidden";
-                document.getElementById("dohLabelAdmin").style.visibility = "hidden";
-                document.getElementById("dohTextAdmin").style.visibility = "hidden";
-            
-                document.getElementById("salary").style.visibility = "hidden";
-                document.getElementById("salaryLabelAdmin").style.visibility = "hidden";
-                document.getElementById("hourlyRate").style.visibility = "hidden";
-                document.getElementById("hourlyRateLabelAdmin").style.visibility = "hidden";
-                document.getElementById("piecePay").style.visibility = "visible";
-                document.getElementById("piecePayLabelAdmin").style.visibility = "visible";
-                $("#adminUserAddingEmp").fadeTo(1000, 1);
-                 document.getElementById("employeeType").innerHTML = "Seasonal Employee";
+                document.getElementById("adminUserAddingSEmp").style.visibility = "visible";
+                $("#adminUserAddingSEmp").fadeTo(1000, 1);
+                document.getElementById("employeeTypeS").innerHTML = "Seasonal Employee";
             });
         }
         else
@@ -900,25 +990,9 @@ $(document).ready(function () {
         if(maintaineneceType=="addEmployee"){    
         $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function () {
                 document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
-                document.getElementById("adminUserAddingEmp").style.visibility = "visible";
-                document.getElementById("fnameLabelAdmin").style.visibility = "hidden";
-                document.getElementById("fnameTextAdmin").style.visibility = "hidden";
-                document.getElementById("seasonTypeLabelAdmin").style.visibility = "hidden";
-                document.getElementById("seasonTypeDDAdmin").style.visibility = "hidden";
-                document.getElementById("seasonYearLabelAdmin").style.visibility = "hidden";
-                document.getElementById("seasonYearTextAdmin").style.visibility = "hidden";
-                document.getElementById("salary").style.visibility = "hidden";
-                document.getElementById("salaryLabelAdmin").style.visibility = "hidden";
-                document.getElementById("hourlyRate").style.visibility = "hidden";
-                document.getElementById("hourlyRateLabelAdmin").style.visibility = "hidden";
-                document.getElementById("piecePay").style.visibility = "hidden";
-                document.getElementById("piecePayLabelAdmin").style.visibility = "hidden";
-                document.getElementById("dotLabelAdmin").style.visibility = "hidden";
-                document.getElementById("dotTextAdmin").style.visibility = "hidden";
-                document.getElementById("dohLabelAdmin").style.visibility = "hidden";
-                document.getElementById("dohTextAdmin").style.visibility = "hidden";
-                $("#adminUserAddingEmp").fadeTo(1000, 1);
-                 document.getElementById("employeeType").innerHTML = "Contract Employee";
+                document.getElementById("adminUserAddingCEmp").style.visibility = "visible";
+                $("#adminUserAddingCEmp").fadeTo(1000, 1);
+                 document.getElementById("employeeTypeC").innerHTML = "Contract Employee";
             });
         }
         else
@@ -944,12 +1018,7 @@ $(document).ready(function () {
     
 //clear all the previous form data
 function clearEmpForm(){   
-    document.getElementById("fnameText").value = "";
-    document.getElementById("lnameText").value = "";
-    document.getElementById("compText").value = "";
-    document.getElementById("sinText").value = "";
-    document.getElementById("dobText").value = "";
-    document.getElementById("dohText").value = "";
+
 }
     
 //go back to employee type div, to select employee type.    
@@ -965,18 +1034,6 @@ $(document).ready(function () {
     });
 });
     
-//go back to employee type div, to select employee type.    
-$(document).ready(function () {
-    "use strict";
-    $("#goBackAdmin").click(function () {
-    //hide the add emp form    
-    $("#adminUserAddingEmp").fadeTo(1000, 0, function () {
-        document.getElementById("adminUserAddingEmp").style.visibility = "hidden";
-        document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
-        $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
-        });
-    });
-});
     
 $(document).ready(function () {
     "use strict";
@@ -1035,16 +1092,8 @@ $(document).ready(function () {
     });
 });
     
-    $(document).ready(function () {
-    "use strict";
-    $("#cancelImageAddEmpAdmin").click(function () {
-        $("#adminUserAddingEmp").fadeTo(1000, 0, function () {
-            document.getElementById("adminUserAddingEmp").style.visibility = "hidden";
-        });
-    });
-});
     
-    $(document).ready(function () {
+$(document).ready(function () {
     "use strict";
     $("#cancelImageTimeCardAdmin").click(function () {
         $("#adminUserTimeCard").fadeTo(1000, 0, function () {
@@ -1166,7 +1215,89 @@ $(document).ready(function () {
     });
 });
 
+function goBack()
+{
+    if(document.getElementById("adminUserAddingFTEmp").style.visibility == "visible")
+    {
+        $("#adminUserAddingFTEmp").fadeTo(1000, 0, function () {
+            document.getElementById("adminUserAddingFTEmp").style.visibility = "hidden";
+            document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
+            $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
+        });
+    }
+    else
+    {
+        if(document.getElementById("adminUserAddingPTEmp").style.visibility == "visible")
+        {
+            $("#adminUserAddingPTEmp").fadeTo(1000, 0, function () {
+                document.getElementById("adminUserAddingPTEmp").style.visibility = "hidden";
+                document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
+                $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
+            });
+        }
+        else
+        {
+             if(document.getElementById("adminUserAddingSEmp").style.visibility == "visible")
+            {
+                $("#adminUserAddingSEmp").fadeTo(1000, 0, function () {
+                    document.getElementById("adminUserAddingSEmp").style.visibility = "hidden";
+                    document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
+                    $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
+                });
+            }
+            else
+            {
+                if(document.getElementById("adminUserAddingCEmp").style.visibility == "visible")
+                {
+                    $("#adminUserAddingCEmp").fadeTo(1000, 0, function () {
+                        document.getElementById("adminUserAddingCEmp").style.visibility = "hidden";
+                        document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
+                        $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
+                    });
+                }
+            }
+        }
+    }
+}
+    
+function cancelImage()
+{
+    if(document.getElementById("adminUserAddingFTEmp").style.visibility == "visible")
+    {
+        $("#adminUserAddingFTEmp").fadeTo(1000, 0, function () {
+            document.getElementById("adminUserAddingFTEmp").style.visibility = "hidden";
+        });
+    }
+    else
+    {
+        if(document.getElementById("adminUserAddingPTEmp").style.visibility == "visible")
+        {
+             $("#adminUserAddingPTEmp").fadeTo(1000, 0, function () {
+                document.getElementById("adminUserAddingPTEmp").style.visibility = "hidden";
+            });
+        }
+        else
+        {
+             if(document.getElementById("adminUserAddingSEmp").style.visibility == "visible")
+            {
+                 $("#adminUserAddingSEmp").fadeTo(1000, 0, function () {
+                    document.getElementById("adminUserAddingSEmp").style.visibility = "hidden";
+                });
+            }
+            else
+            {
+                if(document.getElementById("adminUserAddingCEmp").style.visibility == "visible")
+                {
+                     $("#adminUserAddingCEmp").fadeTo(1000, 0, function () {
+                        document.getElementById("adminUserAddingCEmp").style.visibility = "hidden";
+                    });
+                }
+            }
 
+        }
+    }
+}
+    
 </script>
 </head>
 <body>
@@ -1222,8 +1353,8 @@ $(document).ready(function () {
             <button id="goBack" class="backBtn">Back</button> 
           </div>
       
-           <div id="adminUserAddingEmp" class="centerDiv">
-            <label id="employeeType"></label>
+           <div id="adminUserAddingFTEmp" class="centerDiv">
+            <label id="employeeTypeFT" class="employeeType"></label>
             <label id="fnameLabelAdmin" class="fnameL">First Name</label><input type="text" id="fnameTextAdmin" class="fname"/>
             <label id="lnameLabelAdmin" class="lnameL">Last Name</label><input type="text" id="lnameTextAdmin" class="lname"/>
             <label id="companyLabelAdmin" class="companyL">Company</label><input type="text" id="compTextAdmin" class="company"/>
@@ -1232,8 +1363,33 @@ $(document).ready(function () {
             <label id="dohLabelAdmin" class="dohL">Date Of Hire</label><input type="text" id="dohTextAdmin" class="doh"/>
             <label id="dotLabelAdmin">Date Of Termination</label><input type="text" id="dotTextAdmin" class="dot"/>
             <label id="salaryLabelAdmin">Salary</label><input type="text" id="salary"/>
+            <button type="submit" class="submitBtn" id="btnSubmitFT">Submit</button>
+            <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>
+            <button class="backBtn" onclick="goBack()">Back</button> 
+          </div>
+      
+        <div id="adminUserAddingPTEmp" class="centerDiv">
+            <label id="employeeTypePT" class="employeeType"></label>
+            <label id="fnameLabelAdmin" class="fnameL">First Name</label><input type="text" id="fnameTextAdmin" class="fname"/>
+            <label id="lnameLabelAdmin" class="lnameL">Last Name</label><input type="text" id="lnameTextAdmin" class="lname"/>
+            <label id="companyLabelAdmin" class="companyL">Company</label><input type="text" id="compTextAdmin" class="company"/>
+            <label id="sinLabelAdmin" class="sinL">SIN</label><input type="text" id="sinTextAdmin" class="sin"/>
+            <label id="dobLabelAdmin" class="dobL">Date OF Birth</label><input type="text" id="dobTextAdmin" class="dob"/>
+            <label id="dohLabelAdmin" class="dohL">Date Of Hire</label><input type="text" id="dohTextAdmin" class="doh"/>
+            <label id="dotLabelAdmin">Date Of Termination</label><input type="text" id="dotTextAdmin" class="dot"/>
             <label id="hourlyRateLabelAdmin">Hourly Rate</label><input type="text" id="hourlyRate"/>
-            <label id="piecePayLabelAdmin">Piece Pay</label><input type="text" id="piecePay"/>
+            <button type="submit" class="submitBtn" id="btnSubmitPT">Submit</button>
+            <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>
+            <button class="backBtn" onclick="goBack()">Back</button> 
+          </div>
+      
+          <div id="adminUserAddingSEmp" class="centerDiv">
+            <label id="employeeTypeS" class="employeeType"></label>
+            <label id="fnameLabelAdmin" class="fnameL">First Name</label><input type="text" id="fnameTextAdmin" class="fname"/>
+            <label id="lnameLabelAdmin" class="lnameL">Last Name</label><input type="text" id="lnameTextAdmin" class="lname"/>
+            <label id="companyLabelAdmin" class="companyL">Company</label><input type="text" id="compTextAdmin" class="company"/>
+            <label id="sinLabelAdmin" class="sinL">SIN</label><input type="text" id="sinTextAdmin" class="sin"/>
+            <label id="dobLabelAdmin" class="dobL">Date OF Birth</label><input type="text" id="dobTextAdmin" class="dob"/>         
             <label id="seasonTypeLabelAdmin" class="seasonL">Season</label>
               <select id="seasonTypeDDAdmin" class="season">
                 <option value="winter">Winter</option>
@@ -1242,9 +1398,26 @@ $(document).ready(function () {
                 <option value="summer">Summer</option>
             </select> 
             <label id="seasonYearLabelAdmin" class="seasonyearL">Season Year</label><input type="text" id="seasonYearTextAdmin" class="seasonyear"/>
-            <input type="image" src="cancel.png" id="cancelImageAddEmpAdmin" class="cancelImage"/>
-            <button id="goBackAdmin" class="backBtn">Back</button> 
+            <button type="submit" class="submitBtn" id="btnSubmitS">Submit</button>
+            <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>
+            <button class="backBtn" onclick="goBack()">Back</button> 
           </div>
+      
+      
+        <div id="adminUserAddingCEmp" class="centerDiv">
+            <label id="employeeTypeC" class="employeeType"></label>
+            <label id="lnameLabelAdminC">Last Name</label><input type="text" id="lnameTextAdminC"/>
+            <label id="companyLabelAdminC">Company</label><input type="text" id="compTextAdminC"/>
+            <label id="sinLabelAdminC">SIN</label><input type="text" id="sinTextAdminC" />
+            <label id="dobLabelAdminC">Date OF Birth</label><input type="text" id="dobTextAdminC"/>
+            <label id="csdLabelAdminC">Contract Start Date</label><input type="text" id="csdTextAdminC"/>
+            <label id="cstopDLabelAdminC">Contract Stop Date</label><input type="text" id="cstopDTextAdminC"/>
+            <label id="contractAmountLabelC">Contract Amount</label><input type="text" id="contractAmountC"/>
+            <button type="submit" class="submitBtn" id="btnSubmitC">Submit</button>
+            <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>
+            <button class="backBtn" onclick="goBack()">Back</button> 
+          </div>
+      
       
           <div id="genUserTimeCard" class="centerDiv">
             <label id="ok">gen time card</label>
