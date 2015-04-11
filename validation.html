@@ -1,24 +1,207 @@
 
 //validation for first name
+function NameValidation(inputValue)
+{
 
+	var bName = true;
+	var patt = /^[a-zA-Z'.]{1,40}$/;
+	var nameCheck = inputValue;
+
+	if(nameCheck == null || nameCheck == "")
+	{
+		bName = false;
+	}
+	else
+	{
+		if(inputValue.match(patt) == null)
+		{
+			bName = false;
+		}
+	}
+	return bName;
+}
 //validation for last name
+function NameValidation(inputValue)
+{
 
+	var bName = true;
+	var patt = /^[a-zA-Z'.]{1,40}$/;
+	var nameCheck = inputValue;
+
+	if(nameCheck == null || nameCheck == "")
+	{
+		bName = false;
+	}
+	else
+	{
+		if(inputValue.match(patt) == null)
+		{
+			bName = false;
+		}
+	}
+	return bName;
+}
 //validation for comapny
+function companyValidation(inputValue)
+{
 
+	var bCompany = true;
+	var companyCheck = inputValue;
+
+	if(companyCheck == null || companyCheck == "")
+	{
+		bCompany = false;
+	}
+	return bCompany;
+}
 //validation for sin
 
 //validation for date of hire
+function dateValidation(value)
+{
+	var bDate  = true;
+	var dateReg = /^\d{4}-\d{2}-\d{2}$/;
+	
+	if(value == null || value == "")
+	{
+		bDate = false;
+	}
+	else
+	{
+		if(value.match(dateReg) != null)
+		{
+			var regs = value.split("-");
+			var yyyy = parseInt(regs[0]);
+			var mm = parseInt(regs[1]);
+			var dd = parseInt(regs[2]);
 
+			if(yyyy < 1902 || yyyy > (new Date().getFullYear())) 
+			{
+	          bDate = false;
+	        }
+	        if (mm < 1 || mm > 12) 
+	        {
+	        	bDate = false;
+	        }
+	        if (dd < 1 || dd > 31) 
+	        {
+	        	bDate = false;
+	        }
+	        else
+	        {
+	        	if(mm == 2 && dd > 28)
+	        	{
+	        		bDate = false;
+	        	}
+	        }				
+		}
+		else
+		{
+			bDate = false;	
+		}
+	}
+	return bDate;	
+}
 //validaiton for date of birth
+function dateValidation(value)
+{
+	var bDate  = true;
+	var dateReg = /^\d{4}-\d{2}-\d{2}$/;
+	
+	if(value == null || value == "")
+	{
+		bDate = false;
+	}
+	else
+	{
+		if(value.match(dateReg) != null)
+		{
+			var regs = value.split("-");
+			var yyyy = parseInt(regs[0]);
+			var mm = parseInt(regs[1]);
+			var dd = parseInt(regs[2]);
 
+			if(yyyy < 1902 || yyyy > (new Date().getFullYear())) 
+			{
+	          bDate = false;
+	        }
+	        if (mm < 1 || mm > 12) 
+	        {
+	        	bDate = false;
+	        }
+	        if (dd < 1 || dd > 31) 
+	        {
+	        	bDate = false;
+	        }
+	        else
+	        {
+	        	if(mm == 2 && dd > 28)
+	        	{
+	        		bDate = false;
+	        	}
+	        }				
+		}
+		else
+		{
+			bDate = false;	
+		}
+	}
+	return bDate;	
+}
 //validaiton for date of termination
 
 //validation for salary
-
+function salaryValidation(value)
+{
+	var bSalary = true;
+	if(!(value > -1))
+	{
+		bSalary = false;
+	}
+	return bSalary;
+}
 //validaiton for season
+function seasonValidation(inputValue){
 
+	var allowedWords = ['winter','spring','summer','fall'];
+
+	if(allowedWords.indexOf(inputValue.trim().toLowerCase()) > -1)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+
+}
 //validaiton for season year
+function seasonYearValidation(value)
+{
+	var bSeasonYear = true;
+	var yearReg = /^\d{4}$/;
 
+	if(value == null || value == "")
+	{
+		bSeasonYear = false;
+	}
+	else
+	{
+		if(value.match(yearReg) != null)
+		{
+			var yyyy = parseInt(value);
+			if(yyyy < 1902 || yyyy > (new Date().getFullYear())) 
+			{
+				bSeasonYear = false;
+			}
+		}
+		else
+		{
+			bSeasonYear = false;
+		}
+	}
+	return bSeasonYear;
+}
 //validation for time card fields
 
 
