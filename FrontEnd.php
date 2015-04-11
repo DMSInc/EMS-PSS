@@ -1310,19 +1310,31 @@ function cancelImage()
     
     function submitAdminContractEmp()
     {
-        alert("adding contract emp");
+        //start the validation
+        
+        //if no errors then goto this page
+        location.href = "Database.php";
     }
     function submitAdminFullTimeEmp()
     {
-        alert("adding full time emp");
+       //start the validation
+        
+        //if no errors then goto this page
+        location.href = "Database.php";
     }
     function submitAdminPartTimeEmp()
     {
-        alert("adding part time emp");
+        //start the validation
+        
+        //if no errors then goto this page
+        location.href = "Database.php";
     }
     function submitAdminSeasonEmp()
     {
-        alert("adding seasonal emp");
+       //start the validation
+        
+        //if no errors then goto this page
+        location.href = "Database.php";
     }
 </script>
 </head>
@@ -1361,81 +1373,81 @@ function cancelImage()
       
           <div id="genUserAddingEmp" class="centerDiv">
                <form class="contractEmpFormAdmin">
-            <label id="fnameLabel" class="fnameL">First Name</label><input type="text" id="fnameText" name="fnameTextG" class="fname"/>
-            <label id="lnameLabel" class="lnameL">Last Name</label><input type="text" id="lnameText"  name="lnameTextG" class="lname"/>
-            <label id="companyLabel" class="companyL">Company</label><input type="text" id="compText"  name="compTextG" class="company"/>
-            <label id="sinLabel" class="sinL">SIN</label><input type="text" id="sinText" class="sin" name="sinTextG" />
-            <label id="dobLabel" class="dobL">Date OF Birth</label><input type="text" id="dobText" class="dob" name="dobTextG" />
-            <label id="dohLabel" class="dohL">Date Of Hire</label><input type="text" id="dohText" class="doh" name="dohTextG" />
-            <label id="seasonTypeLabel" class="seasonL">Season</label>
-              <select id="seasonTypeDD" class="season" name="seasonTypeDDG" >
-                <option value="winter">Winter</option>
-                <option value="spring">Spring</option>
-                <option value="fall">Fall</option>
-                <option value="summer">Summer</option>
-            </select> 
-            <label id="seasonYearLabel" class="seasonyearL">Season Year</label><input type="text" id="seasonYearText" class="seasonyear" name="seasonYearTextG" />
-            <input type="hidden" name="needCompletion" value="Y">
-              <button type="button" class="submitBtn">Submit</button>
-                      </form>
+                    <label id="fnameLabel" class="fnameL">First Name</label><input type="text" id="fnameText" name="fnameTextG" class="fname"/>
+                    <label id="lnameLabel" class="lnameL">Last Name</label><input type="text" id="lnameText"  name="lnameTextG" class="lname"/>
+                    <label id="companyLabel" class="companyL">Company</label><input type="text" id="compText"  name="compTextG" class="company"/>
+                    <label id="sinLabel" class="sinL">SIN</label><input type="text" id="sinText" class="sin" name="sinTextG" />
+                    <label id="dobLabel" class="dobL">Date OF Birth</label><input type="text" id="dobText" class="dob" name="dobTextG" />
+                    <label id="dohLabel" class="dohL">Date Of Hire</label><input type="text" id="dohText" class="doh" name="dohTextG" />
+                    <label id="seasonTypeLabel" class="seasonL">Season</label>
+                      <select id="seasonTypeDD" class="season" name="seasonTypeDDG" >
+                        <option value="winter">Winter</option>
+                        <option value="spring">Spring</option>
+                        <option value="fall">Fall</option>
+                        <option value="summer">Summer</option>
+                    </select> 
+                    <label id="seasonYearLabel" class="seasonyearL">Season Year</label><input type="text" id="seasonYearText" class="seasonyear" name="seasonYearTextG" />
+                    <input type="hidden" name="needCompletion" value="Y">
+                    <button type="button" class="submitBtn" onclick="submitGenEmp()">Submit</button>
+            </form>
             <input type="image" src="cancel.png" id="cancelImageAddEmp" class="cancelImage"/>
             <button id="goBack" class="backBtn">Back</button> 
           </div>
       
            <div id="adminUserAddingFTEmp" class="centerDiv">
-                <form class="contractEmpFormAdmin">
-            <label id="employeeTypeFT" class="employeeType"></label>
-            <label id="fnameLabelAdmin" class="fnameL">First Name</label><input type="text" id="fnameTextAdmin" name="fnameTextAdmin" class="fname"/>
-            <label id="lnameLabelAdmin" class="lnameL">Last Name</label><input type="text" id="lnameTextAdmin"  name="lnameTextAdmin" class="lname"/>
-            <label id="companyLabelAdmin" class="companyL">Company</label><input type="text" id="compTextAdmin"  name="compTextAdmin" class="company"/>
-            <label id="sinLabelAdmin" class="sinL">SIN</label><input type="text" id="sinTextAdmin"  name="sinTextAdmin" class="sin"/>
-            <label id="dobLabelAdmin" class="dobL">Date OF Birth</label><input type="text" id="dobTextAdmin"  name="dobTextAdmin" class="dob"/>
-            <label id="dohLabelAdmin" class="dohL">Date Of Hire</label><input type="text" id="dohTextAdmin"  name="dohTextAdmin" class="doh"/>
-            <label id="dotLabelAdmin">Date Of Termination</label><input type="text" id="dotTextAdmin"  name="dotTextAdmin" class="dot"/>
-            <label id="salaryLabelAdmin">Salary</label><input type="text"  name="salary" id="salary"/>
-            <button type="button" class="submitBtn" id="btnSubmitFT" onclick="submitAdminFullTimeEmp()">Submit</button>
-                      </form>
+            <form class="contractEmpFormAdmin">
+                <label id="employeeTypeFT" class="employeeType"></label>
+                <label id="fnameLabelAdmin" class="fnameL">First Name</label><input type="text" id="fnameTextAdmin" name="fnameTextAdmin" class="fname"/>
+                <label id="lnameLabelAdmin" class="lnameL">Last Name</label><input type="text" id="lnameTextAdmin"  name="lnameTextAdmin" class="lname"/>
+                <label id="companyLabelAdmin" class="companyL">Company</label><input type="text" id="compTextAdmin"  name="compTextAdmin" class="company"/>
+                <label id="sinLabelAdmin" class="sinL">SIN</label><input type="text" id="sinTextAdmin"  name="sinTextAdmin" class="sin"/>
+                <label id="dobLabelAdmin" class="dobL">Date OF Birth</label><input type="text" id="dobTextAdmin"  name="dobTextAdmin" class="dob"/>
+                <label id="dohLabelAdmin" class="dohL">Date Of Hire</label><input type="text" id="dohTextAdmin"  name="dohTextAdmin" class="doh"/>
+                <label id="dotLabelAdmin">Date Of Termination</label><input type="text" id="dotTextAdmin"  name="dotTextAdmin" class="dot"/>
+                <label id="salaryLabelAdmin">Salary</label><input type="text"  name="salary" id="salary"/>
+                <button type="button" class="submitBtn" id="btnSubmitFT" onclick="submitAdminFullTimeEmp()">Submit</button>
+            </form>
             <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>
             <button class="backBtn" onclick="goBack()">Back</button> 
              
           </div>
       
         <div id="adminUserAddingPTEmp" class="centerDiv">
-              <form class="contractEmpFormAdmin">
-            <label id="employeeTypePT" class="employeeType"></label>
-            <label id="fnameLabelAdmin" class="fnameL">First Name</label><input type="text" id="fnameTextAdmin" name="fnameTextAdmin" class="fname"/>
-            <label id="lnameLabelAdmin" class="lnameL">Last Name</label><input type="text" id="lnameTextAdmin" name="lnameTextAdmin" class="lname"/>
-            <label id="companyLabelAdmin" class="companyL">Company</label><input type="text" id="compTextAdmin" name="compTextAdmin" class="company"/>
-            <label id="sinLabelAdmin" class="sinL">SIN</label><input type="text" id="sinTextAdmin"  name="sinTextAdmin" class="sin"/>
-            <label id="dobLabelAdmin" class="dobL">Date OF Birth</label><input type="text" id="dobTextAdmin" name="dobTextAdmin"  class="dob"/>
-            <label id="dohLabelAdmin" class="dohL">Date Of Hire</label><input type="text" id="dohTextAdmin"  name="dohTextAdmin" class="doh"/>
-            <label id="dotLabelAdmin">Date Of Termination</label><input type="text" id="dotTextAdmin"  name="dotTextAdmin" class="dot"/>
-            <label id="hourlyRateLabelAdmin">Hourly Rate</label><input type="text"  name="hourlyRate" id="hourlyRate"/>
-            <button type="button" class="submitBtn" id="btnSubmitPT" onclick="submitAdminPartTimeEmp()">Submit</button>
-                   </form>
+            <form class="contractEmpFormAdmin">
+                <label id="employeeTypePT" class="employeeType"></label>
+                <label id="fnameLabelAdmin" class="fnameL">First Name</label><input type="text" id="fnameTextAdmin" name="fnameTextAdmin" class="fname"/>
+                <label id="lnameLabelAdmin" class="lnameL">Last Name</label><input type="text" id="lnameTextAdmin" name="lnameTextAdmin" class="lname"/>
+                <label id="companyLabelAdmin" class="companyL">Company</label><input type="text" id="compTextAdmin" name="compTextAdmin" class="company"/>
+                <label id="sinLabelAdmin" class="sinL">SIN</label><input type="text" id="sinTextAdmin"  name="sinTextAdmin" class="sin"/>
+                <label id="dobLabelAdmin" class="dobL">Date OF Birth</label><input type="text" id="dobTextAdmin" name="dobTextAdmin"  class="dob"/>
+                <label id="dohLabelAdmin" class="dohL">Date Of Hire</label><input type="text" id="dohTextAdmin"  name="dohTextAdmin" class="doh"/>
+                <label id="dotLabelAdmin">Date Of Termination</label><input type="text" id="dotTextAdmin"  name="dotTextAdmin" class="dot"/>
+                <label id="hourlyRateLabelAdmin">Hourly Rate</label><input type="text"  name="hourlyRate" id="hourlyRate"/>
+                <button type="button" class="submitBtn" id="btnSubmitPT" onclick="submitAdminPartTimeEmp()">Submit</button>
+            </form>
             <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>
             <button class="backBtn" onclick="goBack()">Back</button> 
            
           </div>
       
           <div id="adminUserAddingSEmp" class="centerDiv">
-               <form class="contractEmpFormAdmin">
-            <label id="employeeTypeS" class="employeeType"></label>
-            <label id="fnameLabelAdmin" class="fnameL">First Name</label><input type="text" id="fnameTextAdminS" class="fname" name="fnameTextAdminS"/>
-            <label id="lnameLabelAdmin" class="lnameL">Last Name</label><input type="text" id="lnameTextAdminS" class="lname" name="lnameTextAdminS"/>
-            <label id="companyLabelAdmin" class="companyL">Company</label><input type="text" id="compTextAdminS" class="company" name="compTextAdminS"/>
-            <label id="sinLabelAdmin" class="sinL">SIN</label><input type="text" id="sinTextAdminS" name="sinTextAdminS" class="sin"/>
-            <label id="dobLabelAdmin" class="dobL">Date OF Birth</label><input type="text" id="dobTextAdminS" name="dobTextAdminS" class="dob"/>         
-            <label id="seasonTypeLabelAdmin" class="seasonL">Season</label>
-              <select id="seasonTypeDDAdminS" name="seasonTypeDDAdminS" class="season">
-                <option value="winter">Winter</option>
-                <option value="spring">Spring</option>
-                <option value="fall">Fall</option>
-                <option value="summer">Summer</option>
-            </select> 
-            <label id="seasonYearLabelAdmin" class="seasonyearL">Season Year</label><input type="text" id="seasonYearTextAdminS" class="seasonyear" name="seasonYearTextAdminS" />
-            <button type="button" class="submitBtn" id="btnSubmitS" onclick="submitAdminSeasonEmp()">Submit</button>
-                    </form>
+              <form class="contractEmpFormAdmin">
+                    <label id="employeeTypeS" class="employeeType"></label>
+                    <label id="fnameLabelAdmin" class="fnameL">First Name</label><input type="text" id="fnameTextAdminS" class="fname" name="fnameTextAdminS"/>
+                    <label id="lnameLabelAdmin" class="lnameL">Last Name</label><input type="text" id="lnameTextAdminS" class="lname" name="lnameTextAdminS"/>
+                    <label id="companyLabelAdmin" class="companyL">Company</label><input type="text" id="compTextAdminS" class="company" name="compTextAdminS"/>
+                    <label id="sinLabelAdmin" class="sinL">SIN</label><input type="text" id="sinTextAdminS" name="sinTextAdminS" class="sin"/>
+                    <label id="dobLabelAdmin" class="dobL">Date OF Birth</label><input type="text" id="dobTextAdminS" name="dobTextAdminS" class="dob"/>         
+                    <label id="seasonTypeLabelAdmin" class="seasonL">Season</label>
+                      <select id="seasonTypeDDAdminS" name="seasonTypeDDAdminS" class="season">
+                        <option value="winter">Winter</option>
+                        <option value="spring">Spring</option>
+                        <option value="fall">Fall</option>
+                        <option value="summer">Summer</option>
+                    </select> 
+                    <label id="seasonYearLabelAdmin" class="seasonyearL">Season Year</label><input type="text" id="seasonYearTextAdminS" class="seasonyear" name="seasonYearTextAdminS" />
+                    <button type="button" class="submitBtn" id="btnSubmitS" onclick="submitAdminSeasonEmp()">Submit</button>
+            </form>
             <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>
             <button class="backBtn" onclick="goBack()">Back</button> 
              
@@ -1444,19 +1456,19 @@ function cancelImage()
       
         <div id="adminUserAddingCEmp" class="centerDiv">   
             <form class="contractEmpFormAdmin">
-            <label id="employeeTypeC" class="employeeType"></label>
-            <label id="lnameLabelAdminC">Last Name</label><input type="text" id="lnameTextAdminC" name="lnameTextAdminC"/>
-            <label id="companyLabelAdminC">Company</label><input type="text" id="compTextAdminC" name="compTextAdminC"/>
-            <label id="sinLabelAdminC">SIN</label><input type="text" id="sinTextAdminC" name="sinTextAdminC"/>
-            <label id="dobLabelAdminC">Date OF Birth</label><input type="text" id="dobTextAdminC" name="dobTextAdminC"/>
-            <label id="csdLabelAdminC">Contract Start Date</label><input type="text" id="csdTextAdminC" name="csdTextAdminC"/>
-            <label id="cstopDLabelAdminC">Contract Stop Date</label><input type="text" id="cstopDTextAdminC" name="cstopDTextAdminC"/>
-            <label id="contractAmountLabelC">Contract Amount</label><input type="text" id="contractAmountC" name="contractAmountC"/>
-            <button type="button" class="submitBtn" id="btnSubmitC" onclick="submitAdminContractEmp()">Submit</button>
+                <label id="employeeTypeC" class="employeeType"></label>
+                <label id="lnameLabelAdminC">Last Name</label><input type="text" id="lnameTextAdminC" name="lnameTextAdminC"/>
+                <label id="companyLabelAdminC">Company</label><input type="text" id="compTextAdminC" name="compTextAdminC"/>
+                <label id="sinLabelAdminC">SIN</label><input type="text" id="sinTextAdminC" name="sinTextAdminC"/>
+                <label id="dobLabelAdminC">Date OF Birth</label><input type="text" id="dobTextAdminC" name="dobTextAdminC"/>
+                <label id="csdLabelAdminC">Contract Start Date</label><input type="text" id="csdTextAdminC" name="csdTextAdminC"/>
+                <label id="cstopDLabelAdminC">Contract Stop Date</label><input type="text" id="cstopDTextAdminC" name="cstopDTextAdminC"/>
+                <label id="contractAmountLabelC">Contract Amount</label><input type="text" id="contractAmountC" name="contractAmountC"/>
+                <button type="submit" class="submitBtn" id="btnSubmitC">Submit</button>
+                <input type="hidden" name="adminEmpType" value="CONTRACT">
             </form>
             <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>
-            <button class="backBtn" onclick="goBack()">Back</button> 
-                
+            <button class="backBtn" onclick="goBack()">Back</button>       
           </div>
       
       
