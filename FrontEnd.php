@@ -14,6 +14,15 @@ session_start();
   width: 100%;
     background-color: #808080;
 }
+        .contractEmpFormAdmin{
+        position:absolute;
+            top:0%;
+            left:0%;
+            height:100%;
+            width:100%;
+            opacity:1;
+        }
+        
 #backDiv{
   position: absolute;
   top: 15%;
@@ -1299,6 +1308,22 @@ function cancelImage()
     }
 }
     
+    function submitAdminContractEmp()
+    {
+        alert("adding contract emp");
+    }
+    function submitAdminFullTimeEmp()
+    {
+        alert("adding full time emp");
+    }
+    function submitAdminPartTimeEmp()
+    {
+        alert("adding part time emp");
+    }
+    function submitAdminSeasonEmp()
+    {
+        alert("adding seasonal emp");
+    }
 </script>
 </head>
 <body>
@@ -1335,6 +1360,7 @@ function cancelImage()
         </div>
       
           <div id="genUserAddingEmp" class="centerDiv">
+               <form class="contractEmpFormAdmin">
             <label id="fnameLabel" class="fnameL">First Name</label><input type="text" id="fnameText" name="fnameTextG" class="fname"/>
             <label id="lnameLabel" class="lnameL">Last Name</label><input type="text" id="lnameText"  name="lnameTextG" class="lname"/>
             <label id="companyLabel" class="companyL">Company</label><input type="text" id="compText"  name="compTextG" class="company"/>
@@ -1350,11 +1376,14 @@ function cancelImage()
             </select> 
             <label id="seasonYearLabel" class="seasonyearL">Season Year</label><input type="text" id="seasonYearText" class="seasonyear" name="seasonYearTextG" />
             <input type="hidden" name="needCompletion" value="Y">
+              <button type="button" class="submitBtn">Submit</button>
+                      </form>
             <input type="image" src="cancel.png" id="cancelImageAddEmp" class="cancelImage"/>
             <button id="goBack" class="backBtn">Back</button> 
           </div>
       
            <div id="adminUserAddingFTEmp" class="centerDiv">
+                <form class="contractEmpFormAdmin">
             <label id="employeeTypeFT" class="employeeType"></label>
             <label id="fnameLabelAdmin" class="fnameL">First Name</label><input type="text" id="fnameTextAdmin" name="fnameTextAdmin" class="fname"/>
             <label id="lnameLabelAdmin" class="lnameL">Last Name</label><input type="text" id="lnameTextAdmin"  name="lnameTextAdmin" class="lname"/>
@@ -1364,12 +1393,15 @@ function cancelImage()
             <label id="dohLabelAdmin" class="dohL">Date Of Hire</label><input type="text" id="dohTextAdmin"  name="dohTextAdmin" class="doh"/>
             <label id="dotLabelAdmin">Date Of Termination</label><input type="text" id="dotTextAdmin"  name="dotTextAdmin" class="dot"/>
             <label id="salaryLabelAdmin">Salary</label><input type="text"  name="salary" id="salary"/>
-            <button type="button" class="submitBtn" id="btnSubmitFT">Submit</button>
+            <button type="button" class="submitBtn" id="btnSubmitFT" onclick="submitAdminFullTimeEmp()">Submit</button>
+                      </form>
             <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>
             <button class="backBtn" onclick="goBack()">Back</button> 
+             
           </div>
       
         <div id="adminUserAddingPTEmp" class="centerDiv">
+              <form class="contractEmpFormAdmin">
             <label id="employeeTypePT" class="employeeType"></label>
             <label id="fnameLabelAdmin" class="fnameL">First Name</label><input type="text" id="fnameTextAdmin" name="fnameTextAdmin" class="fname"/>
             <label id="lnameLabelAdmin" class="lnameL">Last Name</label><input type="text" id="lnameTextAdmin" name="lnameTextAdmin" class="lname"/>
@@ -1379,12 +1411,15 @@ function cancelImage()
             <label id="dohLabelAdmin" class="dohL">Date Of Hire</label><input type="text" id="dohTextAdmin"  name="dohTextAdmin" class="doh"/>
             <label id="dotLabelAdmin">Date Of Termination</label><input type="text" id="dotTextAdmin"  name="dotTextAdmin" class="dot"/>
             <label id="hourlyRateLabelAdmin">Hourly Rate</label><input type="text"  name="hourlyRate" id="hourlyRate"/>
-            <button type="submit" class="submitBtn" id="btnSubmitPT">Submit</button>
+            <button type="button" class="submitBtn" id="btnSubmitPT" onclick="submitAdminPartTimeEmp()">Submit</button>
+                   </form>
             <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>
             <button class="backBtn" onclick="goBack()">Back</button> 
+           
           </div>
       
           <div id="adminUserAddingSEmp" class="centerDiv">
+               <form class="contractEmpFormAdmin">
             <label id="employeeTypeS" class="employeeType"></label>
             <label id="fnameLabelAdmin" class="fnameL">First Name</label><input type="text" id="fnameTextAdminS" class="fname" name="fnameTextAdminS"/>
             <label id="lnameLabelAdmin" class="lnameL">Last Name</label><input type="text" id="lnameTextAdminS" class="lname" name="lnameTextAdminS"/>
@@ -1399,13 +1434,16 @@ function cancelImage()
                 <option value="summer">Summer</option>
             </select> 
             <label id="seasonYearLabelAdmin" class="seasonyearL">Season Year</label><input type="text" id="seasonYearTextAdminS" class="seasonyear" name="seasonYearTextAdminS" />
-            <button type="submit" class="submitBtn" id="btnSubmitS">Submit</button>
+            <button type="button" class="submitBtn" id="btnSubmitS" onclick="submitAdminSeasonEmp()">Submit</button>
+                    </form>
             <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>
             <button class="backBtn" onclick="goBack()">Back</button> 
+             
           </div>
       
       
-        <div id="adminUserAddingCEmp" class="centerDiv">          
+        <div id="adminUserAddingCEmp" class="centerDiv">   
+            <form class="contractEmpFormAdmin">
             <label id="employeeTypeC" class="employeeType"></label>
             <label id="lnameLabelAdminC">Last Name</label><input type="text" id="lnameTextAdminC" name="lnameTextAdminC"/>
             <label id="companyLabelAdminC">Company</label><input type="text" id="compTextAdminC" name="compTextAdminC"/>
@@ -1414,9 +1452,11 @@ function cancelImage()
             <label id="csdLabelAdminC">Contract Start Date</label><input type="text" id="csdTextAdminC" name="csdTextAdminC"/>
             <label id="cstopDLabelAdminC">Contract Stop Date</label><input type="text" id="cstopDTextAdminC" name="cstopDTextAdminC"/>
             <label id="contractAmountLabelC">Contract Amount</label><input type="text" id="contractAmountC" name="contractAmountC"/>
-            <button type="submit" class="submitBtn" id="btnSubmitC">Submit</button>
+            <button type="button" class="submitBtn" id="btnSubmitC" onclick="submitAdminContractEmp()">Submit</button>
+            </form>
             <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>
             <button class="backBtn" onclick="goBack()">Back</button> 
+                
           </div>
       
       
