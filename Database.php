@@ -4,14 +4,16 @@
 	error_reporting(0);
 
 	$dbname = 'users';
-	$connection = mysql_connect('localhost', 'root','Conestoga1') or die("Counldn't connect to the server");
+	$connection = mysql_connect('localhost', 'root','mima') or die("Counldn't connect to the server");
 	
 	mysql_select_db($dbname, $connection);# or die("Failed to connect to MySQL: " . mysql_error());
 	
 
 	$q = "";
+
 	$q = getValueFromRequest('q');
 
+	
 	if($q == "addEmployee")
 	{
 		$userType = getValueFromRequest('UT');
@@ -45,9 +47,18 @@
 					mysql_query("Insert into company(CORPORATIONNAME) values('$Company')");
 				}
 				
-				
-				$PresonID = getPersonID($SIN);
-				$CompanyID = getCompanyID($Company);
+				$PresonID ="";
+				$CompanyID  = "";
+				if(!getPersonID($SIN,$PresonID))
+				{
+					echo "Faile to Add Employee";
+					exit;
+				}
+				if(!getCompanyID($Company,$CompanyID))
+				{
+					echo "Faile to Add Employee";
+					exit;
+				}
 				$EmployeeIDExist = checkEmployeeExist($PresonID,$CompanyID,$EmployType);
 				
 				if(!$EmployeeIDExist)
@@ -105,7 +116,62 @@
 				
 				mysql_close($connection);
 			}
+			else if ($EmployType == "PT")
+			{
+				
+			}
+			else if($EmployType == "SN")
+			{
+			}
+			else if($EmployType == "CT")
+			{
+			}
 		}
+		else if($userType == "G")
+		{
+			$EmployType = getValueFromRequest('ET'); //get Employ type.
+			if($EmployType == "FT")
+			{
+			}
+			else if($EmployType == "PT")
+			{
+			}
+			else if($EmployType == "SN")
+			{
+			}
+		}
+	}
+	else if($q == "modifyEmployee")
+	{
+
+		$SIN = getValueFromRequest('SIN');
+		$COM  = getValueFromRequest('CM');
+	
+		$EmplyeeType = getValueFromRequest('ET');
+		$EmployID = "";
+		
+		if(getEmployeeIDBySINComEmpType($SIN,$COM,$EmplyeeType,$EmployID))
+		{
+			if($EmplyeeType == "FT")
+			{
+				$FirstName = "";
+				$LastName = "";
+				$DateOfBirth = "";
+				getFirstNameLastNameDOB($SIN,$FirstName,$LastName,$DateOfBirth);
+				
+	
+				$array = array('FN' => $FirstName, 'LN' => $LastName, 'DOB' => $DateOfBirth);
+				echo json_encode($array);
+				
+			}
+			else if($EmplyeeType == "PT")
+			{
+			}
+			else if($EmplyeeType == "SN")
+			{
+			}
+		}
+			
 	}
 
 	function getValueFromRequest($Request)
@@ -122,6 +188,25 @@
 			$return  = $obj[$Request];
 		}	
 		return $return;
+	}
+	
+	function getFirstNameLastNameDOB($SIN,&$FirstName,&$LastName,&$DateOfBirth)
+	{
+		$result = mysql_query("Select FIRSTNAME,LASTNAME,DATEOFBIRTH FROM Person WHERE SIN = '$SIN'");
+		$resultNum = mysql_num_rows($result);
+		
+		if($resultNum > 0)
+		{
+			
+			$FirstName = mysql_result($result,0,0);
+			$LastName = mysql_result($result,0,1);
+			$DateOfBirth  = mysql_result($result,0,2);
+			mysql_free_result($result);
+		}
+		else
+		{
+			
+		}
 	}
 	
 	function checkPersonExist($PersonSIN)
@@ -159,32 +244,45 @@
 		}
 	}
 	
-	function getPersonID($PersonSIN)
+	function getPersonID($PersonSIN,&$PersonID)
 	{
 		
 		$result = mysql_query("Select * From PERSON where SIN = '$PersonSIN' limit 1") or exit(mysql_error());
-		if($result)
+		
+		$resultNUM = mysql_num_rows($result);
+		
+		if($resultNUM > 0)
 		{
-			
-			$meta = mysql_result($result,0,0);
+			$PersonID = mysql_result($result,0,0);
 			mysql_free_result($result);
-			return $meta;
+			return true;
+		}
+		else
+		{
+			echo "Person Do Not Exist";
+			return false;
 		}
 		
 	}
 	
-	function getCompanyID($CompanyName)
+	function getCompanyID($CompanyName,&$COMID)
 	{
 		$meta = "";
 		$result = mysql_query("Select ID From company where CORPORATIONNAME = '$CompanyName' limit 1") or exit(mysql_error());
-		if($result)
-		{
 		
-			$meta = mysql_result($result,0,0);
-				
+		$resultNUM = mysql_num_rows($result);
+		
+		if($resultNUM > 0)
+		{
+			$COMID = mysql_result($result,0,0);
+			mysql_free_result($result);
+			return true;
 		}
-		mysql_free_result($result);
-		return $meta;
+		else
+		{
+			echo "Company Do Not Exist";
+			return false;
+		}
 	}
 	
 	function adminAddGeneralEmployee($PersonID, $CompanyID, $EmployeeType)
@@ -233,6 +331,33 @@
 		}
 		mysql_free_result($result);
 		return $meta;
+	}
+	
+	function getEmployeeIDBySINComEmpType($SIN,$COM,$EMPTYPE, &$EmployeeID)
+	{
+		$resultValue = false;
+		$PersonID = "";
+		$CompanyID = "";
+		
+		if(getPersonID($SIN,$PersonID))
+		{
+			if(getCompanyID($COM,$CompanyID))
+			{
+				$result = mysql_query("Select ID from employee where  company_id = '$CompanyID' AND person_id = '$PersonID' AND EmployType = '$EMPTYPE'");
+				$resultNum = mysql_num_rows($result);
+				if($resultNum > 0)
+				{
+					$EmployeeID = mysql_result($result,0,0);
+					$resultValue = true;
+				}
+				else
+				{
+					echo "Can Not Find Employee ID";
+				}
+			}
+		}
+		
+		return $resultValue;
 	}
 	
 	function checkEmployeeExist($PersonID, $CompanyID, $EmployeeType)
