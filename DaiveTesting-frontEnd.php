@@ -1224,6 +1224,47 @@ function submitAdminFullTimeEmp()
 							});
     }    
     
+	
+	function makeItAnObject(jsonvalue)
+      {
+        var jsonObj;
+        var keys = []; 		// array to hold the JSON keys
+        var subKeys = [];
+        var values = [];
+        var haveSubElements;
+
+        var jsonString = jsonvalue;		// what did the user enter?
+	  
+	  // use eval() to translate (parse) the string into an object
+	  jsonObj = eval("(" + jsonString + ")");
+
+	  // now walk through the JSON object and print out the key/value pairs
+
+	  haveSubElements = false;
+	  for (var key in jsonObj)
+	  {
+	    keys.push(key);		// make a list of the highest level items in the JSON object
+
+	    if(typeof jsonObj[key] === 'object')	// check if the value for this key value is itself an object - meaning that there is more to the hierarchy of the JSON object
+	    {
+	       haveSubElements = true;
+	       for (var subElement in jsonObj[key])
+	       {
+ 	         for (var subKey in jsonObj[key][subElement])
+	         {
+                 if(subElement == 0) subKeys.push(subKey);
+                 values.push(jsonObj[key][subElement][subKey]);
+               }
+	       }
+	    }
+	    else
+	    {
+	      values.push(jsonObj[key]);
+	    }
+	  }
+
+      return values;
+      } 
 //Admin user wants to add an employee
   $(document).ready(function () {
     "use strict";
