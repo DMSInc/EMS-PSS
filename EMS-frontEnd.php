@@ -879,6 +879,19 @@ function addEmpDivs()
                             document.getElementById("addEmployeeLabelGen").innerHTML="Add Employee General User";
                      });
                     }
+                    else
+                    {
+                        if(document.getElementById("gentimeCardS").style.visibility == "visible")
+                        {
+                            $("#gentimeCardS").fadeTo(1000, 0,function(){
+                                document.getElementById("gentimeCardS").style.visibility = "hidden";
+                                //show card time divs
+                                document.getElementById("selectEmpTypeDivForGenUser").style.visibility = "visible";
+                                $("#selectEmpTypeDivForGenUser").fadeTo(1000, 1);
+                                document.getElementById("addEmployeeLabelGen").innerHTML="Add Employee General User";
+                            }); 
+                        }
+                    }
                 }
             }
         }           
