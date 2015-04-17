@@ -132,6 +132,7 @@
 			$EmployType = getValueFromRequest('ET'); //get Employ type.
 			if($EmployType == "FT")
 			{
+			
 			}
 			else if($EmployType == "PT")
 			{
@@ -149,8 +150,8 @@
 	
 		$EmplyeeType = getValueFromRequest('ET');
 		$EmployID = "";
-		
-		if(getEmployeeIDBySINComEmpType($SIN,$COM,$EmplyeeType,$EmployID))
+		$ErrorInfor = "";
+		if(getEmployeeIDBySINComEmpType($SIN,$COM,$EmplyeeType,$ErrorInfor,$EmployID))
 		{
 			if($EmplyeeType == "FT")
 			{
@@ -178,11 +179,20 @@
 		}
 		else
 		{
-			echo "Can not find Employee in Employee Table";
+			
+			echo json_encode($ErrorInfor);
 		}
 		
 		mysql_close($connection);
 			
+	}
+	else if($q == "enterTimeCard")
+	{
+		$EmpType  = getValueFromRequest('ET');
+		$SIN 	= getValueFromRequest('SIN');
+		$COM    = getValueFromRequest('CM');
+		
+		
 	}
 
 	function getValueFromRequest($Request)
@@ -270,7 +280,6 @@
 		}
 		else
 		{
-			echo "Person Do Not Exist";
 			return false;
 		}
 		
@@ -291,7 +300,7 @@
 		}
 		else
 		{
-			echo "Company Do Not Exist";
+			
 			return false;
 		}
 	}
@@ -344,7 +353,7 @@
 		return $meta;
 	}
 	
-	function getEmployeeIDBySINComEmpType($SIN,$COM,$EMPTYPE, &$EmployeeID)
+	function getEmployeeIDBySINComEmpType($SIN,$COM,$EMPTYPE,&$ErrorInfor, &$EmployeeID)
 	{
 		$resultValue = false;
 		$PersonID = "";
@@ -363,9 +372,17 @@
 				}
 				else
 				{
-					echo "Can Not Find Employee ID";
+					$ErrorInfor = array('ErrorInfor' => "Can Not Find Employee ID");
 				}
 			}
+			else
+			{
+				$ErrorInfor = array('ErrorInfor' => "Can Not Find Company ID");
+			}
+		}
+		else
+		{
+			$ErrorInfor = array('ErrorInfor' => "Can Not Find Person ID");
 		}
 		
 		return $resultValue;
