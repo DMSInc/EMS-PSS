@@ -249,17 +249,46 @@ session_start();
     position:absolute;
     left:20%;
 }
-        .timeCardLabelS{
+
+.seasonalTimeCardLabel{
     position:absolute;
-    left:20%;
+    left:10%;
+}  
+.piecesLabel{
+position:absolute;
+    left:60%;
+}
+.piecesText{
+position:absolute;
+    left:65%;
+    
+}
+
+#monPieces{
+top:30%;
+}#tuePieces{
+top:40%;
+}#wedPieces{
+top:50%;
+}#thurPieces{
+top:60%;
+}
+        #friPieces{
+top:70%;
+}
+        #satPieces{
+top:80%;
+}
+#sunPieces{
+top:90%;
 }
 .timeCardText{
 position:absolute;
     left:45%;
 }   
-    .timeCardTextS{
+.timeCardTextS{
 position:absolute;
-    left:45%;
+    left:32%;
 }       
 #selectEmpTypeDivForAdminUser{
     visibility: hidden;
@@ -375,10 +404,10 @@ position:absolute;
 } 
 /*      */
 #sinLabelTCS{
-    top:10%;
+    top:8%;
 }
 #compLabelTCS{
-    top:20%;
+    top:16%;
 }
 #monLabelTCS{
     top:30%;
@@ -405,10 +434,10 @@ position:absolute;
     left:40%;
 }
 #sinTextGenTCS{
-    top:10%;
+    top:8%;
 }
 #companyTextGenTCS{
-    top:20%;
+    top:16%;
 }
 #monTextTCS{
     top:30%;
@@ -1625,11 +1654,26 @@ $(document).ready(function () {
 $(document).ready(function () {
     "use strict";
     $("#goBackTimeCard").click(function () {
-        $("#gentimeCardFTPT").fadeTo(1000, 0, function () {
+        if( document.getElementById("gentimeCardFTPT").style.visibility == "visible")
+        {
+            $("#gentimeCardFTPT").fadeTo(1000, 0, function () {
             document.getElementById("gentimeCardFTPT").style.visibility = "hidden";
             document.getElementById("selectEmpTypeDivForGenUser").style.visibility = "visible";
             $("#selectEmpTypeDivForGenUser").fadeTo(1000, 1);
-        });
+            });
+        }
+//        else
+//        {
+//            if(document.getElementById("gentimeCardS").style.visibility == "visible")
+//            {
+//                alert("sdfsd");
+//                $("#gentimeCardS").fadeTo(1000, 0, function () {
+//                document.getElementById("gentimeCardS").style.visibility = "hidden";
+//                document.getElementById("selectEmpTypeDivForGenUser").style.visibility = "visible";
+//                $("#selectEmpTypeDivForGenUser").fadeTo(1000, 1);
+//                });
+//            }
+//        }
     });
 });
     
@@ -2226,7 +2270,17 @@ function submitGenEmp()
         }
     }
 }
-    
+function goBackTimeCardS()
+    {
+         if(document.getElementById("gentimeCardS").style.visibility == "visible")
+            {
+                $("#gentimeCardS").fadeTo(1000, 0, function () {
+                document.getElementById("gentimeCardS").style.visibility = "hidden";
+                document.getElementById("selectEmpTypeDivForGenUser").style.visibility = "visible";
+                $("#selectEmpTypeDivForGenUser").fadeTo(1000, 1);
+                });
+            }
+    }
 </script>
 </head>
 <body>
@@ -2402,18 +2456,19 @@ function submitGenEmp()
           </div>
       
         <div id="gentimeCardS" class="centerDiv">
-            <label id="sinLabelTCS" class="timeCardLabelS">SIN</label><input type="text" id="sinTextGenTCS" class="timeCardTextS" name="sinTextGenS">
-            <label id="compLabelTCS" class="timeCardLabelS">Company Name</label><input type="text" id="companyTextGenTCS" class="timeCardTextS" name="companyTextGenS">
-            <label id="monLabelTCS" class="timeCardLabelS">Monday</label><input type="text" id="monTextTCS" class="timeCardTextS" name="monTextS">
-            <label id="tueLabelTCS" class="timeCardLabelS">Tuesday</label><input type="text" id="tueTextTCS" class="timeCardTextS" name="tueTextS">
-            <label id="wedLabelTCS" class="timeCardLabelS">Wednesday</label><input type="text" id="wedTextTCS" class="timeCardTextS" name="wedTextS">
-            <label id="thurLabelTCS" class="timeCardLabelS">Thursday</label><input type="text" id="thurTextTCS" class="timeCardTextS" name="thurTextS">
-            <label id="friLabelTCS" class="timeCardLabelS">Friday</label><input type="text" id="friTextTCS" class="timeCardTextS" name="friTextS">
-            <label id="satLabelTCS" class="timeCardLabelS">Saturday</label><input type="text" id="satTextTCS" class="timeCardTextS" name="satTextS">
-            <label id="sunLabelTCS" class="timeCardLabelS">Sunday</label><input type="text" id="sunTextTCS" class="timeCardTextS" name="sunTextS">
+            <label id="sinLabelTCS" class="seasonalTimeCardLabel">SIN</label><input type="text" id="sinTextGenTCS" class="timeCardTextS" name="sinTextGenS">
+            <label id="compLabelTCS" class="seasonalTimeCardLabel">Company Name</label><input type="text" id="companyTextGenTCS" class="timeCardTextS" name="companyTextGenS">
+            <label id="pieceText" style="position:absolute;left:66%;top:23%;">Number of Pieces</label>
+            <label id="monLabelTCS" class="seasonalTimeCardLabel">Monday</label><input type="text" id="monTextTCS" class="timeCardTextS" name="monTextS"><input type="text" id="monPieces" class="piecesText">
+            <label id="tueLabelTCS" class="seasonalTimeCardLabel">Tuesday</label><input type="text" id="tueTextTCS" class="timeCardTextS" name="tueTextS"><input type="text" id="tuePieces" class="piecesText">
+            <label id="wedLabelTCS" class="seasonalTimeCardLabel">Wednesday</label><input type="text" id="wedTextTCS" class="timeCardTextS" name="wedTextS"><input type="text" id="wedPieces" class="piecesText">
+            <label id="thurLabelTCS" class="seasonalTimeCardLabel">Thursday</label><input type="text" id="thurTextTCS" class="timeCardTextS" name="thurTextS"><input type="text" id="thurPieces" class="piecesText">
+            <label id="friLabelTCS" class="seasonalTimeCardLabel">Friday</label><input type="text" id="friTextTCS" class="timeCardTextS" name="friTextS"><input type="text" id="friPieces" class="piecesText">
+            <label id="satLabelTCS" class="seasonalTimeCardLabel">Saturday</label><input type="text" id="satTextTCS" class="timeCardTextS" name="satTextS"><input type="text" id="satPieces" class="piecesText">
+            <label id="sunLabelTCS" class="seasonalTimeCardLabel">Sunday</label><input type="text" id="sunTextTCS" class="timeCardTextS" name="sunTextS"><input type="text" id="sunPieces" class="piecesText">
               <button type="button" id="submitTimeCardBtnS" onclick="submitTimeCardForS()">Submit</button>  
             <input type="image" src="cancel.png" id="cancelImageTimeCard" class="cancelImage">
-            <button id="goBackTimeCard" class="backBtn">Back</button> 
+            <button id="goBackTimeCard" class="backBtn" onclick="goBackTimeCardS()">Back</button> 
         </div>
       
         <div id="adminUserTimeCard" class="centerDiv">
