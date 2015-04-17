@@ -4,7 +4,7 @@
 	error_reporting(0);
 
 	$dbname = 'users';
-	$connection = mysql_connect('localhost', 'root','mima') or die("Counldn't connect to the server");
+	$connection = mysql_connect('localhost', 'root','Conestoga1') or die("Counldn't connect to the server");
 	
 	mysql_select_db($dbname, $connection);# or die("Failed to connect to MySQL: " . mysql_error());
 	
@@ -143,7 +143,7 @@
 	}
 	else if($q == "modifyEmployee")
 	{
-
+		
 		$SIN = getValueFromRequest('SIN');
 		$COM  = getValueFromRequest('CM');
 	
@@ -158,9 +158,14 @@
 				$LastName = "";
 				$DateOfBirth = "";
 				getFirstNameLastNameDOB($SIN,$FirstName,$LastName,$DateOfBirth);
-				
+				$DateOfHire = "";
+				$DateOfTermination  = "";
+				$Salary = "";
 	
-				$array = array('FN' => $FirstName, 'LN' => $LastName, 'DOB' => $DateOfBirth);
+				
+				getFullTimeDOHDOTSalary($EmployID,$DateOfHire,$DateOfTermination,$Salary);
+				
+				$array = array('FN' => $FirstName, 'LN' => $LastName, 'DOB' => $DateOfBirth,'DOH' => $DateOfHire, 'DOT' => $DateOfTermination, 'Salary' => $Salary);
 				echo json_encode($array);
 				
 			}
@@ -171,6 +176,12 @@
 			{
 			}
 		}
+		else
+		{
+			echo "Can not find Employee in Employee Table";
+		}
+		
+		mysql_close($connection);
 			
 	}
 
@@ -402,6 +413,28 @@
 		{
 			return false;
 		}
+	}
+	
+	function getFullTimeDOHDOTSalary($EmployeeID, &$DOH, &$DOT, &$Salary)
+	{
+		
+		$result = mysql_query("Select dateofhire, dateoftermination, salary from FulltimeEmployee where employee_id = '$EmployeeID'");
+		$result_num = mysql_num_rows($result);
+		
+		if($result_num > 0)
+		{
+		
+			$DOH = mysql_result($result,0,0);
+			$DOT = mysql_result($result,0,1);
+			$Salary = mysql_result($result,0,2);
+		}
+		else
+		{
+			//$array = array('server' => "Do find employee in Fulltime Table");
+			//echo  json_encode($array);
+		}
+		
+		mysql_free_result($result);
 	}
 	
 
