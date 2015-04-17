@@ -249,10 +249,18 @@ session_start();
     position:absolute;
     left:20%;
 }
+        .timeCardLabelS{
+    position:absolute;
+    left:20%;
+}
 .timeCardText{
 position:absolute;
     left:45%;
-}     
+}   
+    .timeCardTextS{
+position:absolute;
+    left:45%;
+}       
 #selectEmpTypeDivForAdminUser{
     visibility: hidden;
 }
@@ -286,9 +294,16 @@ position:absolute;
 #gentimeCardFTPT{
     visibility:hidden;
 }
+#gentimeCardS{
+    visibility:hidden;
+}        
 .submitBtn{
     position:absolute;
     left:40%;
+}
+#genUserAddEmp{
+    position:absolute;
+    top:90%;
 }
 #btnSubmitFT{
     top:90%;
@@ -356,6 +371,60 @@ position:absolute;
     top:80%;
 } 
         #sunTextTC{
+    top:90%;
+} 
+/*      */
+#sinLabelTCS{
+    top:10%;
+}
+#compLabelTCS{
+    top:20%;
+}
+#monLabelTCS{
+    top:30%;
+}
+#tueLabelTCS{
+    top:40%;
+}
+#wedLabelTCS{
+    top:50%;
+}
+#thurLabelTCS{
+    top:60%;
+} #friLabelTCS{
+    top:70%;
+} #satLabelTCS{
+    top:80%;
+} 
+#sunLabelTCS{
+    top:90%;
+} 
+#submitTimeCardBtnS{
+position:absolute;
+    top:100%;
+    left:40%;
+}
+#sinTextGenTCS{
+    top:10%;
+}
+#companyTextGenTCS{
+    top:20%;
+}
+#monTextTCS{
+    top:30%;
+}
+#tueTextTCS{
+    top:40%;
+} #wedTextTCS{
+    top:50%;
+} #thurTextTCS{
+    top:60%;
+} #friTextTCS{
+    top:70%;
+} #satTextTCS{
+    top:80%;
+} 
+        #sunTextTCS{
     top:90%;
 }         
         
@@ -429,6 +498,16 @@ position:absolute;
     left: 10%;
     top: 60%;
 }
+.seasonLGen{
+    position: absolute;
+    left: 10%;
+    top: 80%;
+}     
+.seasonTypeGen{
+position: absolute;
+    left: 40%;
+    top: 80%;
+}
 .season{
     position: absolute;
     left: 40%;
@@ -439,11 +518,13 @@ position:absolute;
     left: 10%;
     top: 70%;
 }
+
 .seasonyear{
     position: absolute;
     left: 40%;
     top: 70%;
 }
+
 #dotLabelAdmin{
     position: absolute;
     left: 10%;
@@ -699,6 +780,7 @@ position:absolute;
 var maintaineneceType = "";
 var userType="";
 var employeeType="";
+var genUserEmpType="";
 var userAction = "maintainence";
     
    $(document).ready(function () {
@@ -1280,7 +1362,7 @@ $(document).ready(function () {
 $(document).ready(function () {
     "use strict";
     $("#genUserChoiceFTEmp").click(function () {  
-        employeeType="FT";
+        genUserEmpType="FT";
         if(maintaineneceType=="addEmployee"){
                 $("#selectEmpTypeDivForGenUser").fadeTo(1000, 0, function () {
                 document.getElementById("selectEmpTypeDivForGenUser").style.visibility = "hidden";
@@ -1366,7 +1448,7 @@ $(document).ready(function () {
 $(document).ready(function () {
     "use strict";
     $("#genUserChoicePTEmp").click(function () {
-        employeeType="PT";
+        genUserEmpType="PT";
          if(maintaineneceType=="addEmployee"){
             $("#selectEmpTypeDivForGenUser").fadeTo(1000, 0, function () {
                 document.getElementById("selectEmpTypeDivForGenUser").style.visibility = "hidden";
@@ -1427,7 +1509,7 @@ $(document).ready(function () {
 $(document).ready(function () {
     "use strict";
     $("#genUserSEmp").click(function () {
-        employeeType="ST";
+        genUserEmpType="ST";
         if(maintaineneceType=="addEmployee"){    
         $("#selectEmpTypeDivForGenUser").fadeTo(1000, 0, function () {
                 document.getElementById("selectEmpTypeDivForGenUser").style.visibility = "hidden";
@@ -1445,8 +1527,8 @@ $(document).ready(function () {
             {
               $("#selectEmpTypeDivForGenUser").fadeTo(1000, 0, function (){
                   document.getElementById("selectEmpTypeDivForGenUser").style.visibility = "hidden";
-                  document.getElementById("gentimeCardFTPT").style.visibility = "visible";
-                $("#gentimeCardFTPT").fadeTo(1000, 1);
+                  document.getElementById("gentimeCardS").style.visibility = "visible";
+                $("#gentimeCardS").fadeTo(1000, 1);
               });
             }
         }
@@ -2119,6 +2201,31 @@ function submitTimeCardForFTPT()
 {
     alert("submit time card for ft and pt");
 }
+function submitTimeCardForS()
+{
+    alert("submit time card for seasonal");
+}
+function submitGenEmp()
+{
+    if(genUserEmpType=="FT")
+    {
+        alert("full time");
+    }
+    else
+    {
+        if(genUserEmpType=="PT")
+        {
+            alert("part time");
+        }
+        else
+        {
+            if(genUserEmpType=="ST")
+            {
+                alert("seasonal time");
+            }
+        }
+    }
+}
     
 </script>
 </head>
@@ -2180,16 +2287,17 @@ function submitTimeCardForFTPT()
                     <label id="sinLabel" class="sinL">SIN</label><input type="text" id="sinText" class="sin" name="sinTextG" />
                     <label id="dobLabel" class="dobL">Date OF Birth</label><input type="text" id="dobText" class="dob" name="dobTextG" />
                     <label id="dohLabel" class="dohL">Date Of Hire</label><input type="text" id="dohText" class="doh" name="dohTextG" />
-                    <label id="seasonTypeLabel" class="seasonL">Season</label>
-                      <select id="seasonTypeDD" class="season" name="seasonTypeDDG" >
+                   
+                    <label id="seasonYearLabel" class="seasonyearL">Season Year</label><input type="text" id="seasonYearText" class="seasonyear" name="seasonYearTextG" />
+                    <label id="seasonTypeLabel" class="seasonLGen">Season</label>
+                      <select id="seasonTypeDD" class="seasonTypeGen" name="seasonTypeDDG">
                         <option value="winter">Winter</option>
                         <option value="spring">Spring</option>
                         <option value="fall">Fall</option>
                         <option value="summer">Summer</option>
                     </select> 
-                    <label id="seasonYearLabel" class="seasonyearL">Season Year</label><input type="text" id="seasonYearText" class="seasonyear" name="seasonYearTextG" />
                     <input type="hidden" name="needCompletion" value="Y">
-                    <button type="button" class="submitBtn" onclick="submitGenEmp()">Submit</button>
+                    <button type="button" class="submitBtn" id="genUserAddEmp" onclick="submitGenEmp()">Submit</button>
             </form>
             <input type="image" src="cancel.png" id="cancelImageAddEmp" class="cancelImage"/>
             <button id="goBack" class="backBtn">Back</button> 
@@ -2251,7 +2359,6 @@ function submitTimeCardForFTPT()
             </form>
             <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>
             <button class="backBtn" onclick="goBack()">Back</button> 
-             
           </div>
       
       
@@ -2293,6 +2400,21 @@ function submitTimeCardForFTPT()
             <input type="image" src="cancel.png" id="cancelImageTimeCard" class="cancelImage">
             <button id="goBackTimeCard" class="backBtn">Back</button> 
           </div>
+      
+        <div id="gentimeCardS" class="centerDiv">
+            <label id="sinLabelTCS" class="timeCardLabelS">SIN</label><input type="text" id="sinTextGenTCS" class="timeCardTextS" name="sinTextGenS">
+            <label id="compLabelTCS" class="timeCardLabelS">Company Name</label><input type="text" id="companyTextGenTCS" class="timeCardTextS" name="companyTextGenS">
+            <label id="monLabelTCS" class="timeCardLabelS">Monday</label><input type="text" id="monTextTCS" class="timeCardTextS" name="monTextS">
+            <label id="tueLabelTCS" class="timeCardLabelS">Tuesday</label><input type="text" id="tueTextTCS" class="timeCardTextS" name="tueTextS">
+            <label id="wedLabelTCS" class="timeCardLabelS">Wednesday</label><input type="text" id="wedTextTCS" class="timeCardTextS" name="wedTextS">
+            <label id="thurLabelTCS" class="timeCardLabelS">Thursday</label><input type="text" id="thurTextTCS" class="timeCardTextS" name="thurTextS">
+            <label id="friLabelTCS" class="timeCardLabelS">Friday</label><input type="text" id="friTextTCS" class="timeCardTextS" name="friTextS">
+            <label id="satLabelTCS" class="timeCardLabelS">Saturday</label><input type="text" id="satTextTCS" class="timeCardTextS" name="satTextS">
+            <label id="sunLabelTCS" class="timeCardLabelS">Sunday</label><input type="text" id="sunTextTCS" class="timeCardTextS" name="sunTextS">
+              <button type="button" id="submitTimeCardBtnS" onclick="submitTimeCardForS()">Submit</button>  
+            <input type="image" src="cancel.png" id="cancelImageTimeCard" class="cancelImage">
+            <button id="goBackTimeCard" class="backBtn">Back</button> 
+        </div>
       
         <div id="adminUserTimeCard" class="centerDiv">
             <label id="ok">admin time card</label>
