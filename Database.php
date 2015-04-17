@@ -47,9 +47,9 @@
 					mysql_query("Insert into company(CORPORATIONNAME) values('$Company')");
 				}
 				
-				$PresonID ="";
+				$PersonID ="";
 				$CompanyID  = "";
-				if(!getPersonID($SIN,$PresonID))
+				if(!getPersonID($SIN,$PersonID))
 				{
 					echo "Faile to Add Employee";
 					exit;
@@ -59,14 +59,14 @@
 					echo "Faile to Add Employee";
 					exit;
 				}
-				$EmployeeIDExist = checkEmployeeExist($PresonID,$CompanyID,$EmployType);
+				$EmployeeIDExist = checkEmployeeExist($PersonID,$CompanyID,$EmployType);
 				
 				if(!$EmployeeIDExist)
 				{	
-					if(adminAddGeneralEmployee($PresonID,$CompanyID,$EmployType))
+					if(adminAddGeneralEmployee($PersonID,$CompanyID,$EmployType))
 					{
 						$EmployeeID = "";
-						$Result = getEmployeeID($PresonID,$CompanyID,$EmployeeID);
+						$Result = getEmployeeID($PersonID,$CompanyID,$EmployeeID);
 						
 						if($Result)
 						{
@@ -94,7 +94,7 @@
 				{
 					
 					$EmployeeID = "";
-					$Result = getEmployeeID($PresonID,$CompanyID,$EmployeeID);
+					$Result = getEmployeeID($PersonID,$CompanyID,$EmployeeID);
 			
 					if($Result)
 					{
@@ -132,10 +132,109 @@
 			$EmployType = getValueFromRequest('ET'); //get Employ type.
 			if($EmployType == "FT")
 			{
+				$FirstName = getValueFromRequest('FN');
+				$LastName = getValueFromRequest('LN');
+				$Company = getValueFromRequest('CM');
+				$SIN 	= getValueFromRequest('SIN');
+				$DOB	= getValueFromRequest('DOB');
+				$DOH 	= getValueFromRequest('DOH');
+				
+				$PersonExist = checkPersonExist($SIN);  //Check if the person have been added.
+				
+				if(!$PersonExist)    //If the database has not contain the person , then add the preson to DB.
+				{
+					$insertPerson = mysql_query("Insert into person(FIRSTNAME, LASTNAME,SIN,DATEOFBIRTH) values('$FirstName' , '$LastName','$SIN','$DOB')") or exit(mysql_error());
+				}
+				
+				$CompanyExist = checkCompanyExist($Company);  //Check  if the Company have been added to database.
+					
 			
+				if(!$CompanyExist)   // If the company has not been added to the DB, then add the company to DB
+				{
+					mysql_query("Insert into company(CORPORATIONNAME) values('$Company')");
+				}
+				
+				$PersonID ="";
+				$CompanyID  = "";
+				if(!getPersonID($SIN,$PersonID))
+				{
+					echo "Faile to Add Employee";
+					exit;
+				}
+				if(!getCompanyID($Company,$CompanyID))  //if true, company id already modified
+				{
+					echo "Faile to Add Employee";
+					exit;
+				}
+				$EmployeeIDExist = checkEmployeeExist($PersonID,$CompanyID,$EmployType);   //?
+				
+				if(!$EmployeeIDExist)
+				{	
+					//check person id exsit in the table 
+					if(checkExsitPersonID($PersonID))
+					{
+						if(generalAddGeneralEmployee($PersonID, $CompanyID, $EmployType))
+						{
+							$EmployeeID = "";
+							$Result = getEmployeeID($PersonID,$CompanyID,$EmployeeID);
+							
+							if($Result)
+							{
+								
+								//mysql_query("Insert into employee(employee_id) values('$Result')") or exit(mysql_error());
+								
+								if(generalAddFullTimeEmployee($EmployeeID,$DOH))
+								{
+									echo "Sucess To add FullTime Employee";
+								}
+								else
+								{
+									echo "Failed to add FullTIme Employee";
+								}
+							}
+							else
+							{
+								echo "Employee do not exist!";
+							}
+						}
+						else
+						{
+							echo "General Add Employee Failed ";
+						}
+					}
+					else
+					{
+						echo "Person ID exist in the table";
+					}
+				}
+				else
+				{
+					
+					$EmployeeID = "";
+					$Result = getEmployeeID($PersonID,$CompanyID,$EmployeeID);
+			
+					if($Result)
+					{
+						//echo "get Employee ID via personID, CompanyId, EmployeeID";
+						if(generalAlterExistFullEmployee($EmployeeID,$DOH))
+						{
+							echo "Sucess To Alter FullTime Employee";
+						}
+						else
+						{
+							echo "Failed to Alter FullTIme Employee";
+						}
+					}
+					else
+					{
+						echo "Employee do not exist!";
+					}
+				}
+				mysql_close($connection);
 			}
 			else if($EmployType == "PT")
 			{
+				
 			}
 			else if($EmployType == "SN")
 			{
@@ -305,6 +404,22 @@
 		}
 	}
 	
+	function checkExsitPersonID($PersonID)
+	{
+		if($PersonID !== "")
+		{
+			$result = mysql_query("Select COUNT(person_id = $PersonID) from employee");
+			if($result == 0)
+			{
+				return false;
+			}
+			else
+			{
+				return true;
+			}
+		}
+	}
+	
 	function adminAddGeneralEmployee($PersonID, $CompanyID, $EmployeeType)
 	{
 		if($PersonID !== "" && $CompanyID !== "" )
@@ -323,7 +438,24 @@
 			}
 		}
 	}
-	
+	function generalAddGeneralEmployee($PersonID, $CompanyID, $EmployeeType)
+	{
+		if($PersonID !== "" && $CompanyID !== "" )
+		{
+		
+			$result = mysql_query("Insert Into employee(company_id, person_id,EmployType) values('$CompanyID','$PersonID','$EmployeeType')");
+			if($result)
+			{
+				mysql_free_result($result);
+				return true;
+			}
+			else
+			{
+				mysql_free_result($result);
+				return false;
+			}
+		}
+	}
 	function adminAddFullTimeEmployee($EmployeeID,$DateOfHire,$DateOfTermination,$Salary)
 	{
 		$result = mysql_query("Insert Into FulltimeEmployee(employee_id,dateofhire,dateoftermination,salary) values('$EmployeeID','$DateOfHire','$DateOfTermination','$Salary')");
@@ -347,6 +479,7 @@
 		if($result)
 		{
 				$EmployeeID = mysql_result($result,0,0);
+				
 				$meta = true;
 		}
 		mysql_free_result($result);
@@ -409,7 +542,8 @@
 		$FullTimeEmployeeExist_Rows = mysql_num_rows($result);
 		mysql_free_result($result);
 		if($FullTimeEmployeeExist_Rows > 0)
-		{
+		{	
+			
 			return true;
 		}
 		else
@@ -454,6 +588,34 @@
 		mysql_free_result($result);
 	}
 	
-
+	function generalAddFullTimeEmployee($EmployeeID,$DateOfHire)
+	{
+		$result = mysql_query("Insert Into FulltimeEmployee(employee_id,dateofhire) values('$EmployeeID','$DateOfHire')");
+		if($result)
+		{
+			mysql_free_result($result);
+			return true;
+		}
+		else
+		{
+			echo 'mysql_query false';
+			mysql_free_result($result);
+			return false;
+		}
+	}
+	
+	function generalAlterExistFullEmployee($EmployeeID,$DateOfHire)
+	{
+		$result = mysql_query("Update FulltimeEmployee SET dateofhire = '$DateOfHire' where employee_id = $EmployeeID");
+		if($result)
+		{
+			mysql_free_result($result);
+			return true;
+		}
+		else
+		{
+			mysql_free_result($result);
+			return false;
+		}
+	}
 ?>
-
