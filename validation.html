@@ -301,3 +301,29 @@ function seasonYearValidation(value)
 
 //validation for searching an employee like sin number
 
+//validation for hour
+function hourValidation(value)
+{
+	var hourReg = /^\d*(?:\.\d{1,2})?$/;
+	var bResult = true;
+	if(value == null || value == "")
+	{
+		bResult = false;
+	}
+	else
+	{
+		if(value.match(hourReg) != null)
+		{
+			var hour = parseInt(value);
+			if(hour == 0.00)
+			{
+				bResult = false;
+			}
+		}
+		else
+		{
+			bResult = false;
+		}
+	}
+	return bResult;
+}
