@@ -41,22 +41,38 @@ function NameValidation(inputValue)
 //validation for last name
 function NameValidation(inputValue)
 {
-
-	var bName = true;
-	var patt = /^[a-zA-Z'.]{1,40}$/;
-	var nameCheck = inputValue;
-
-	if(nameCheck == null || nameCheck == "")
+	var bName = false;
+	if(userType == "A")
 	{
-		bName = false;
+		
+		var pattAd = /^[a-zA-Z'.]{1,40}$/;
+		//var nameCheckAd = inputValue;
+		
+		if(inputValue != null && inputValue != "" && inputValue.match(pattAd) != null)
+		{
+			bName = true;
+		}
+		/*else
+		{
+			if(inputValue.match(pattAd) == null)
+			{
+				bName = false;
+			}
+		}*/
 	}
 	else
 	{
-		if(inputValue.match(patt) == null)
+		var number = /[\d+]/;
+		var pattGe = /[a-zA-Z-`\s]{1,40}/;
+		if(inputValue == null || inputValue == "" || inputValue.match(pattGe) != null)
 		{
-			bName = false;
+			if(inputValue.match(number) == null)
+			{
+				bName = true;
+			}
 		}
 	}
+	
 	return bName;
 }
 //validation for comapny
