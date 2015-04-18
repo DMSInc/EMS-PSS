@@ -4,29 +4,36 @@ var userType="";
 //validation for first name
 function NameValidation(inputValue)
 {
-	var bName = true;
+	var bName = false;
 	if(userType == "A")
 	{
 		
 		var pattAd = /^[a-zA-Z'.]{1,40}$/;
-		var nameCheckAd = inputValue;
-
-		if(nameCheckAd == null || nameCheckAd == "")
+		//var nameCheckAd = inputValue;
+		
+		if(inputValue != null && inputValue != "" && inputValue.match(pattAd) != null)
 		{
-			bName = false;
+			bName = true;
 		}
-		else
+		/*else
 		{
 			if(inputValue.match(pattAd) == null)
 			{
 				bName = false;
 			}
-		}
+		}*/
 	}
 	else
 	{
-		var pattGe = /[^\(\)0-9]*/;
-		var nameCheckGe = inputValue;
+		var number = /[\d+]/;
+		var pattGe = /[a-zA-Z-`\s]{1,40}/;
+		if(inputValue == null || inputValue == "" || inputValue.match(pattGe) != null)
+		{
+			if(inputValue.match(number) == null)
+			{
+				bName = true;
+			}
+		}
 	}
 	
 	return bName;
