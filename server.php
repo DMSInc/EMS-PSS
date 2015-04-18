@@ -28,6 +28,11 @@ session_start();
 			}
 
 		}
+		else
+		{
+			$_SESSION["loginStatus"]="fail";
+			header('Location: Login.php');
+		}
 	}
 ?>
 
