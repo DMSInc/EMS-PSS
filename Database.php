@@ -291,7 +291,7 @@
 		$EmpType  = getValueFromRequest('ET');
 		$SIN 	= getValueFromRequest('SIN');
 		$COM    = getValueFromRequest('CM');
-		$EmpID  =  
+		$EmpID  =  "";
 		$ErrorInfo = "";
 		if(getEmployeeIDBySINComEmpType($SIN,$COM,$EmpType,$ErrorInfo, $EmpID))
 		{
@@ -360,6 +360,42 @@
 		}
 		
 		mysql_close($connection);
+	}
+	else if($q == "searchEmployee")
+	{
+		$FNP = getValueFromRequest('FN');
+		$LNP = getValueFromRequest('LN');
+		$SINP 	= getValueFromRequest('SIN');
+		$UTP	= getValueFromRequest('UT');
+		
+		searchEmployee($FNP,$LNP,$SINP,$UTP);
+	}
+	else if($q == "selectSearchedEmployee")
+	{
+		$PersonID = getValueFromRequest('PSID');
+		$CompanyID = getValueFromRequest('CMID');
+		$EmployeeID 	= getValueFromRequest('EID');
+		$EmployeeType  =  getValueFromRequest('ET');
+		$UserType    = getValueFromRequest('UT');
+		
+		
+		
+		
+		
+		if($UserType == "G")
+		{
+			
+		}
+		else if($UserType == "A")
+		{
+		}
+		else
+		{
+			
+		}
+		
+		
+		
 	}
 	
 	function getValueFromRequest($Request)
@@ -603,6 +639,7 @@
 		{
 			if(getCompanyID($COM,$CompanyID))
 			{
+	
 				$result = mysql_query("Select ID from employee where  company_id = '$CompanyID' AND person_id = '$PersonID' AND EmployType = '$EMPTYPE'");
 				$resultNum = mysql_num_rows($result);
 				if($resultNum > 0)
@@ -725,4 +762,221 @@
 			return false;
 		}
 	}
+	
+	function searchEmployee($FNP,$LNP,$SINP,$UTP)
+	{
+	
+		$result = "";
+		if($FNP !== "" && $LNP == "" && $SINP == "")
+		{
+
+			$result = mysql_query("Select ID,FIRSTNAME,LASTNAME,SIN From  PERSON where FIRSTNAME='$FNP'") or exit(mysql_error());
+		}
+		else if($FNP == "" && $LNP !== "" && $SINP == "")
+		{
+			$result = mysql_query("Select ID,FIRSTNAME,LASTNAME,SIN From  PERSON where LASTNAME='$LNP'") or exit(mysql_error());
+		}
+		else if($FNP == "" && $LNP == "" && $SINP !== "")
+		{
+			$result = mysql_query("Select ID,FIRSTNAME,LASTNAME,SIN From  PERSON where SIN='$SINP'") or exit(mysql_error());
+		}
+		else if($FNP !== "" && $LNP !== "" && $SINP == "")
+		{
+			$result = mysql_query("Select ID,FIRSTNAME,LASTNAME,SIN From  PERSON where FIRSTNAME='$FNP' AND LASTNAME='$LNP'") or exit(mysql_error());
+		}
+		else if($FNP !== "" && $LNP == "" && $SINP !== "")
+		{
+			$result = mysql_query("Select ID,FIRSTNAME,LASTNAME,SIN From  PERSON where FIRSTNAME='$FNP' AND SIN='$SINP' ") or exit(mysql_error());
+		}
+		else if($FNP == "" && $LNP !== "" && $SINP !== "")
+		{
+			$result = mysql_query("Select ID,FIRSTNAME,LASTNAME,SIN From  PERSON where LASTNAME='$LNP' AND SIN='$SINP'") or exit(mysql_error());
+		}
+		else if($FNP !== "" && $LNP !== "" && $SINP !== "")
+		{
+			$result = mysql_query("Select ID,FIRSTNAME,LASTNAME,SIN From  PERSON where FIRSTNAME='$FNP' AND LASTNAME='$LNP' AND SIN='$SINP'") or exit(mysql_error());
+		}
+		
+		
+		
+		$result_row = mysql_num_rows($result);
+		
+		if($result_row > 0)
+		{
+			$tableLists = "<table>";
+			for($index = 0; $index < $result_row; $index++)
+			{
+				$FN = mysql_result($result,$index,1);
+				$LN = mysql_result($result,$index,2);
+				$SIN = mysql_result($result,$index,3);
+				
+				$PersonID = mysql_result($result,$index,0);
+				
+				$result_EMP = "";
+				if($UTP == "G")
+				{
+					$result_EMP = mysql_query("Select ID, EmployType, company_id From employee where person_id = '$PersonID' AND Employeestatus = 'Active' AND EmployType != 'CT' ") or exit(mysql_error());
+				}
+				else if($UTP == "A")
+				{
+					$result_EMP = mysql_query("Select ID, EmployType, company_id From employee where person_id = '$PersonID'") or exit(mysql_error());
+				}
+				else
+				{
+					$arr = array("ErrorMsg" => "No Employee Exist!");
+					echo json_encode($arr);
+					exit;
+				}
+				
+				$result_EMP = mysql_query("Select ID, EmployType, company_id From employee where person_id = '$PersonID'") or exit(mysql_error());
+				
+				$result_EMP_row = mysql_num_rows($result_EMP);
+				
+				if($result_EMP_row > 0)
+				{
+					for($indexS = 0; $indexS < $result_EMP_row; $indexS++)
+					{
+						$EmployeeID = mysql_result($result_EMP,$indexS,0);
+						$EmployeeType = mysql_result($result_EMP,$indexS,1);
+						$CompanyID = mysql_result($result_EMP,$indexS,2); 
+						
+						//$tableLists .="<tr><td>'$FN'</td><td>'$LN'</td><td>'$SIN'</td><td><button onclick='SelectEmp('$EmployeeID','$EmployeeType','$CompanyID','$PersonID')'>Select</button></td></tr>";
+						$tableLists .="<tr><td>'$FN'</td><td>'$LN'</td><td>'$SIN'</td><td><button onclick='SelectEmp()'>Select</button></td></tr>";
+					}
+					
+					mysql_free_result(result_EMP);
+					
+				}
+				
+			}
+			$tableLists .="</table>";
+		}
+		mysql_free_result(result);
+		
+		$arr = array('searchResult' =>$tableLists);
+		echo json_encode($arr);
+	
+	}
+	
+	
+	function userSelectSearchedEmployee()
+	{
+		$PersonID = getValueFromRequest('PSID');
+		$CompanyID = getValueFromRequest('CMID');
+		$EmployeeID 	= getValueFromRequest('EID');
+		$EmployeeType  =  getValueFromRequest('ET');
+		$UserType    = getValueFromRequest('UT');
+		
+		$FirstName = "";
+		$LastName = "";
+		$SIN = "";
+		$DateOfBirth = "";
+		
+		$CompanyName = "";
+		
+		$result = mysql_query("Select FIRSTNAME,LASTNAME,SIN,DATEOFBIRTH FROM PERSON WHERE ID = '$PersonID' ");
+		if($result)
+		{
+			$result_row = mysql_num_rows($result);
+			if($result_row > 0)
+			{
+				$tableLists = "<table>";
+				
+				$tableLists .= "<tr><td>'EmployeeType:'</td><td>'$EmployeeType'</td></tr>";
+				
+				$FirstName = mysql_result($result,0,0);
+				$tableLists .= "<tr><td>'FirstName:'</td><td>'$FirstName'</td></tr>";
+				
+				$LastName = mysql_result($result,0,1);
+				$tableLists .= "<tr><td>'LastName:'</td><td>'$LastName'</td></tr>";
+				
+				
+				$SIN = mysql_result($result, 0,2);
+				$tableLists .= "<tr><td>'SIN:'</td><td>'$SIN'</td></tr>";
+				
+				$DateOfBirth = mysql_result($result,0,3);
+				$tableLists .= "<tr><td>'DateOfBirth:'</td><td>'$DateOfBirth'</td></tr>";
+				
+				//Free Result undo
+				mysql_free_result($result);
+				
+				
+				//Find the Company
+				$CompanyResult = mysql_query("Select CORPORATIONNAME From company where ID = '$CompanyID'");
+				if($CompanyResult)
+				{
+					$CompanyResult_row = mysql_num_rows($CompanyResult);
+					if($CompanyResult_row > 0)
+					{
+						$CompanyName = mysql_result($CompanyResult,0,0);
+						$tableLists .= "<tr><td>'CompanyName:'</td><td>'$CompanyName'</td></tr>";
+					}
+				}
+				$tableLists .="</table>";
+				$arr = array('SelectResult' =>$tableLists);
+				echo json_encode($arr);
+				if(EmployeeType == "FT")
+				{
+					
+				}
+				else if(EmployeeType == "PT")
+				{
+				
+				}
+				else if(EmployeeType == "SN")
+				{
+					
+				}
+				else if(EmployeeType == "CT")
+				{
+				
+				}
+				else
+				{
+					
+				}
+				
+				
+			}
+			else
+			{
+				
+			}
+			
+				
+			
+			
+	
+		}
+		
+	}
+	
+	function dateTransfor(&$Date)
+	{
+		$Date = date("Y-m-d", strtotime($Date));
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 ?>
