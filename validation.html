@@ -1,23 +1,34 @@
+//user type global variable
+var userType="";
 
 //validation for first name
 function NameValidation(inputValue)
 {
-
 	var bName = true;
-	var patt = /^[a-zA-Z'.]{1,40}$/;
-	var nameCheck = inputValue;
+	if(userType == "A")
+	{
+		
+		var pattAd = /^[a-zA-Z'.]{1,40}$/;
+		var nameCheckAd = inputValue;
 
-	if(nameCheck == null || nameCheck == "")
-	{
-		bName = false;
-	}
-	else
-	{
-		if(inputValue.match(patt) == null)
+		if(nameCheckAd == null || nameCheckAd == "")
 		{
 			bName = false;
 		}
+		else
+		{
+			if(inputValue.match(pattAd) == null)
+			{
+				bName = false;
+			}
+		}
 	}
+	else
+	{
+		var pattGe = /[^\(\)0-9]*/;
+		var nameCheckGe = inputValue;
+	}
+	
 	return bName;
 }
 //validation for last name
@@ -314,11 +325,13 @@ function hourValidation(value)
 	{
 		if(value.match(hourReg) != null)
 		{
-			var hour = parseInt(value);
-			if(hour == 0.00)
+
+			var hour = parseFloat(value);
+			if(hour == 0.00 || hour >= 24.01)
 			{
 				bResult = false;
 			}
+			
 		}
 		else
 		{
