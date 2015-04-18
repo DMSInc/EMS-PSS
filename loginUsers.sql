@@ -86,4 +86,37 @@ FOREIGN KEY fk_timecardid(timecard_id) references TimeCard(id),
 primary key(ID)
 );
 
+Create table if not exists ParttimeEmployee(
 
+	ID integer not null auto_increment,
+	employee_id  integer not null,
+	dateofhire	varchar(40),
+	dateoftermination varchar(40),
+	hourlyrate varchar(40),
+	Foreign key fk_employeeid(employee_id) references employee(id),
+	primary key(ID)
+
+);
+
+Create table if not exists SeasonalEmployee(
+	ID integer not null auto_increment,
+	employee_id  integer not null,
+	season varchar(40),
+	piecePay varchar(40),
+	seasonYear varchar(40),
+	Foreign key fk_employeeid(employee_id) references employee(id),
+	primary key(ID)
+
+);
+
+
+Create table if not exists Contractor(
+	ID integer not null auto_increment,
+	company_id  integer not null,
+	contractStartDate varchar(40),
+	contractStopDate varchar(40),
+	fixedContractAmount varchar(40),
+	Foreign key fk_companyid(company_id) references company(id),
+	primary key(ID)
+
+);
