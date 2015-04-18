@@ -62,3 +62,28 @@ salary varchar(40),
 Foreign key fk_employeeid(employee_id) references employee(id),
 primary key(ID)
 );
+
+Create table if not exists TimeCard(
+ID integer not null auto_increment,
+employee_id  integer not null,
+flag			varchar(40),
+mondayHours	  decimal(3,1),
+tuesdayHours	 decimal(3,1),
+wednesdayHours   decimal(3,1),
+thursdayHours	 decimal(3,1),
+fridayHours		 decimal(3,1),
+saturdayHours	 decimal(3,1),
+sundayHours 	decimal(3,1),
+FOREIGN KEY fk_employeeid(employee_id) references employee(id),
+primary key(ID)
+);
+
+Create table if not exists SeasonEmpWeekPiece(
+ID integer not null auto_increment,
+timecard_id integer not null,
+pieceamount integer,
+FOREIGN KEY fk_timecardid(timecard_id) references TimeCard(id),
+primary key(ID)
+);
+
+

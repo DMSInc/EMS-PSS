@@ -6,6 +6,7 @@ session_start();
 <html>
 <head>
     <style type="text/css">
+#topDiv{
     position: absolute;
     top: 0%;
     left: 0%;
@@ -248,10 +249,47 @@ session_start();
     position:absolute;
     left:20%;
 }
+
+.seasonalTimeCardLabel{
+    position:absolute;
+    left:10%;
+}  
+.piecesLabel{
+position:absolute;
+    left:60%;
+}
+.piecesText{
+position:absolute;
+    left:65%;
+    
+}
+
+#monPieces{
+top:30%;
+}#tuePieces{
+top:40%;
+}#wedPieces{
+top:50%;
+}#thurPieces{
+top:60%;
+}
+        #friPieces{
+top:70%;
+}
+        #satPieces{
+top:80%;
+}
+#sunPieces{
+top:90%;
+}
 .timeCardText{
 position:absolute;
     left:45%;
-}     
+}   
+.timeCardTextS{
+position:absolute;
+    left:32%;
+}       
 #selectEmpTypeDivForAdminUser{
     visibility: hidden;
 }
@@ -285,9 +323,16 @@ position:absolute;
 #gentimeCardFTPT{
     visibility:hidden;
 }
+#gentimeCardS{
+    visibility:hidden;
+}        
 .submitBtn{
     position:absolute;
     left:40%;
+}
+#genUserAddEmp{
+    position:absolute;
+    top:90%;
 }
 #btnSubmitFT{
     top:90%;
@@ -355,6 +400,60 @@ position:absolute;
     top:80%;
 } 
         #sunTextTC{
+    top:90%;
+} 
+/*      */
+#sinLabelTCS{
+    top:8%;
+}
+#compLabelTCS{
+    top:16%;
+}
+#monLabelTCS{
+    top:30%;
+}
+#tueLabelTCS{
+    top:40%;
+}
+#wedLabelTCS{
+    top:50%;
+}
+#thurLabelTCS{
+    top:60%;
+} #friLabelTCS{
+    top:70%;
+} #satLabelTCS{
+    top:80%;
+} 
+#sunLabelTCS{
+    top:90%;
+} 
+#submitTimeCardBtnS{
+position:absolute;
+    top:100%;
+    left:40%;
+}
+#sinTextGenTCS{
+    top:8%;
+}
+#companyTextGenTCS{
+    top:16%;
+}
+#monTextTCS{
+    top:30%;
+}
+#tueTextTCS{
+    top:40%;
+} #wedTextTCS{
+    top:50%;
+} #thurTextTCS{
+    top:60%;
+} #friTextTCS{
+    top:70%;
+} #satTextTCS{
+    top:80%;
+} 
+        #sunTextTCS{
     top:90%;
 }         
         
@@ -428,6 +527,16 @@ position:absolute;
     left: 10%;
     top: 60%;
 }
+.seasonLGen{
+    position: absolute;
+    left: 10%;
+    top: 80%;
+}     
+.seasonTypeGen{
+position: absolute;
+    left: 40%;
+    top: 80%;
+}
 .season{
     position: absolute;
     left: 40%;
@@ -438,11 +547,13 @@ position:absolute;
     left: 10%;
     top: 70%;
 }
+
 .seasonyear{
     position: absolute;
     left: 40%;
     top: 70%;
 }
+
 #dotLabelAdmin{
     position: absolute;
     left: 10%;
@@ -698,6 +809,7 @@ position:absolute;
 var maintaineneceType = "";
 var userType="";
 var employeeType="";
+var genUserEmpType="";
 var userAction = "maintainence";
     
    $(document).ready(function () {
@@ -766,6 +878,19 @@ function addEmpDivs()
                         $("#selectEmpTypeDivForGenUser").fadeTo(1000, 1);
                             document.getElementById("addEmployeeLabelGen").innerHTML="Add Employee General User";
                      });
+                    }
+                    else
+                    {
+                        if(document.getElementById("gentimeCardS").style.visibility == "visible")
+                        {
+                            $("#gentimeCardS").fadeTo(1000, 0,function(){
+                                document.getElementById("gentimeCardS").style.visibility = "hidden";
+                                //show card time divs
+                                document.getElementById("selectEmpTypeDivForGenUser").style.visibility = "visible";
+                                $("#selectEmpTypeDivForGenUser").fadeTo(1000, 1);
+                                document.getElementById("addEmployeeLabelGen").innerHTML="Add Employee General User";
+                            }); 
+                        }
                     }
                 }
             }
@@ -1223,7 +1348,6 @@ function submitAdminFullTimeEmp()
 							
 							});
     }    
-    
 	
 	function makeItAnObject(jsonvalue)
       {
@@ -1265,6 +1389,7 @@ function submitAdminFullTimeEmp()
 
       return values;
       } 
+    
 //Admin user wants to add an employee
   $(document).ready(function () {
     "use strict";
@@ -1320,7 +1445,7 @@ $(document).ready(function () {
 $(document).ready(function () {
     "use strict";
     $("#genUserChoiceFTEmp").click(function () {  
-        employeeType="FT";
+        genUserEmpType="FT";
         if(maintaineneceType=="addEmployee"){
                 $("#selectEmpTypeDivForGenUser").fadeTo(1000, 0, function () {
                 document.getElementById("selectEmpTypeDivForGenUser").style.visibility = "hidden";
@@ -1406,7 +1531,7 @@ $(document).ready(function () {
 $(document).ready(function () {
     "use strict";
     $("#genUserChoicePTEmp").click(function () {
-        employeeType="PT";
+        genUserEmpType="PT";
          if(maintaineneceType=="addEmployee"){
             $("#selectEmpTypeDivForGenUser").fadeTo(1000, 0, function () {
                 document.getElementById("selectEmpTypeDivForGenUser").style.visibility = "hidden";
@@ -1467,7 +1592,7 @@ $(document).ready(function () {
 $(document).ready(function () {
     "use strict";
     $("#genUserSEmp").click(function () {
-        employeeType="ST";
+        genUserEmpType="ST";
         if(maintaineneceType=="addEmployee"){    
         $("#selectEmpTypeDivForGenUser").fadeTo(1000, 0, function () {
                 document.getElementById("selectEmpTypeDivForGenUser").style.visibility = "hidden";
@@ -1485,8 +1610,8 @@ $(document).ready(function () {
             {
               $("#selectEmpTypeDivForGenUser").fadeTo(1000, 0, function (){
                   document.getElementById("selectEmpTypeDivForGenUser").style.visibility = "hidden";
-                  document.getElementById("gentimeCardFTPT").style.visibility = "visible";
-                $("#gentimeCardFTPT").fadeTo(1000, 1);
+                  document.getElementById("gentimeCardS").style.visibility = "visible";
+                $("#gentimeCardS").fadeTo(1000, 1);
               });
             }
         }
@@ -1583,11 +1708,26 @@ $(document).ready(function () {
 $(document).ready(function () {
     "use strict";
     $("#goBackTimeCard").click(function () {
-        $("#gentimeCardFTPT").fadeTo(1000, 0, function () {
+        if( document.getElementById("gentimeCardFTPT").style.visibility == "visible")
+        {
+            $("#gentimeCardFTPT").fadeTo(1000, 0, function () {
             document.getElementById("gentimeCardFTPT").style.visibility = "hidden";
             document.getElementById("selectEmpTypeDivForGenUser").style.visibility = "visible";
             $("#selectEmpTypeDivForGenUser").fadeTo(1000, 1);
-        });
+            });
+        }
+//        else
+//        {
+//            if(document.getElementById("gentimeCardS").style.visibility == "visible")
+//            {
+//                alert("sdfsd");
+//                $("#gentimeCardS").fadeTo(1000, 0, function () {
+//                document.getElementById("gentimeCardS").style.visibility = "hidden";
+//                document.getElementById("selectEmpTypeDivForGenUser").style.visibility = "visible";
+//                $("#selectEmpTypeDivForGenUser").fadeTo(1000, 1);
+//                });
+//            }
+//        }
     });
 });
     
@@ -2158,8 +2298,171 @@ function submitAdminSeasonEmp()
 function submitTimeCardForFTPT()
 {
     alert("submit time card for ft and pt");
+	 
+		var value = "enterTimeCard";
+		var sendData = "";
+	
+		sendData += makeUpJson("q",{"q":value},true);
+		
+		sendData += makeUpJson("UT",{"UT":"A"});
+		
+		sendData += makeUpJson("ET",{"ET":"SN"});
+		
+		sendData += makeUpJson("FN",{"FN":"Xiaodong"});
+		
+		sendData += makeUpJson("LN",{"LN":"Meng"});
+		
+		sendData += makeUpJson("CM",{"CM":"Conestoga"});
+		
+		sendData += makeUpJson("SIN",{"SIN":"123456789"});
+		
+		sendData += makeUpJson("DOB",{"DOB":"19990909"});
+		
+		sendData += makeUpJson("DOH",{"DOH":"20000909"});
+		
+		sendData += makeUpJson("DOT",{"DOT":"20101010"});
+		
+		sendData += makeUpJson("Salary",{"Salary":"90000"});
+		
+		sendData += makeUpJson("MH",{"MH":"6.1"});
+		
+		sendData += makeUpJson("TH",{"TH":"6.2"});
+		
+		sendData += makeUpJson("WH",{"WH":"6.3"});
+		
+		sendData += makeUpJson("THH",{"THH":"6.4"});
+		
+		sendData += makeUpJson("FH",{"FH":"6.5"});
+		
+		sendData += makeUpJson("SAH",{"SAH":"6.6"});
+		
+		sendData += makeUpJson("SUNH",{"SUNH":"6.7"});
+		
+		
+		alert(sendData);
+	 $.ajax({url: "Database.php",
+							type: "GET",
+							async:true,
+							data : sendData,
+							success:function(result)
+							{
+							alert(result);
+								var values = [];
+								values = makeItAnObject(result);
+								var len= values.length;
+								for(var i = 0; i< len; i++)
+								{
+									alert(values[i]);
+								}
+							},
+							 error: function( objRequest )
+							 {
+								alert(objRequest);
+							 }
+							
+							});
 }
-    
+function submitTimeCardForS()
+{
+  
+	 alert("submit time card for ft and pt");
+	 
+		var value = "enterTimeCard";
+		var sendData = "";
+	
+		sendData += makeUpJson("q",{"q":value},true);
+		
+		sendData += makeUpJson("UT",{"UT":"A"});
+		
+		sendData += makeUpJson("ET",{"ET":"SN"});
+		
+		sendData += makeUpJson("FN",{"FN":"Xiaodong"});
+		
+		sendData += makeUpJson("LN",{"LN":"Meng"});
+		
+		sendData += makeUpJson("CM",{"CM":"Conestoga"});
+		
+		sendData += makeUpJson("SIN",{"SIN":"123456789"});
+		
+		sendData += makeUpJson("DOB",{"DOB":"19990909"});
+		
+		sendData += makeUpJson("DOH",{"DOH":"20000909"});
+		
+		sendData += makeUpJson("DOT",{"DOT":"20101010"});
+		
+		sendData += makeUpJson("Salary",{"Salary":"90000"});
+		
+		sendData += makeUpJson("MH",{"MH":"6.1"});
+		
+		sendData += makeUpJson("TH",{"TH":"6.2"});
+		
+		sendData += makeUpJson("WH",{"WH":"6.3"});
+		
+		sendData += makeUpJson("THH",{"THH":"6.4"});
+		
+		sendData += makeUpJson("FH",{"FH":"6.5"});
+		
+		sendData += makeUpJson("SAH",{"SAH":"6.6"});
+		
+		sendData += makeUpJson("SUNH",{"SUNH":"6.7"});
+		sendData += makeUpJson("WA",{"WA":"60"});
+		
+		
+		alert(sendData);
+	 $.ajax({url: "Database.php",
+							type: "GET",
+							async:true,
+							data : sendData,
+							success:function(result)
+							{
+							alert(result);
+								var values = [];
+								values = makeItAnObject(result);
+								var len= values.length;
+								for(var i = 0; i< len; i++)
+								{
+									alert(values[i]);
+								}
+							},
+							 error: function( objRequest )
+							 {
+								alert(objRequest);
+							 }
+							
+							});
+}
+function submitGenEmp()
+{
+    if(genUserEmpType=="FT")
+    {
+      
+    }
+    else
+    {
+        if(genUserEmpType=="PT")
+        {
+            alert("part time");
+        }
+        else
+        {
+            if(genUserEmpType=="ST")
+            {
+                alert("seasonal time");
+            }
+        }
+    }
+}
+function goBackTimeCardS()
+    {
+         if(document.getElementById("gentimeCardS").style.visibility == "visible")
+            {
+                $("#gentimeCardS").fadeTo(1000, 0, function () {
+                document.getElementById("gentimeCardS").style.visibility = "hidden";
+                document.getElementById("selectEmpTypeDivForGenUser").style.visibility = "visible";
+                $("#selectEmpTypeDivForGenUser").fadeTo(1000, 1);
+                });
+            }
+    }
 </script>
 </head>
 <body>
@@ -2220,16 +2523,17 @@ function submitTimeCardForFTPT()
                     <label id="sinLabel" class="sinL">SIN</label><input type="text" id="sinText" class="sin" name="sinTextG" />
                     <label id="dobLabel" class="dobL">Date OF Birth</label><input type="text" id="dobText" class="dob" name="dobTextG" />
                     <label id="dohLabel" class="dohL">Date Of Hire</label><input type="text" id="dohText" class="doh" name="dohTextG" />
-                    <label id="seasonTypeLabel" class="seasonL">Season</label>
-                      <select id="seasonTypeDD" class="season" name="seasonTypeDDG" >
+                   
+                    <label id="seasonYearLabel" class="seasonyearL">Season Year</label><input type="text" id="seasonYearText" class="seasonyear" name="seasonYearTextG" />
+                    <label id="seasonTypeLabel" class="seasonLGen">Season</label>
+                      <select id="seasonTypeDD" class="seasonTypeGen" name="seasonTypeDDG">
                         <option value="winter">Winter</option>
                         <option value="spring">Spring</option>
                         <option value="fall">Fall</option>
                         <option value="summer">Summer</option>
                     </select> 
-                    <label id="seasonYearLabel" class="seasonyearL">Season Year</label><input type="text" id="seasonYearText" class="seasonyear" name="seasonYearTextG" />
                     <input type="hidden" name="needCompletion" value="Y">
-                    <button type="button" class="submitBtn" onclick="submitGenEmp()">Submit</button>
+                    <button type="button" class="submitBtn" id="genUserAddEmp" onclick="submitGenEmp()">Submit</button>
             </form>
             <input type="image" src="cancel.png" id="cancelImageAddEmp" class="cancelImage"/>
             <button id="goBack" class="backBtn">Back</button> 
@@ -2291,7 +2595,6 @@ function submitTimeCardForFTPT()
             </form>
             <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>
             <button class="backBtn" onclick="goBack()">Back</button> 
-             
           </div>
       
       
@@ -2333,6 +2636,22 @@ function submitTimeCardForFTPT()
             <input type="image" src="cancel.png" id="cancelImageTimeCard" class="cancelImage">
             <button id="goBackTimeCard" class="backBtn">Back</button> 
           </div>
+      
+        <div id="gentimeCardS" class="centerDiv">
+            <label id="sinLabelTCS" class="seasonalTimeCardLabel">SIN</label><input type="text" id="sinTextGenTCS" class="timeCardTextS" name="sinTextGenS">
+            <label id="compLabelTCS" class="seasonalTimeCardLabel">Company Name</label><input type="text" id="companyTextGenTCS" class="timeCardTextS" name="companyTextGenS">
+            <label id="pieceText" style="position:absolute;left:66%;top:23%;">Number of Pieces</label>
+            <label id="monLabelTCS" class="seasonalTimeCardLabel">Monday</label><input type="text" id="monTextTCS" class="timeCardTextS" name="monTextS"><input type="text" id="monPieces" class="piecesText">
+            <label id="tueLabelTCS" class="seasonalTimeCardLabel">Tuesday</label><input type="text" id="tueTextTCS" class="timeCardTextS" name="tueTextS"><input type="text" id="tuePieces" class="piecesText">
+            <label id="wedLabelTCS" class="seasonalTimeCardLabel">Wednesday</label><input type="text" id="wedTextTCS" class="timeCardTextS" name="wedTextS"><input type="text" id="wedPieces" class="piecesText">
+            <label id="thurLabelTCS" class="seasonalTimeCardLabel">Thursday</label><input type="text" id="thurTextTCS" class="timeCardTextS" name="thurTextS"><input type="text" id="thurPieces" class="piecesText">
+            <label id="friLabelTCS" class="seasonalTimeCardLabel">Friday</label><input type="text" id="friTextTCS" class="timeCardTextS" name="friTextS"><input type="text" id="friPieces" class="piecesText">
+            <label id="satLabelTCS" class="seasonalTimeCardLabel">Saturday</label><input type="text" id="satTextTCS" class="timeCardTextS" name="satTextS"><input type="text" id="satPieces" class="piecesText">
+            <label id="sunLabelTCS" class="seasonalTimeCardLabel">Sunday</label><input type="text" id="sunTextTCS" class="timeCardTextS" name="sunTextS"><input type="text" id="sunPieces" class="piecesText">
+              <button type="button" id="submitTimeCardBtnS" onclick="submitTimeCardForS()">Submit</button>  
+            <input type="image" src="cancel.png" id="cancelImageTimeCard" class="cancelImage">
+            <button id="goBackTimeCard" class="backBtn" onclick="goBackTimeCardS()">Back</button> 
+        </div>
       
         <div id="adminUserTimeCard" class="centerDiv">
             <label id="ok">admin time card</label>

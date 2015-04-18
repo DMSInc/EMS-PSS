@@ -13,7 +13,7 @@
 
 	$q = getValueFromRequest('q');
 
-	
+
 	if($q == "addEmployee")
 	{
 		$userType = getValueFromRequest('UT');
@@ -287,13 +287,81 @@
 	}
 	else if($q == "enterTimeCard")
 	{
+	
 		$EmpType  = getValueFromRequest('ET');
 		$SIN 	= getValueFromRequest('SIN');
 		$COM    = getValueFromRequest('CM');
+		$EmpID  =  
+		$ErrorInfo = "";
+		if(getEmployeeIDBySINComEmpType($SIN,$COM,$EmpType,$ErrorInfo, $EmpID))
+		{
+			
+			if($EmpType == "SN")
+			{
+				$MondayH = getValueFromRequest('MH');
+				$TuesdayH = getValueFromRequest('TH');
+				$WednesdayH = getValueFromRequest('WH');
+				$ThursdayH = getValueFromRequest('THH');
+				$FridayH = getValueFromRequest('FH');
+				$SaturdayH = getValueFromRequest('SAH');
+				$SundayH = getValueFromRequest('SUNH');
+				$WeekAmount = getValueFromRequest('WA');
+				if(insertTimeCard($EmpID, $MondayH, $TuesdayH, $WednesdayH, $ThursdayH, $FridayH,$SaturdayH,$SundayH))
+				{
+					 $TimeCardID = mysql_insert_id();
+					if(insertSeasonEmpWeekPiece($TimeCardID,$WeekAmount))
+					{
+						$arr = array("Result" => "Sucess to Insert SeasonEmpWorkPiece table.");
+						echo json_encode($arr);
+					}
+					else
+					{
+						$arr = array("Result" => "Failed to Insert SeasonEmpWorkPiece table.");
+						echo json_encode($arr);
+					}
+					
+					
+				}
+				else
+				{
+					$arr = array("Result" => "Failed insret TimeCard");
+					echo json_encode($arr);
+				}
+				
+			
+			}
+			else
+			{
+				$MondayH = getValueFromRequest('MH');
+				$TuesdayH = getValueFromRequest('TH');
+				$WednesdayH = getValueFromRequest('WH');
+				$ThursdayH = getValueFromRequest('THH');
+				$FridayH = getValueFromRequest('FH');
+				$SaturdayH = getValueFromRequest('SAH');
+				$SundayH = getValueFromRequest('SUNH');
+				if(insertTimeCard($EmpID, $MondayH, $TuesdayH, $WednesdayH, $ThursdayH, $FridayH,$SaturdayH,$SundayH))
+				{
+			
+					$arr = array("Result" => "Sucess insret TimeCard");
+					echo json_encode($arr);
+					
+				}
+				else
+				{
+					$arr = array("Result" => "Failed insret TimeCard");
+					echo json_encode($arr);
+				}
+			}
+		}
+		else
+		{
+			$arr = array("Result" => "Do not Find Employee ID");
+			echo json_encode($arr);
+		}
 		
-		
+		mysql_close($connection);
 	}
-
+	
 	function getValueFromRequest($Request)
 	{
 		$return = "";
@@ -308,6 +376,45 @@
 			$return  = $obj[$Request];
 		}	
 		return $return;
+	}
+	
+	function insertSeasonEmpWeekPiece($TimeCardID,$PieceAmount)
+	{
+		$result = mysql_query("Insert into SeasonEmpWeekPiece(timecard_id,pieceamount) values('$TimeCardID','$PieceAmount')") or exit(mysql_error()) ;
+		if($result)
+		{
+			mysql_free_result($result);
+			return true;
+		}
+		else
+		{
+			mysql_free_result($result);
+			return false;
+		}
+	}
+	
+	function insertTimeCard($EmpID, $MondayH, $TuesdayH, $WednesdayH, $ThursdayH, $FridayH,$SaturdayH,$SundayH)
+	{	
+		$MondayH = floatval($MondayH);
+		$TuesdayH = floatval($TuesdayH);
+		$WednesdayH = floatval($WednesdayH);
+		$ThursdayH = floatval($ThursdayH);
+		$FridayH = floatval($FridayH);
+		$SaturdayH = floatval($SaturdayH);
+		$SundayH = floatval($SundayH);
+		
+
+		$result = mysql_query("Insert Into TimeCard(employee_id,mondayHours,tuesdayHours,wednesdayHours,thursdayHours,fridayHours,saturdayHours,sundayHours) values('$EmpID', '$MondayH','$TuesdayH', '$WednesdayH', '$ThursdayH', '$FridayH','$SaturdayH','$SundayH')") or exit(mysql_error());
+		if($result)
+		{
+			mysql_free_result($result);
+			return true;
+		}
+		else
+		{
+			mysql_free_result($result);
+			return false;
+		}
 	}
 	
 	function getFirstNameLastNameDOB($SIN,&$FirstName,&$LastName,&$DateOfBirth)
