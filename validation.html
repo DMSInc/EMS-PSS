@@ -57,7 +57,10 @@ function companyValidation(inputValue)
 //validation for sin
 
 //validation for date of hire
-function dateValidation(value)
+var hYYYY;
+var hMM;
+var hDD;
+function hireValidation(value)
 {
 	var bDate  = true;
 	var dateReg = /^\d{4}-\d{2}-\d{2}$/;
@@ -74,6 +77,9 @@ function dateValidation(value)
 			var yyyy = parseInt(regs[0]);
 			var mm = parseInt(regs[1]);
 			var dd = parseInt(regs[2]);
+			hYYYY = yyyy;
+			hMM = mm;
+			hDD = dd;
 
 			if(yyyy < 1902 || yyyy > (new Date().getFullYear())) 
 			{
@@ -110,7 +116,7 @@ function dateValidation(value)
 }
 //validaiton for date of birth
 var bYYYY;
-function dateValidation(value)
+function birthdayValidation(value)
 {
 	var bDate  = true;
 	var dateReg = /^\d{4}-\d{2}-\d{2}$/;
@@ -170,7 +176,73 @@ funtion compareBirthdayAndHireDay(bYYYY, hYYYY)
 	
 }
 //validaiton for date of termination
+function terminationValidation(value)
+{
+	var bDate  = true;
+	var dateReg = /^\d{4}-\d{2}-\d{2}$/;
+	
+	if(value == null || value == "")
+	{
+		bDate = false;
+	}
+	else
+	{
+		if(value.match(dateReg) != null)
+		{
+			var regs = value.split("-");
+			var yyyy = parseInt(regs[0]);
+			var mm = parseInt(regs[1]);
+			var dd = parseInt(regs[2]);
+			bYYYY = yyyy;
+			if(yyyy < 1902 || yyyy > (new Date().getFullYear())) 
+			{
+	          bDate = false;
+	        }
+	        if (mm < 1 || mm > 12) 
+	        {
+	        	bDate = false;
+	        }
+	        if (dd < 1 || dd > 31) 
+	        {
+	        	bDate = false;
+	        }
+	        else
+	        {
+	        	if(mm == 2 && dd > 28)
+	        	{
+	        		bDate = false;
+	        	}
+	        }				
+		}
+		else
+		{
+			bDate = false;	
+		}
+		if(!compareHireDayandTermination(hYYYY, hMM, hDD, yyyy, mm, dd))
+		{
+			bDate = false;
+		}
+	}
+	return bDate;	
+}
+//compare for hire day and termination
 
+function compareHireDayandTermination(hYYYY, hMM, hDD, tYYYY, tMM, tDD)
+{
+	bResult = false;
+	if(tYYYY - hYYYY >= 0)
+	{
+		if(tMM - hMM >= 0)
+		{
+			if(tDD - hDD >= 0)
+			{
+				bResult = true;
+			}
+		}
+	}
+	return bResult;
+	
+}
 //validation for salary
 function salaryValidation(value)
 {
