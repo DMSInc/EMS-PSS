@@ -77,8 +77,10 @@ function dateValidation(value)
 
 			if(yyyy < 1902 || yyyy > (new Date().getFullYear())) 
 			{
+			
 	          bDate = false;
 	        }
+			
 	        if (mm < 1 || mm > 12) 
 	        {
 	        	bDate = false;
@@ -99,10 +101,15 @@ function dateValidation(value)
 		{
 			bDate = false;	
 		}
+		if(!compareBirthdayAndHireDay(bYYYY, yyyy))
+		{
+			bDate = false;
+		}
 	}
 	return bDate;	
 }
 //validaiton for date of birth
+var bYYYY;
 function dateValidation(value)
 {
 	var bDate  = true;
@@ -120,7 +127,7 @@ function dateValidation(value)
 			var yyyy = parseInt(regs[0]);
 			var mm = parseInt(regs[1]);
 			var dd = parseInt(regs[2]);
-
+			bYYYY = yyyy;
 			if(yyyy < 1902 || yyyy > (new Date().getFullYear())) 
 			{
 	          bDate = false;
@@ -147,6 +154,20 @@ function dateValidation(value)
 		}
 	}
 	return bDate;	
+}
+
+//compare birthday with hire day
+
+funtion compareBirthdayAndHireDay(bYYYY, hYYYY)
+{
+	bResult = false;
+	if(hYYYY - bYYYY >= 18)
+	{
+		bResult = true;
+	}
+	
+	return bResult;
+	
 }
 //validaiton for date of termination
 
