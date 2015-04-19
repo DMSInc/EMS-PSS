@@ -221,15 +221,33 @@ funtion compareBirthdayAndHireDay(bYYYY, hYYYY)
 //validaiton for date of termination
 function terminationValidation(value)
 {
-	var bDate  = true;
+	var bDate  = false;
 	var dateReg = /^\d{4}-\d{2}-\d{2}$/;
-	
-	if(value == null || value == "")
+	if(userType == "A")
 	{
-		bDate = false;
+		
+		if(value != null && value != "" && value.match(dateReg) != null)
+		{
+			var regs = value.split("-");
+			var yyyy = parseInt(regs[0]);
+			var mm = parseInt(regs[1]);
+			var dd = parseInt(regs[2]);
+			bYYYY = yyyy;
+			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31 && compareHireDayandTermination(hYYYY, hMM, hDD, yyyy, mm, dd) == true)
+			{
+				if (mm == 2 && mm <=28)
+				{
+					bDate = true;
+				}
+			}
+		}
 	}
 	else
 	{
+		if(value == null || value == "" || value == "0" || value == "N/A") 
+		{
+			bDate = true;
+		}
 		if(value.match(dateReg) != null)
 		{
 			var regs = value.split("-");
@@ -237,36 +255,18 @@ function terminationValidation(value)
 			var mm = parseInt(regs[1]);
 			var dd = parseInt(regs[2]);
 			bYYYY = yyyy;
-			if(yyyy < 1902 || yyyy > (new Date().getFullYear())) 
+			
+			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31) 
 			{
-	          bDate = false;
-	        }
-	        if (mm < 1 || mm > 12) 
-	        {
-	        	bDate = false;
-	        }
-	        if (dd < 1 || dd > 31) 
-	        {
-	        	bDate = false;
-	        }
-	        else
-	        {
-	        	if(mm == 2 && dd > 28)
-	        	{
-	        		bDate = false;
-	        	}
-	        }				
-		}
-		else
-		{
-			bDate = false;	
-		}
-		if(!compareHireDayandTermination(hYYYY, hMM, hDD, yyyy, mm, dd))
-		{
-			bDate = false;
+				if(mm == 2 && mm <= 28)
+				{
+					bDate = true;
+				}
+				
+			}
 		}
 	}
-	return bDate;	
+	return bDate;
 }
 //compare for hire day and termination
 
