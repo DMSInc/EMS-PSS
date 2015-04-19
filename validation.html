@@ -96,16 +96,12 @@ var hMM;
 var hDD;
 function hireValidation(value)
 {
-	var bDate  = true;
+	var bDate  = false;
 	var dateReg = /^\d{4}-\d{2}-\d{2}$/;
 	
-	if(value == null || value == "")
+	if(userType == "A")
 	{
-		bDate = false;
-	}
-	else
-	{
-		if(value.match(dateReg) != null)
+		if(value != null && value != "" && value.match(dateReg) != null)
 		{
 			var regs = value.split("-");
 			var yyyy = parseInt(regs[0]);
@@ -114,39 +110,40 @@ function hireValidation(value)
 			hYYYY = yyyy;
 			hMM = mm;
 			hDD = dd;
-
-			if(yyyy < 1902 || yyyy > (new Date().getFullYear())) 
+			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31 && compareBirthdayAndHireDay(bYYYY, yyyy) == true)
 			{
-			
-	          bDate = false;
-	        }
-			
-	        if (mm < 1 || mm > 12) 
-	        {
-	        	bDate = false;
-	        }
-	        if (dd < 1 || dd > 31) 
-	        {
-	        	bDate = false;
-	        }
-	        else
-	        {
-	        	if(mm == 2 && dd > 28)
-	        	{
-	        		bDate = false;
-	        	}
-	        }				
-		}
-		else
-		{
-			bDate = false;	
-		}
-		if(!compareBirthdayAndHireDay(bYYYY, yyyy))
-		{
-			bDate = false;
+				if(mm == 2 && mm <= 28)
+				{
+					bDate = true;
+				}
+			}
 		}
 	}
-	return bDate;	
+	else
+	{
+		if(value == null || value == "" || value == "0") 
+		{
+			bDate = true;
+		}
+		if(value.match(dateReg) != null)
+		{
+			var regs = value.split("-");
+			var yyyy = parseInt(regs[0]);
+			var mm = parseInt(regs[1]);
+			var dd = parseInt(regs[2]);
+			bYYYY = yyyy;
+			
+			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31) 
+			{
+				if(mm == 2 && mm <= 28)
+				{
+					bDate = true;
+				}
+				
+			}
+		}
+	}
+	return bDate;
 }
 //validaiton for date of birth
 var bYYYY;
