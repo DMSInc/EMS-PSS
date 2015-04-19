@@ -41,9 +41,9 @@ session_start();
 #middleDivGen{
     position: absolute;
     top: 15%;
-    left: 20%;
+    left: 23%;
     height: 6%;
-    width: 60%;
+    width: 75%;
     visibility:hidden;
 }
 #appLabel{
@@ -65,7 +65,7 @@ session_start();
     color: black;
     height: 100%;
     top: 0%;
-    width: 20%;
+    width: 25%;
 }        
 #empMaintainence{
     position: absolute;
@@ -89,11 +89,11 @@ session_start();
 }
 #empReportsBtnGen{
     position: absolute;
-    left: 20%;
+    left: 25%;
 }
 #searchBtnGen{
     position: absolute;
-    left: 40%;
+    left: 50%;
 }        
 #addEmp{
     position:absolute;
@@ -174,6 +174,17 @@ session_start();
     color: white;
     visibility: hidden;
 }
+/*
+#myDiv{
+position:absolute;
+    left:22%;
+    top:10%;
+    height:40%;
+    width:30%;
+    visibility:hidden;
+    background-color:white;
+}
+*/
 #seniorityReportGen{
     position:absolute;
     top: 25%;
@@ -245,9 +256,19 @@ session_start();
     background-color:#E6E6E6 ;
     opacity: 0;
 }
+#myDiv{
+    position: absolute;
+    left: 32%;
+    top: 10%;
+    height: 70%;
+    width: 40%;
+    overflow-y:scroll;
+    background-color:#E6E6E6 ;
+    visibility:hidden;
+}
 .timeCardLabel{
     position:absolute;
-    left:20%;
+    left:10%;
 }
 
 .seasonalTimeCardLabel{
@@ -284,7 +305,7 @@ top:90%;
 }
 .timeCardText{
 position:absolute;
-    left:45%;
+    left:35%;
 }   
 .timeCardTextS{
 position:absolute;
@@ -811,6 +832,7 @@ var userType="";
 var employeeType="";
 var genUserEmpType="";
 var userAction = "maintainence";
+var genUserAction="maintainence";
     
    $(document).ready(function () {
     userType="<?php echo $_SESSION["userType"]; ?>";
@@ -1058,6 +1080,7 @@ function addEmpDivsAdmin()
     //if its the first choice
     if(maintaineneceType=="")
     {
+        alert("nnnn");
         document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
         $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
         document.getElementById("addEmployeeLabelAdmin").innerHTML="Add Employee Admin";
@@ -1236,118 +1259,25 @@ function timeCardDivs()
     maintaineneceType = "timeCardEmp";
 }
     
-//    
-//function timeCardDivsAdmin()
-//{
-//    
-//    if(maintaineneceType=="")
-//    {
-//        document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
-//        $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);   
-//        document.getElementById("addEmployeeLabelAdmin").innerHTML="Time Card Admin";
-//    }
-//    else
-//    {
-//        //if going back and forth in add emp meny only
-//        if(maintaineneceType==="timeCardEmp")
-//        {
-//        }
-//         //last button pressed was time card button
-//        else
-//        {
-//            if(maintaineneceType==="addEmployee")
-//            {
-//                hideAdminAddEmpForm();
-//            }
-//            else
-//            {
-//                if(maintaineneceType==="modifyEmployee")
-//                {
-//                    hideAdminModifyForm();
-//                }
-//                else
-//                {
-//                    if(maintaineneceType==="deleteEmployee")
-//                    {
-//                        hideAdminDeleteForm();
-//                    }
-//                }
-//            }
-//        }     
-//    }
-//    // document.getElementById("addEmployeeLabelAdmin").innerHTML="Time Card Admin";
-//    maintaineneceType = "timeCardEmp";
-//}
-    
 function  makeUpJson(key,keyValue,prefix)
-	{
-		var result="";
-		
-		prefix = typeof prefix =='undefined' ? false : true;
-		
-		if(!prefix)
-		{
-			result="&";
-		}
-		
-		var myObjectString = JSON.stringify(keyValue);
-	
-		result += key;
-		result +="=";
-		result += myObjectString;
-		return result;
-	}    
-	    
+{
+    var result="";
 
-function submitAdminFullTimeEmp()
+    prefix = typeof prefix =='undefined' ? false : true;
+
+    if(!prefix)
     {
-       //start the validation
-        
-        //if no errors then goto this page
-        //location.href = "Database.php";
-		
-		var value = "addEmployee";
-		var sendData = "";
-	
-		sendData += makeUpJson("q",{"q":value},true);
-		
-		sendData += makeUpJson("UT",{"UT":"A"});
-		
-		sendData += makeUpJson("ET",{"ET":"FT"});
-		
-		sendData += makeUpJson("FN",{"FN":"Xiaodong"});
-		
-		sendData += makeUpJson("LN",{"LN":"Meng"});
-		
-		sendData += makeUpJson("CM",{"CM":"Conestoga"});
-		
-		sendData += makeUpJson("SIN",{"SIN":"123456789"});
-		
-		sendData += makeUpJson("DOB",{"DOB":"19990909"});
-		
-		sendData += makeUpJson("DOH",{"DOH":"20000909"});
-		
-		sendData += makeUpJson("DOT",{"DOT":"20101010"});
-		
-		sendData += makeUpJson("Salary",{"Salary":"90000"});
-		
-	alert(sendData);
-	 $.ajax({url: "Database.php",
-							type: "GET",
-							async:true,
-							data : sendData,
-							success:function(result)
-							{
-							
-								alert(result);
-							},
-							 error: function( objRequest )
-							 {
-								alert(objRequest);
-							 }
-							
-							});
-    }    
+        result="&";
+    }
+
+    var myObjectString = JSON.stringify(keyValue);
+
+    result += key;
+    result +="=";
+    result += myObjectString;
+    return result;
+}    
+	      
     
 //Admin user wants to add an employee
   $(document).ready(function () {
@@ -1428,7 +1358,7 @@ $(document).ready(function () {
             }
         }
         //clear the previous form data
-       clearEmpForm();
+        
     });
 });
    
@@ -1480,7 +1410,7 @@ $(document).ready(function () {
             }
         }
         //clear the previous form data
-       clearEmpForm();
+        
     });
 });
    
@@ -1514,7 +1444,7 @@ $(document).ready(function () {
             }
         }
     //clear the previous form data
-     clearEmpForm();
+      
     });
 });
     
@@ -1543,7 +1473,7 @@ $(document).ready(function () {
             }
         }
     //clear the previous form data
-     clearEmpForm();
+      
     });
 });
     
@@ -1576,7 +1506,7 @@ $(document).ready(function () {
         }
         
     //clear the previous form data
-    clearEmpForm();
+     
     document.getElementById("seasonYearText").value = "";
     document.getElementById("seasonTypeDD").value = "winter"; 
     });
@@ -1609,7 +1539,7 @@ $(document).ready(function () {
         }
         
     //clear the previous form data
-    clearEmpForm();
+     
     document.getElementById("seasonYearText").value = "";
     document.getElementById("seasonTypeDD").value = "winter"; 
     });
@@ -1641,14 +1571,19 @@ $(document).ready(function () {
         }
 
     //clear the previous form data
-    clearEmpForm();
+     
     document.getElementById("seasonYearText").value = "";
     document.getElementById("seasonTypeDD").value = "winter"; 
     });
 });
     
     
-
+  $(document).ready(function () {
+    "use strict";
+    $("#activeEmpReportAdmin").click(function () {
+        //saveFileContent();
+            });
+  });
     
 //go back to employee type div, to select employee type.    
 $(document).ready(function () {
@@ -1659,11 +1594,24 @@ $(document).ready(function () {
         document.getElementById("genUserAddingEmp").style.visibility = "hidden";
         document.getElementById("selectEmpTypeDivForGenUser").style.visibility = "visible";
         $("#selectEmpTypeDivForGenUser").fadeTo(1000, 1);
+        //clear all fields of employee form
+        clearAllFields();
+        emptyAllSpanValues();
         });
     });
 });
     
-    
+function clearAllFields()
+{
+    document.getElementById("fnameText").value = "";
+     document.getElementById("lnameText").value = "";
+     document.getElementById("compText").value = "";
+     document.getElementById("sinText").value = "";
+     document.getElementById("dobText").value = "";
+     document.getElementById("dohText").value = "";
+     document.getElementById("seasonYearText").value = "";
+     document.getElementById("seasonTypeDD").value = "winter";
+}
 $(document).ready(function () {
     "use strict";
     $("#goBackTimeCard").click(function () {
@@ -1673,20 +1621,10 @@ $(document).ready(function () {
             document.getElementById("gentimeCardFTPT").style.visibility = "hidden";
             document.getElementById("selectEmpTypeDivForGenUser").style.visibility = "visible";
             $("#selectEmpTypeDivForGenUser").fadeTo(1000, 1);
+                emptyAllTCSpanValues();
             });
+            
         }
-//        else
-//        {
-//            if(document.getElementById("gentimeCardS").style.visibility == "visible")
-//            {
-//                alert("sdfsd");
-//                $("#gentimeCardS").fadeTo(1000, 0, function () {
-//                document.getElementById("gentimeCardS").style.visibility = "hidden";
-//                document.getElementById("selectEmpTypeDivForGenUser").style.visibility = "visible";
-//                $("#selectEmpTypeDivForGenUser").fadeTo(1000, 1);
-//                });
-//            }
-//        }
     });
 });
     
@@ -1736,18 +1674,7 @@ $(document).ready(function () {
     });
 });
     
-    
-//$(document).ready(function () {
-//    "use strict";
-//    $("#cancelImageTimeCardAdmin").click(function () {
-//        $("#adminUserTimeCard").fadeTo(1000, 0, function () {
-//            document.getElementById("adminUserTimeCard").style.visibility = "hidden";
-//        });
-//    });
-//});
-    
 
-  
 $(document).ready(function () {
     "use strict";
     $("#empMaintainence").click(function () {
@@ -1861,8 +1788,107 @@ $(document).ready(function () {
         $("#searchDiv").fadeTo(1000, 1);
     });
 });     
-    
 
+    
+$(document).ready(function () {
+    "use strict";
+    $("#empReportsBtnGen").click(function (){
+        if(genUserAction == "maintainence")
+        {
+            hideMaintainenceBtnsGen();
+        }
+         genUserAction="reports";
+        showEmpReportsBtnsGen();
+        hideAllGenForms();
+    });
+   
+});
+    
+    
+ $(document).ready(function () {
+    "use strict";
+    $("#empMaintainenceGen").click(function (){
+        if(genUserAction == "reports")
+        {
+            hideReportsBtnsGen();
+        }
+        genUserAction="maintainence";
+        showMaintainenceBtnsGen();
+        hideAllGenForms();
+    });
+});
+    
+ $(document).ready(function () {
+    "use strict";
+    $("#seniorityReportGen").click(function (){    
+       saveFileContent(); 
+    });
+ });
+    
+    
+function hideAllGenForms()
+{
+    maintaineneceType="";
+    if( document.getElementById("myDiv").style.visibility == "visible")
+    {
+        $("#myDiv").fadeTo(1000, 0, function () {
+            document.getElementById("myDiv").style.visibility = "hidden";
+        });   
+    }
+    if( document.getElementById("genUserAddingEmp").style.visibility == "visible")
+    {
+        $("#genUserAddingEmp").fadeTo(1000, 0, function () {
+            document.getElementById("genUserAddingEmp").style.visibility = "hidden";
+        });   
+    }
+    if( document.getElementById("selectEmpTypeDivForGenUser").style.visibility == "visible")
+    {
+        $("#selectEmpTypeDivForGenUser").fadeTo(1000, 0, function () {
+            document.getElementById("selectEmpTypeDivForGenUser").style.visibility = "hidden";
+        });   
+    }
+}
+    
+ $(document).ready(function () {
+    "use strict";
+    $("#searchBtnGen").click(function (){
+        alert("fsfsf");
+    });
+});
+function showEmpReportsBtnsGen()
+{
+    document.getElementById("seniorityReportGen").style.visibility = "visible";
+    document.getElementById("weeklyHoursReportGen").style.visibility = "visible";
+    $("#seniorityReportGen").animate(
+        {
+            width: "15%"
+        },
+        "slow"
+    );
+    $("#weeklyHoursReportGen").animate(
+        {
+            width: "15%"
+        },
+        "slow"
+    );  
+}
+function showMaintainenceBtnsGen()
+{
+    document.getElementById("addEmp").style.visibility = "visible";
+    document.getElementById("timeCardEmp").style.visibility = "visible";
+    $("#addEmp").animate(
+        {
+            width: "15%"
+        },
+        "slow"
+    );
+    $("#timeCardEmp").animate(
+        {
+            width: "15%"
+        },
+        "slow"
+    );  
+}    
 function showReportsButtons()
 {
     document.getElementById("activeEmpReportAdmin").style.visibility = "visible";
@@ -1926,12 +1952,6 @@ function showMaintainenceButtons()
         },
         "slow"
     );
-//     $("#timeCardEmpAdminUser").animate(
-//        {
-//            width: "15%"
-//        },
-//        "slow"
-//    );
 }
 
 function showAdminSystemButtons()
@@ -1959,6 +1979,57 @@ function showAdminSystemButtons()
         "slow"
     );
 }
+    
+function hideMaintainenceBtnsGen()
+{
+    // check which div is visible
+    if( document.getElementById("addEmp").style.visibility == "visible")
+    {
+        $("#addEmp").animate(
+            {
+                width: "0%"
+            },
+            600,
+            function () {
+                document.getElementById("addEmp").style.visibility = "hidden";
+            }
+        );
+       $("#timeCardEmp").animate(
+        {
+            width: "0%"
+        },
+        600,
+        function () {
+            document.getElementById("timeCardEmp").style.visibility = "hidden";
+        });
+    }
+}
+    
+function hideReportsBtnsGen()
+{
+    // check which div is visible
+    if( document.getElementById("seniorityReportGen").style.visibility == "visible")
+    {
+        $("#seniorityReportGen").animate(
+            {
+                width: "0%"
+            },
+            600,
+            function () {
+                document.getElementById("seniorityReportGen").style.visibility = "hidden";
+            });
+       $("#weeklyHoursReportGen").animate(
+            {
+                width: "0%"
+            },
+            600,
+            function () {
+                document.getElementById("weeklyHoursReportGen").style.visibility = "hidden";
+            });
+    }    
+}
+    
+    
 function hideReportsButton()
 {
       // check which div is visible
@@ -2010,6 +2081,8 @@ function hideReportsButton()
     }
 }
 
+
+    
 function hideMaintaineneceButtons()
 {
     // check which div is visible
@@ -2041,14 +2114,6 @@ function hideMaintaineneceButtons()
             function () {
                 document.getElementById("delEmp").style.visibility = "hidden";
         });
-//       $("#timeCardEmpAdminUser").animate(
-//            {
-//                width: "0%"
-//            },
-//            600,
-//            function () {
-//                document.getElementById("timeCardEmpAdminUser").style.visibility = "hidden";
-//        });
     }
 }
     
@@ -2122,12 +2187,6 @@ function hideAllAdminForms()
             document.getElementById("adminUserAddingCEmp").style.visibility = "hidden";
         });
     }
-//    if(document.getElementById("adminUserTimeCard").style.visibility == "visible")
-//    {
-//        $("#adminUserTimeCard").fadeTo(1000, 0, function () {
-//            document.getElementById("adminUserTimeCard").style.visibility = "hidden";
-//        });
-//    }
     if(document.getElementById("adminUserDeleteEmp").style.visibility == "visible")
     {
         $("#adminUserDeleteEmp").fadeTo(1000, 0, function () {
@@ -2256,44 +2315,609 @@ function submitAdminSeasonEmp()
 }
 function submitTimeCardForFTPT()
 {
-    alert("submit time card for ft and pt");
-}
-function submitTimeCardForS()
-{
-    alert("submit time card for seasonal");
-}
-function submitGenEmp()
-{
+    
+    emptyAllTCSpanValues();
+  
+    //check the validation
     if(genUserEmpType=="FT")
     {
-        alert("full time");
+        if(validateTCFromFTPT()=="true")
+        {
+              alert("erro");
+            //alert("all validation");
+            createJSONObjectTimeCardGen("enterTimeCard","FT");
+        }
+        alert("sdfdfffsf");
+    }
+    if(genUserEmpType=="PT")
+    {
+        if(validateTCFromFTPT()=="true")
+        {
+              alert("erro");
+            //alert("all validation");
+            createJSONObjectTimeCardGen("enterTimeCard","PT");
+        }
+    }
+}
+
+function submitTimeCardForS()
+{
+}
+    
+function validateGenAddForm(seasonal)
+{
+    var boolToSubmit = "true";
+
+    if(!checkFname(document.getElementById("fnameText").value))
+    {
+        //show error message
+        document.getElementById("fnameGenSpan").innerHTML = "*Invalid Data";
+        boolToSubmit="false";
+    } 
+if(!checkLname(document.getElementById("lnameText").value))
+    {
+        //show error message
+        document.getElementById("lnameGenSpan").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkCompany(document.getElementById("compText").value))
+    {
+        //show error message
+        document.getElementById("companyGenSpan").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkFname(document.getElementById("sinText").value))
+    {
+        //show error message
+        document.getElementById("sinGenSpan").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkDateOfBirth(document.getElementById("dobText").value))
+    {
+        //show error message
+        document.getElementById("dobGenSpan").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkDateOfHire(document.getElementById("dohText").value))
+    {
+        //show error message
+        document.getElementById("dohGenSpan").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(seasonal=="true")
+    {
+        if(!checkSeasonYear(document.getElementById("seasonYearText").value))
+        {
+            //show error message
+            document.getElementById("seasonYearGenSpan").innerHTML = "*Invalid Data";
+             boolToSubmit="false";
+        }
+    }
+    return boolToSubmit;
+}
+
+function validateTCFromFTPT()
+{
+    var boolToSubmit="true";
+    if(!checkHours(document.getElementById("sinTextGenTC").value))
+    {
+        //show error message
+        document.getElementById("sinTCGenSpan").innerHTML = "*Invalid Data";
+        boolToSubmit="false";
+    } 
+    if(!checkCompany(document.getElementById("companyTextGenTC").value))
+    {
+        //show error message
+        document.getElementById("compTCGenSpan").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkHours(document.getElementById("monTextTC").value))
+    {
+        //show error message
+        document.getElementById("monGenSpan").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkHours(document.getElementById("tueTextTC").value))
+    {
+        //show error message
+        document.getElementById("tueGenSpan").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkHours(document.getElementById("wedTextTC").value))
+    {
+        //show error message
+        document.getElementById("wedGenSpan").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkHours(document.getElementById("thurTextTC").value))
+    {
+        //show error message
+        document.getElementById("thurGenSpan").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    }
+     if(!checkHours(document.getElementById("friTextTC").value))
+    {
+        //show error message
+        document.getElementById("friGenSpan").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+     if(!checkHours(document.getElementById("satTextTC").value))
+    {
+        //show error message
+        document.getElementById("satGenSpan").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+     if(!checkHours(document.getElementById("sunTextTC").value))
+    {
+        //show error message
+        document.getElementById("sunGenSpan").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    return boolToSubmit;
+}    
+function submitGenEmp()
+{
+    //var boolToSubmit="true";
+    
+    //empty all spans
+    emptyAllSpanValues();
+    
+    if(genUserEmpType=="FT")
+    {
+        //check whether all validation succeeded or not
+        if(validateGenAddForm("false") =="true")
+        {
+            //create a json object 
+            createJSONObjectAddEmp("addEmployee",genUserEmpType,"G");
+        }
     }
     else
     {
         if(genUserEmpType=="PT")
         {
-            alert("part time");
+            //check whether all validation succeeded or not
+            if(validateGenAddForm("false") =="true")
+            {
+                //create a json object 
+                createJSONObjectAddEmp("addEmployee",genUserEmpType,"G");
+            }
         }
         else
         {
             if(genUserEmpType=="ST")
             {
-                alert("seasonal time");
+               //check whether all validation succeeded or not
+                if(validateGenAddForm("true") =="true")
+                {
+                    alert("done");
+                    //create a json object 
+                    createJSONObjectAddEmp("addEmployee",genUserEmpType,"G");
+                } 
             }
         }
     }
+   
 }
+function emptyAllSpanValues()
+{
+        document.getElementById("fnameGenSpan").innerHTML = "";
+        document.getElementById("lnameGenSpan").innerHTML = "";
+        document.getElementById("companyGenSpan").innerHTML = "";
+        document.getElementById("sinGenSpan").innerHTML = "";
+        document.getElementById("dobGenSpan").innerHTML = "";
+        document.getElementById("dohGenSpan").innerHTML = "";
+        document.getElementById("seasonYearGenSpan").innerHTML = "";
+}
+function emptyAllTCSpanValues()
+{
+        document.getElementById("sinTCGenSpan").innerHTML = "";
+        document.getElementById("compTCGenSpan").innerHTML = "";
+        document.getElementById("monGenSpan").innerHTML = "";
+        document.getElementById("tueGenSpan").innerHTML = "";
+        document.getElementById("wedGenSpan").innerHTML = "";
+        document.getElementById("thurGenSpan").innerHTML = "";
+        document.getElementById("friGenSpan").innerHTML = "";
+        document.getElementById("satGenSpan").innerHTML = "";
+        document.getElementById("sunGenSpan").innerHTML = "";
+}
+function createJSONObjectAddEmp(userAction,empType,userType)
+{
+		var sendData = "";
+    var fname = document.getElementById("fnameText").value;
+     var lname = document.getElementById("lnameText").value;
+     var company = document.getElementById("compText").value;
+     var sin = document.getElementById("sinText").value;
+     var dob = document.getElementById("dobText").value;
+     var doh = document.getElementById("dohText").value;
+		sendData += makeUpJson("q",{"q":userAction},true);
+		
+		sendData += makeUpJson("UT",{"UT":userType});
+		
+		sendData += makeUpJson("ET",{"ET":empType});
+		
+		sendData += makeUpJson("FN",{"FN":fname});
+		
+		sendData += makeUpJson("LN",{"LN":lname});
+		
+		sendData += makeUpJson("CM",{"CM":company});
+		
+		sendData += makeUpJson("SIN",{"SIN":sin});
+		
+		sendData += makeUpJson("DOB",{"DOB":dob});
+		
+		sendData += makeUpJson("DOH",{"DOH":doh});
+		
+		sendData += makeUpJson("DOT",{"DOT":"20101010"});
+		
+		sendData += makeUpJson("Salary",{"Salary":"90000"});
+		
+	//alert(sendData);
+	 $.ajax({url: "Database.php",
+							type: "GET",
+							async:true,
+							data : sendData,
+							success:function(result)
+							{
+							
+								alert(result);
+							},
+							 error: function( objRequest )
+							 {
+								alert(objRequest);
+							 }
+							
+							});
+}
+    
+    
+function createJSONObjectTimeCardGen(userAction,empType)
+{
+   // alert("submit time card for ft and pt");
+	 
+		//var value = "enterTimeCard";
+		var sendData = "";
+	    var sin = document.getElementById("sinTextGenTC").value;
+        var comp = document.getElementById("companyTextGenTC").value;
+        var mon = document.getElementById("monTextGenTC").value;
+        var tue = document.getElementById("tueTextGenTC").value;
+        var wed = document.getElementById("wedTextGenTC").value;
+        var thur = document.getElementById("thurTextGenTC").value; 
+        var fri = document.getElementById("friTextGenTC").value;
+        var sat = document.getElementById("satTextGenTC").value;
+        var sun = document.getElementById("sunTextGenTC").value; 
+    
+		sendData += makeUpJson("q",{"q":userAction},true);
+        sendData += makeUpJson("ET",{"ET":empType});
+		sendData += makeUpJson("SIN",{"SIN":sin});
+		
+		sendData += makeUpJson("CM",{"CM":comp});
+		sendData += makeUpJson("MH",{"MH":mon});
+		sendData += makeUpJson("TH",{"TH":tue});
+		
+		sendData += makeUpJson("WH",{"WH":wed});
+		
+		sendData += makeUpJson("THH",{"THH":thur});
+		
+		sendData += makeUpJson("FH",{"FH":fri});
+		
+		sendData += makeUpJson("SAH",{"SAH":sat});
+		
+		sendData += makeUpJson("SUNH",{"SUNH":sun});
+        
+       // var sum = sumAllPeices();
+    
+        //sendData += makeUpJson("WA",{"WA":sun});
+		
+	   $.ajax({url: "Database.php",
+							type: "GET",
+							async:true,
+							data : sendData,
+							success:function(result)
+							{
+							alert(result);
+								var values = [];
+								values = makeItAnObject(result);
+								var len= values.length;
+								for(var i = 0; i< len; i++)
+								{
+									//alert(values[i]);
+								}
+							},
+							 error: function( objRequest )
+							 {
+								alert(objRequest);
+							 }
+							
+							});
+}    
+    
 function goBackTimeCardS()
-    {
-         if(document.getElementById("gentimeCardS").style.visibility == "visible")
+{
+     if(document.getElementById("gentimeCardS").style.visibility == "visible")
+        {
+            $("#gentimeCardS").fadeTo(1000, 0, function () {
+            document.getElementById("gentimeCardS").style.visibility = "hidden";
+            document.getElementById("selectEmpTypeDivForGenUser").style.visibility = "visible";
+            $("#selectEmpTypeDivForGenUser").fadeTo(1000, 1);
+            });
+        }
+}
+    
+    
+function checkFname(inputValue)
+{
+
+	var bName = true;
+	var patt = /^[a-zA-Z'.]{1,40}$/;
+	var nameCheck = inputValue;
+
+	if(nameCheck == null || nameCheck == "")
+	{
+		bName = false;
+	}
+	else
+	{
+		if(inputValue.match(patt) == null)
+		{
+			bName = false;
+		}
+	}
+	return bName;
+}  
+    
+//validation for last name
+function checkLname(inputValue)
+{
+
+	var bName = true;
+	var patt = /^[a-zA-Z'.]{1,40}$/;
+	var nameCheck = inputValue;
+
+	if(nameCheck == null || nameCheck == "")
+	{
+		bName = false;
+	}
+	else
+	{
+		if(inputValue.match(patt) == null)
+		{
+			bName = false;
+		}
+	}
+	return bName;
+}    
+//validation for comapny
+function checkCompany(inputValue)
+{
+
+	var bCompany = true;
+	var companyCheck = inputValue;
+
+	if(companyCheck == null || companyCheck == "")
+	{
+		bCompany = false;
+	}
+	return bCompany;
+}   
+    
+//validaiton for date of birth
+function checkDateOfBirth(value)
+{
+	var bDate  = true;
+	var dateReg = /^\d{4}-\d{2}-\d{2}$/;
+	
+	if(value == null || value == "")
+	{
+		bDate = false;
+	}
+	else
+	{
+		if(value.match(dateReg) != null)
+		{
+			var regs = value.split("-");
+			var yyyy = parseInt(regs[0]);
+			var mm = parseInt(regs[1]);
+			var dd = parseInt(regs[2]);
+
+			if(yyyy < 1902 || yyyy > (new Date().getFullYear())) 
+			{
+	          bDate = false;
+	        }
+	        if (mm < 1 || mm > 12) 
+	        {
+	        	bDate = false;
+	        }
+	        if (dd < 1 || dd > 31) 
+	        {
+	        	bDate = false;
+	        }
+	        else
+	        {
+	        	if(mm == 2 && dd > 28)
+	        	{
+	        		bDate = false;
+	        	}
+	        }				
+		}
+		else
+		{
+			bDate = false;	
+		}
+	}
+	return bDate;	
+}
+//validation for date of hire
+function checkDateOfHire(value)
+{
+	var bDate  = true;
+	var dateReg = /^\d{4}-\d{2}-\d{2}$/;
+	
+	if(value == null || value == "")
+	{
+		bDate = false;
+	}
+	else
+	{
+		if(value.match(dateReg) != null)
+		{
+			var regs = value.split("-");
+			var yyyy = parseInt(regs[0]);
+			var mm = parseInt(regs[1]);
+			var dd = parseInt(regs[2]);
+
+			if(yyyy < 1902 || yyyy > (new Date().getFullYear())) 
+			{
+	          bDate = false;
+	        }
+	        if (mm < 1 || mm > 12) 
+	        {
+	        	bDate = false;
+	        }
+	        if (dd < 1 || dd > 31) 
+	        {
+	        	bDate = false;
+	        }
+	        else
+	        {
+	        	if(mm == 2 && dd > 28)
+	        	{
+	        		bDate = false;
+	        	}
+	        }				
+		}
+		else
+		{
+			bDate = false;	
+		}
+	}
+	return bDate;	
+}
+//validaiton for season year
+function checkSeasonYear(value)
+{
+	var bSeasonYear = true;
+	var yearReg = /^\d{4}$/;
+
+	if(value == null || value == "")
+	{
+		bSeasonYear = false;
+	}
+	else
+	{
+		if(value.match(yearReg) != null)
+		{
+			var yyyy = parseInt(value);
+			if(yyyy < 1902 || yyyy > (new Date().getFullYear())) 
+			{
+				bSeasonYear = false;
+			}
+		}
+		else
+		{
+			bSeasonYear = false;
+		}
+	}
+
+	return bSeasonYear;
+}
+//validation for hour
+function checkHours(value)
+{
+	var hourReg = /^\d*(?:\.\d{1,2})?$/;
+	var bResult = true;
+	if(value == null || value == "")
+	{
+		bResult = false;
+	}
+	else
+	{
+		if(value.match(hourReg) != null)
+		{
+
+			var hour = parseFloat(value);
+			if(hour == 0.00 || hour >= 24.01)
+			{
+				bResult = false;
+			}
+			
+		}
+		else
+		{
+			bResult = false;
+		}
+	}
+	return bResult;
+}
+    	function saveFileContent()
+	{	
+		//saveType="onlySave";
+		//document.getElementById("spn1").innerHTML="";
+//		if(whichButton=="")
+//		{	
+//			document.getElementById("newFileName").style.display="inline";
+//			document.getElementById("myNewFileLabel").style.display="inline";
+//			document.getElementById("saveFile").disabled=true;
+//			document.getElementById("saveFileAs").disabled=true;
+//			document.getElementById("saveAgain").style.display="inline";	
+//		}
+//		else
+//		{
+//			var contents=document.getElementById("editArea").value;	
+//			var fname=document.getElementById("dropDown").value;
+//			if(fname==" "||fname==null)
+//			{
+//				
+//				document.getElementById("spn3").innerHTML="*Required";
+//				document.getElementById("spn3").style.display="inline";
+//			}
+//			else
+//			{
+//				if(fname=="")
+//				{	
+//					//if MyFiles directory is empty.
+//					document.getElementById("newFileName").style.display="inline";
+//					document.getElementById("myNewFileLabel").style.display="inline";
+//					document.getElementById("saveAgain").style.display="inline";
+//				}
+//				else
+//				{
+					if (window.XMLHttpRequest)	
+					{
+					  // code for IE7+, Firefox, Chrome, Opera, SafariCreate
+					  xmlhttp=new XMLHttpRequest();
+					}
+					else
+					{
+					  // code for IE6, IE5
+					  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+					}
+					xmlhttp.onreadystatechange=sampleCallBack;
+					xmlhttp.open("GET","Database.php",true);
+					xmlhttp.send(null);
+				//}
+			//}
+		//}
+	}
+    
+    function sampleCallBack()
+	{
+		if(xmlhttp.readyState==4)
+		{
+            alert(xmlhttp.responseText);
+            if(document.getElementById("myDiv").style.visibility == "visible")
             {
-                $("#gentimeCardS").fadeTo(1000, 0, function () {
-                document.getElementById("gentimeCardS").style.visibility = "hidden";
-                document.getElementById("selectEmpTypeDivForGenUser").style.visibility = "visible";
-                $("#selectEmpTypeDivForGenUser").fadeTo(1000, 1);
-                });
+                alert("visible");
             }
-    }
+            else
+            {
+              document.getElementById("myDiv").style.visibility = "visible";  
+                alert("else");
+            }
+            
+		  document.getElementById("myDiv").innerHTML = xmlhttp.responseText;
+		 // document.getElementById("myDiv").style.display = "block";
+		}
+	}
 </script>
 </head>
 <body>
@@ -2348,14 +2972,14 @@ function goBackTimeCardS()
       
           <div id="genUserAddingEmp" class="centerDiv">
                <form class="adminAddEmpForm">
-                    <label id="fnameLabel" class="fnameL">First Name</label><input type="text" id="fnameText" name="fnameTextG" class="fname"/>
-                    <label id="lnameLabel" class="lnameL">Last Name</label><input type="text" id="lnameText"  name="lnameTextG" class="lname"/>
-                    <label id="companyLabel" class="companyL">Company</label><input type="text" id="compText"  name="compTextG" class="company"/>
-                    <label id="sinLabel" class="sinL">SIN</label><input type="text" id="sinText" class="sin" name="sinTextG" />
-                    <label id="dobLabel" class="dobL">Date OF Birth</label><input type="text" id="dobText" class="dob" name="dobTextG" />
+                    <label id="fnameLabel" class="fnameL">First Name</label><input type="text" id="fnameText" name="fnameTextG" class="fname"/><span style="position:absolute; top:10%; left:70%;" id="fnameGenSpan"></span>
+                    <label id="lnameLabel" class="lnameL">Last Name</label><input type="text" id="lnameText"  name="lnameTextG" class="lname"/><span style="position:absolute; top:20%; left:70%;" id="lnameGenSpan"></span>
+                    <label id="companyLabel" class="companyL">Company</label><input type="text" id="compText"  name="compTextG" class="company"/><span style="position:absolute; top:30%; left:70%;" id="companyGenSpan"></span>
+                    <label id="sinLabel" class="sinL">SIN</label><input type="text" id="sinText" class="sin" name="sinTextG" /><span style="position:absolute; top:40%; left:70%;" id="sinGenSpan"></span>
+                    <label id="dobLabel" class="dobL">Date OF Birth</label><input type="text" id="dobText" class="dob" name="dobTextG" /><span style="position:absolute; top:50%; left:70%;" id="dobGenSpan"></span>
                     <label id="dohLabel" class="dohL">Date Of Hire</label><input type="text" id="dohText" class="doh" name="dohTextG" />
-                   
-                    <label id="seasonYearLabel" class="seasonyearL">Season Year</label><input type="text" id="seasonYearText" class="seasonyear" name="seasonYearTextG" />
+                   <span style="position:absolute; top:60%; left:70%;" id="dohGenSpan"></span>
+                    <label id="seasonYearLabel" class="seasonyearL">Season Year</label><input type="text" id="seasonYearText" class="seasonyear" name="seasonYearTextG" /> <span style="position:absolute; top:70%; left:70%;" id="seasonYearGenSpan"></span>
                     <label id="seasonTypeLabel" class="seasonLGen">Season</label>
                       <select id="seasonTypeDD" class="seasonTypeGen" name="seasonTypeDDG">
                         <option value="winter">Winter</option>
@@ -2454,15 +3078,15 @@ function goBackTimeCardS()
           </div>
       
           <div id="gentimeCardFTPT" class="centerDiv">
-            <label id="sinLabelTC" class="timeCardLabel">SIN</label><input type="text" id="sinTextGenTC" class="timeCardText" name="sinTextGen">
-            <label id="compLabelTC" class="timeCardLabel">Company Name</label><input type="text" id="companyTextGenTC" class="timeCardText" name="companyTextGen">
-            <label id="monLabelTC" class="timeCardLabel">Monday</label><input type="text" id="monTextTC" class="timeCardText" name="monText">
-            <label id="tueLabelTC" class="timeCardLabel">Tuesday</label><input type="text" id="tueTextTC" class="timeCardText" name="tueText">
-            <label id="wedLabelTC" class="timeCardLabel">Wednesday</label><input type="text" id="wedTextTC" class="timeCardText" name="wedText">
-            <label id="thurLabelTC" class="timeCardLabel">Thursday</label><input type="text" id="thurTextTC" class="timeCardText" name="thurText">
-            <label id="friLabelTC" class="timeCardLabel">Friday</label><input type="text" id="friTextTC" class="timeCardText" name="friText">
-            <label id="satLabelTC" class="timeCardLabel">Saturday</label><input type="text" id="satTextTC" class="timeCardText" name="satText">
-            <label id="sunLabelTC" class="timeCardLabel">Sunday</label><input type="text" id="sunTextTC" class="timeCardText" name="sunText">
+            <label id="sinLabelTC" class="timeCardLabel">SIN</label><input type="text" id="sinTextGenTC" class="timeCardText" name="sinTextGen"><span style="position:absolute; top:10%; left:70%;" id="sinTCGenSpan"></span>
+            <label id="compLabelTC" class="timeCardLabel">Company Name</label><input type="text" id="companyTextGenTC" class="timeCardText" name="companyTextGen"><span style="position:absolute; top:20%; left:70%;" id="compTCGenSpan"></span>
+            <label id="monLabelTC" class="timeCardLabel">Monday</label><input type="text" id="monTextTC" class="timeCardText" name="monText"><span style="position:absolute; top:30%; left:70%;" id="monGenSpan"></span>
+            <label id="tueLabelTC" class="timeCardLabel">Tuesday</label><input type="text" id="tueTextTC" class="timeCardText" name="tueText"><span style="position:absolute; top:40%; left:70%;" id="tueGenSpan"></span>
+            <label id="wedLabelTC" class="timeCardLabel">Wednesday</label><input type="text" id="wedTextTC" class="timeCardText" name="wedText"><span style="position:absolute; top:50%; left:70%;" id="wedGenSpan"></span>
+            <label id="thurLabelTC" class="timeCardLabel">Thursday</label><input type="text" id="thurTextTC" class="timeCardText" name="thurText"><span style="position:absolute; top:60%; left:70%;" id="thurGenSpan"></span>
+            <label id="friLabelTC" class="timeCardLabel">Friday</label><input type="text" id="friTextTC" class="timeCardText" name="friText"><span style="position:absolute; top:70%; left:70%;" id="friGenSpan"></span>
+            <label id="satLabelTC" class="timeCardLabel">Saturday</label><input type="text" id="satTextTC" class="timeCardText" name="satText"><span style="position:absolute; top:80%; left:70%;" id="satGenSpan"></span>
+            <label id="sunLabelTC" class="timeCardLabel">Sunday</label><input type="text" id="sunTextTC" class="timeCardText" name="sunText"><span style="position:absolute; top:90%; left:70%;" id="sunGenSpan"></span>
               <button type="button" id="submitTimeCardBtnFTPT" onclick="submitTimeCardForFTPT()">Submit</button>  
             <input type="image" src="cancel.png" id="cancelImageTimeCard" class="cancelImage">
             <button id="goBackTimeCard" class="backBtn">Back</button> 
@@ -2503,6 +3127,8 @@ function goBackTimeCardS()
         <label id="searchSinLabel">SIN</label><input type="text" id="searchSinText" name="searchSinText">
         <button id="searchEmpBtn">Search</button>
       </div>
+      
+      <div id="myDiv"></div>
       
       <p id="copyright">Developed & Maintained by DMS Inc.</p>   
   </div>
