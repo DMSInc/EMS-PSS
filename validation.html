@@ -499,8 +499,19 @@ function hourlyRateValidation(value)
 	return bResult;
 }
 
+//validation for number of pieces
 
+function numberOfPieceValidation(value)
+{
+	var bNumberOfPiece = false;
+	var intRegex = /^\d+$/;
+	if(value != null && value != "" && value > 0 && value.match(intRegex) != null)
+	{
+		bNumberOfPiece = true;
+	}
 
+	return bNumberOfPiece;
+}
 //Admin user fix contract amount validation
 function fixContractAmountValidation(value)
 {
