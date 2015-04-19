@@ -174,17 +174,7 @@ session_start();
     color: white;
     visibility: hidden;
 }
-/*
-#myDiv{
-position:absolute;
-    left:22%;
-    top:10%;
-    height:40%;
-    width:30%;
-    visibility:hidden;
-    background-color:white;
-}
-*/
+
 #seniorityReportGen{
     position:absolute;
     top: 25%;
@@ -256,16 +246,8 @@ position:absolute;
     background-color:#E6E6E6 ;
     opacity: 0;
 }
-#myDiv{
-    position: absolute;
-    left: 32%;
-    top: 10%;
-    height: 70%;
-    width: 40%;
-    overflow-y:scroll;
-    background-color:#E6E6E6 ;
-    visibility:hidden;
-}
+
+
 .timeCardLabel{
     position:absolute;
     left:10%;
@@ -281,8 +263,12 @@ position:absolute;
 }
 .piecesText{
 position:absolute;
-    left:65%;
-    
+    left:62%;
+    width:12%;
+}
+#reportsDiv{
+
+    visibility:hidden;
 }
 
 #monPieces{
@@ -310,7 +296,12 @@ position:absolute;
 .timeCardTextS{
 position:absolute;
     left:32%;
-}       
+} 
+.timeCardTextSS{
+position:absolute;
+    left:27%;
+    width:12%;
+}         
 #selectEmpTypeDivForAdminUser{
     visibility: hidden;
 }
@@ -833,6 +824,13 @@ var employeeType="";
 var genUserEmpType="";
 var userAction = "maintainence";
 var genUserAction="maintainence";
+var esum = 0;
+var enumbers = "";
+var checknum = 0;
+var ch_sum = "";
+var checkdigit = 0;
+var sin = "";
+var lastdigit = 0;
     
    $(document).ready(function () {
     userType="<?php echo $_SESSION["userType"]; ?>";
@@ -844,7 +842,6 @@ var genUserAction="maintainence";
           // document.getElementById("timeCardEmpAdminUser").style.visibility = "visible";
            document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
            document.getElementById("middleDiv").style.visibility = "visible";
-           
        }
        else
        {
@@ -1303,6 +1300,126 @@ function  makeUpJson(key,keyValue,prefix)
         adminDeleteEmp();
             });
   });
+    
+    
+    
+  $(document).ready(function () {
+    "use strict";
+    $("#searchEmpBtn").click(function (){
+        var boolSearch = "true";
+        if(document.getElementById("searchFnameText").value =="" && document.getElementById("searchLnameText").value =="" && document.getElementById("searchSinText").value =="")
+        {
+            alert("3 empty");   
+        }
+        else
+        {
+            if(document.getElementById("searchFnameText").value !="")
+            {
+                //do the validation
+                if(!checkFname(document.getElementById("searchFnameText").value))
+                {
+                    //show the error
+                    document.getElementById("searchSpanGenFname").innerHTML = "*Invalid Data";
+                    boolSearch = "false";
+                }
+            }
+            if(document.getElementById("searchLnameText").value !="")
+            {
+                //do the validation
+                if(!checkLname(document.getElementById("searchLnameText").value))
+                {
+                    //show the error
+                    document.getElementById("searchSpanGenLname").innerHTML = "*Invalid Data";
+                     boolSearch = "false";
+                }
+            }
+            if(document.getElementById("searchSinText").value !="")
+            {
+                //do the validation
+                if(!checkSin(document.getElementById("searchSinText").value))
+                {
+                    //show the error
+                    document.getElementById("searchSpanGenSin").innerHTML = "*Invalid Data";  
+                     boolSearch = "false";
+                }
+            }
+            if( boolSearch == "true" )
+            {
+                createJSONObjectSearch("searchEmployee");
+            }
+        }
+         
+    });
+});
+
+    function createJSONObjectSearch(userAction)
+    {
+		var sendData = "";
+        var fname = document.getElementById("searchFnameText").value;
+        var lname = document.getElementById("searchLnameText").value;
+        var sin = document.getElementById("searchSinText").value;
+		sendData += makeUpJson("q",{"q":userAction},true);
+
+		sendData += makeUpJson("FN",{"FN":fname});
+		
+		sendData += makeUpJson("LN",{"LN":lname});
+	
+		sendData += makeUpJson("SIN",{"SIN":sin});
+		
+		sendData += makeUpJson("UT",{"UT":userType});
+		
+	
+		alert(sendData);
+	 $.ajax({url: "Database.php",
+							type: "GET",
+							async:true,
+							data : sendData,
+							success:function(result)
+							{
+								alert(result);
+								$("#searchResultDiv").html(makeItAnObject(result));
+							},
+							 error: function( objRequest )
+							 {
+								alert(objRequest);
+							 }
+							
+							});
+		
+	}
+
+
+//function SelectEmp(EmployeeID,EmployeeType,CompanyID,PersonID)
+function SelectEmp(EmployeeID)
+{
+		
+		var value = "selectSearchedEmployee";
+		var sendData = "";
+	
+		sendData += makeUpJson("q",{"q":value},true);
+		
+		sendData += makeUpJson("EID",{"EID":EmployeeID});
+	
+		sendData += makeUpJson("UT",{"UT":userType});
+		
+			
+	 $.ajax({url: "Database.php",
+							type: "GET",
+							async:true,
+							data : sendData,
+							success:function(result)
+							{
+								$("#searchResultDiv").html(makeItAnObject(result));
+							},
+							 error: function( objRequest )
+							 {
+								alert(objRequest);
+							 }
+							
+							});
+		
+}
+    
 ////Admin user wants to add time card entry for an employee 
 //$(document).ready(function () {
 //    "use strict";
@@ -1622,6 +1739,7 @@ $(document).ready(function () {
             document.getElementById("selectEmpTypeDivForGenUser").style.visibility = "visible";
             $("#selectEmpTypeDivForGenUser").fadeTo(1000, 1);
                 emptyAllTCSpanValues();
+                
             });
             
         }
@@ -1681,12 +1799,16 @@ $(document).ready(function () {
         if(userAction=="reports")
         {
             hideReportsButton();
+             hideAllAdminForms();
+            showMaintainenceButtons();
         }
         else
         {
             if(userAction=="systemAdmin")
             {
                 hideSystemButtons();
+                 hideAllAdminForms();
+                showMaintainenceButtons();
             }
             else
             {
@@ -1696,9 +1818,7 @@ $(document).ready(function () {
                 }
             }
         }
-        userAction ="maintainence";
-        hideAllAdminForms();
-        showMaintainenceButtons();
+        userAction ="maintainence";   
     });   
 });
     
@@ -1709,6 +1829,8 @@ $(document).ready(function () {
         if(userAction=="maintainence")
         {
             hideMaintaineneceButtons();
+             hideAllAdminForms();
+            showReportsButtons();
         }
         else
         {
@@ -1721,11 +1843,13 @@ $(document).ready(function () {
                 if(userAction=="systemAdmin")
                 {
                     hideSystemButtons();
+                     hideAllAdminForms();
+                    showReportsButtons();
                 }
             }
         }
-        hideAllAdminForms();
-        showReportsButtons();
+       
+        
         userAction ="reports";
     });   
 });
@@ -1737,6 +1861,8 @@ $(document).ready(function () {
         if(userAction=="maintainence")
         {
             hideMaintaineneceButtons();
+             hideAllAdminForms();
+             showAdminSystemButtons();
         }
         else
         {
@@ -1749,12 +1875,14 @@ $(document).ready(function () {
                 if(userAction=="reports")
                 {
                     hideReportsButton();
+                     hideAllAdminForms();
+                     showAdminSystemButtons();
                 }
             }
         }
-        hideAllAdminForms();
+       
         userAction ="systemAdmin";
-        showAdminSystemButtons();
+       
     });   
 });  
     
@@ -1795,11 +1923,18 @@ $(document).ready(function () {
     $("#empReportsBtnGen").click(function (){
         if(genUserAction == "maintainence")
         {
+            genUserAction="reports";
             hideMaintainenceBtnsGen();
+            showEmpReportsBtnsGen();
+            hideAllGenForms();
         }
-         genUserAction="reports";
-        showEmpReportsBtnsGen();
-        hideAllGenForms();
+         if(genUserAction == "search")
+        {
+            genUserAction="reports";
+            hideAllGenForms();
+            showEmpReportsBtnsGen();
+        }
+       
     });
    
 });
@@ -1810,13 +1945,44 @@ $(document).ready(function () {
     $("#empMaintainenceGen").click(function (){
         if(genUserAction == "reports")
         {
+            genUserAction="maintainence";
             hideReportsBtnsGen();
+            showMaintainenceBtnsGen();
+            hideAllGenForms();
         }
-        genUserAction="maintainence";
-        showMaintainenceBtnsGen();
-        hideAllGenForms();
+        if(genUserAction == "search")
+        {
+            genUserAction="maintainence";
+            hideAllGenForms();
+            showMaintainenceBtnsGen();
+        }
     });
 });
+    
+ $(document).ready(function () {
+    "use strict";
+    $("#searchBtnGen").click(function (){ 
+       
+        if(genUserAction == "reports")
+        {
+            hideReportsBtnsGen();
+            hideAllGenForms();
+        }
+        
+        else
+        if(genUserAction == "maintainence")
+        {   
+            hideMaintainenceBtnsGen();
+            hideAllGenForms();
+            
+        }
+         document.getElementById("userAction").innerHTML = "Search For an Employee";
+        document.getElementById("searchDiv").style.visibility = "visible";
+        $("#searchDiv").fadeTo(1000, 1); 
+        genUserAction="search";
+       
+    });
+ });    
     
  $(document).ready(function () {
     "use strict";
@@ -1829,10 +1995,10 @@ $(document).ready(function () {
 function hideAllGenForms()
 {
     maintaineneceType="";
-    if( document.getElementById("myDiv").style.visibility == "visible")
+    if( document.getElementById("reportsDiv").style.visibility == "visible")
     {
-        $("#myDiv").fadeTo(1000, 0, function () {
-            document.getElementById("myDiv").style.visibility = "hidden";
+        $("#reportsDiv").fadeTo(1000, 0, function () {
+            document.getElementById("reportsDiv").style.visibility = "hidden";
         });   
     }
     if( document.getElementById("genUserAddingEmp").style.visibility == "visible")
@@ -1847,14 +2013,27 @@ function hideAllGenForms()
             document.getElementById("selectEmpTypeDivForGenUser").style.visibility = "hidden";
         });   
     }
+     if( document.getElementById("searchDiv").style.visibility == "visible")
+    {
+        $("#searchDiv").fadeTo(1000, 0, function () {
+            document.getElementById("searchDiv").style.visibility = "hidden";
+        });   
+    }
+    if( document.getElementById("gentimeCardS").style.visibility == "visible")
+    {
+        $("#gentimeCardS").fadeTo(1000, 0, function () {
+            document.getElementById("gentimeCardS").style.visibility = "hidden";
+        });   
+    }
+     if( document.getElementById("gentimeCardFTPT").style.visibility == "visible")
+    {
+        $("#gentimeCardFTPT").fadeTo(1000, 0, function () {
+            document.getElementById("gentimeCardFTPT").style.visibility = "hidden";
+        });   
+    }
 }
     
- $(document).ready(function () {
-    "use strict";
-    $("#searchBtnGen").click(function (){
-        alert("fsfsf");
-    });
-});
+
 function showEmpReportsBtnsGen()
 {
     document.getElementById("seniorityReportGen").style.visibility = "visible";
@@ -2323,18 +2502,13 @@ function submitTimeCardForFTPT()
     {
         if(validateTCFromFTPT()=="true")
         {
-              alert("erro");
-            //alert("all validation");
             createJSONObjectTimeCardGen("enterTimeCard","FT");
         }
-        alert("sdfdfffsf");
     }
     if(genUserEmpType=="PT")
     {
         if(validateTCFromFTPT()=="true")
         {
-              alert("erro");
-            //alert("all validation");
             createJSONObjectTimeCardGen("enterTimeCard","PT");
         }
     }
@@ -2342,7 +2516,142 @@ function submitTimeCardForFTPT()
 
 function submitTimeCardForS()
 {
+    emptyAllTCGenSpansS();
+    
+    //validate the fields
+    if(validateTCForS()=="true")
+    {
+       createJSONObjectTimeCardGen("enterTimeCard","SN");
+    }
 }
+    
+function emptyAllTCGenSpansS()
+{
+    document.getElementById("sinGenSpanS").innerHTML = "";
+    document.getElementById("compGenSpanS").innerHTML = "";
+    document.getElementById("monGenSpanS").innerHTML = "";
+    document.getElementById("tueGenSpanS").innerHTML = "";
+    document.getElementById("wedGenSpanS").innerHTML = "";
+    document.getElementById("thurGenSpanS").innerHTML = "";
+    document.getElementById("friGenSpanS").innerHTML = "";
+    document.getElementById("satGenSpanS").innerHTML = "";
+    document.getElementById("sunGenSpanS").innerHTML = "";
+    
+    document.getElementById("monPSpanS").innerHTML = "";
+    document.getElementById("tuePSpanS").innerHTML = "";
+    document.getElementById("wedPSpanS").innerHTML = "";
+    document.getElementById("thurPSpanS").innerHTML = "";
+    document.getElementById("friPSpanS").innerHTML = "";
+    document.getElementById("satPSpanS").innerHTML = "";
+    document.getElementById("sunPSpanS").innerHTML = "";
+    
+}
+    
+function validateTCForS()
+{
+    var boolToSubmit = "true";
+
+    if(!checkSin(document.getElementById("sinTextGenTCS").value))
+    {
+        //show error message
+        document.getElementById("sinGenSpanS").innerHTML = "*Invalid Data";
+        boolToSubmit="false";
+    } 
+    if(!checkCompany(document.getElementById("companyTextGenTCS").value))
+    {
+        //show error message
+        document.getElementById("compGenSpanS").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkHours(document.getElementById("monTextTCS").value))
+    {
+        //show error message
+        document.getElementById("monGenSpanS").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkHours(document.getElementById("tueTextTCS").value))
+    {
+        //show error message
+        document.getElementById("tueGenSpanS").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkHours(document.getElementById("wedTextTCS").value))
+    {
+        //show error message
+        document.getElementById("wedGenSpanS").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkHours(document.getElementById("thurTextTCS").value))
+    {
+        //show error message
+        document.getElementById("thurGenSpanS").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkHours(document.getElementById("friTextTCS").value))
+    {
+        //show error message
+        document.getElementById("friGenSpanS").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkHours(document.getElementById("satTextTCS").value))
+    {
+        //show error message
+        document.getElementById("satGenSpanS").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkHours(document.getElementById("sunTextTCS").value))
+    {
+        //show error message
+        document.getElementById("sunGenSpanS").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    
+//    validating pieces
+    if(!checkHours(document.getElementById("monPieces").value))
+    {
+        //show error message
+        document.getElementById("monPSpanS").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkHours(document.getElementById("tuePieces").value))
+    {
+        //show error message
+        document.getElementById("tuePSpanS").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkHours(document.getElementById("wedPieces").value))
+    {
+        //show error message
+        document.getElementById("wedPSpanS").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkHours(document.getElementById("thurPieces").value))
+    {
+        //show error message
+        document.getElementById("thurPSpanS").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkHours(document.getElementById("friPieces").value))
+    {
+        //show error message
+        document.getElementById("friPSpanS").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkHours(document.getElementById("satPieces").value))
+    {
+        //show error message
+        document.getElementById("satPSpanS").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkHours(document.getElementById("sunPieces").value))
+    {
+        //show error message
+        document.getElementById("sunPSpanS").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    
+    return boolToSubmit;
+}   
     
 function validateGenAddForm(seasonal)
 {
@@ -2366,7 +2675,7 @@ if(!checkLname(document.getElementById("lnameText").value))
         document.getElementById("companyGenSpan").innerHTML = "*Invalid Data";
          boolToSubmit="false";
     } 
-    if(!checkFname(document.getElementById("sinText").value))
+    if(!checkSin(document.getElementById("sinText").value))
     {
         //show error message
         document.getElementById("sinGenSpan").innerHTML = "*Invalid Data";
@@ -2399,7 +2708,7 @@ if(!checkLname(document.getElementById("lnameText").value))
 function validateTCFromFTPT()
 {
     var boolToSubmit="true";
-    if(!checkHours(document.getElementById("sinTextGenTC").value))
+    if(!checkSin(document.getElementById("sinTextGenTC").value))
     {
         //show error message
         document.getElementById("sinTCGenSpan").innerHTML = "*Invalid Data";
@@ -2491,7 +2800,7 @@ function submitGenEmp()
                 {
                     alert("done");
                     //create a json object 
-                    createJSONObjectAddEmp("addEmployee",genUserEmpType,"G");
+                    createJSONObjectAddEmp("addEmployee","SN","G");
                 } 
             }
         }
@@ -2576,15 +2885,15 @@ function createJSONObjectTimeCardGen(userAction,empType)
 	 
 		//var value = "enterTimeCard";
 		var sendData = "";
-	    var sin = document.getElementById("sinTextGenTC").value;
-        var comp = document.getElementById("companyTextGenTC").value;
-        var mon = document.getElementById("monTextGenTC").value;
-        var tue = document.getElementById("tueTextGenTC").value;
-        var wed = document.getElementById("wedTextGenTC").value;
-        var thur = document.getElementById("thurTextGenTC").value; 
-        var fri = document.getElementById("friTextGenTC").value;
-        var sat = document.getElementById("satTextGenTC").value;
-        var sun = document.getElementById("sunTextGenTC").value; 
+	    var sin = document.getElementById("sinTextGenTCS").value;
+        var comp = document.getElementById("companyTextGenTCS").value;
+        var mon = document.getElementById("monTextTCS").value;
+        var tue = document.getElementById("tueTextTCS").value;
+        var wed = document.getElementById("wedTextTCS").value;
+        var thur = document.getElementById("thurTextTCS").value; 
+        var fri = document.getElementById("friTextTCS").value;
+        var sat = document.getElementById("satTextTCS").value;
+        var sun = document.getElementById("sunTextTCS").value; 
     
 		sendData += makeUpJson("q",{"q":userAction},true);
         sendData += makeUpJson("ET",{"ET":empType});
@@ -2604,9 +2913,9 @@ function createJSONObjectTimeCardGen(userAction,empType)
 		
 		sendData += makeUpJson("SUNH",{"SUNH":sun});
         
-       // var sum = sumAllPeices();
+        var sum = sumAllPieces();
     
-        //sendData += makeUpJson("WA",{"WA":sun});
+        sendData += makeUpJson("WA",{"WA":sum});
 		
 	   $.ajax({url: "Database.php",
 							type: "GET",
@@ -2630,6 +2939,20 @@ function createJSONObjectTimeCardGen(userAction,empType)
 							
 							});
 }    
+
+function sumAllPieces()
+{
+    var totalPieces = 0;
+    totalPieces += parseInt(document.getElementById("monPieces").value) * parseInt(document.getElementById("monTextTCS").value);
+    totalPieces += parseInt(document.getElementById("tuePieces").value) * parseInt(document.getElementById("tueTextTCS").value);
+    totalPieces += parseInt(document.getElementById("wedPieces").value) * parseInt(document.getElementById("wedTextTCS").value);
+    totalPieces += parseInt(document.getElementById("thurPieces").value) * parseInt(document.getElementById("thurTextTCS").value); 
+    totalPieces += parseInt(document.getElementById("friPieces").value) * parseInt(document.getElementById("friTextTCS").value);
+    totalPieces += parseInt(document.getElementById("satPieces").value) * parseInt(document.getElementById("satTextTCS").value);
+    totalPieces += parseInt(document.getElementById("sunPieces").value) * parseInt(document.getElementById("sunTextTCS").value);
+
+    return totalPieces;
+}
     
 function goBackTimeCardS()
 {
@@ -2639,6 +2962,7 @@ function goBackTimeCardS()
             document.getElementById("gentimeCardS").style.visibility = "hidden";
             document.getElementById("selectEmpTypeDivForGenUser").style.visibility = "visible";
             $("#selectEmpTypeDivForGenUser").fadeTo(1000, 1);
+               emptyAllTCGenSpansS();
             });
         }
 }
@@ -2762,6 +3086,7 @@ function checkDateOfHire(value)
 		{
 			var regs = value.split("-");
 			var yyyy = parseInt(regs[0]);
+            
 			var mm = parseInt(regs[1]);
 			var dd = parseInt(regs[2]);
 
@@ -2848,76 +3173,143 @@ function checkHours(value)
 	}
 	return bResult;
 }
-    	function saveFileContent()
-	{	
-		//saveType="onlySave";
-		//document.getElementById("spn1").innerHTML="";
-//		if(whichButton=="")
-//		{	
-//			document.getElementById("newFileName").style.display="inline";
-//			document.getElementById("myNewFileLabel").style.display="inline";
-//			document.getElementById("saveFile").disabled=true;
-//			document.getElementById("saveFileAs").disabled=true;
-//			document.getElementById("saveAgain").style.display="inline";	
-//		}
-//		else
-//		{
-//			var contents=document.getElementById("editArea").value;	
-//			var fname=document.getElementById("dropDown").value;
-//			if(fname==" "||fname==null)
-//			{
-//				
-//				document.getElementById("spn3").innerHTML="*Required";
-//				document.getElementById("spn3").style.display="inline";
-//			}
-//			else
-//			{
-//				if(fname=="")
-//				{	
-//					//if MyFiles directory is empty.
-//					document.getElementById("newFileName").style.display="inline";
-//					document.getElementById("myNewFileLabel").style.display="inline";
-//					document.getElementById("saveAgain").style.display="inline";
-//				}
-//				else
-//				{
-					if (window.XMLHttpRequest)	
-					{
-					  // code for IE7+, Firefox, Chrome, Opera, SafariCreate
-					  xmlhttp=new XMLHttpRequest();
-					}
-					else
-					{
-					  // code for IE6, IE5
-					  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-					}
-					xmlhttp.onreadystatechange=sampleCallBack;
-					xmlhttp.open("GET","Database.php",true);
-					xmlhttp.send(null);
-				//}
-			//}
-		//}
-	}
     
-    function sampleCallBack()
+function saveFileContent()
+{	
+    if (window.XMLHttpRequest)	
+    {
+      // code for IE7+, Firefox, Chrome, Opera, SafariCreate
+      xmlhttp=new XMLHttpRequest();
+    }
+    else
+    {
+      // code for IE6, IE5
+      xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange=sampleCallBack;
+    xmlhttp.open("GET","Database.php",true);
+    xmlhttp.send(null);
+}
+    
+function sampleCallBack()
+{
+    if(xmlhttp.readyState==4)
+    {
+
+            document.getElementById("reportsDiv").style.visibility = "visible";
+            $("#reportsDiv").fadeTo(1000, 1);
+        
+      document.getElementById("reportsDiv").innerHTML = xmlhttp.responseText;
+    }
+}
+
+function checkSin(value)
+{
+	esum = 0;
+    enumbers = "";
+    checknum = 0;
+    ch_sum = "";
+    checkdigit = 0;
+    sin = "";
+    lastdigit = 0;
+	var bCheckSinResult = false;
+	
+    if (isNum(value.value))
 	{
-		if(xmlhttp.readyState==4)
+		bCheckSinResult = true;
+	}
+
+	return bCheckSinResult;
+}
+
+function isNum(text) 
+{
+	if(text == "" || text == null || text.length == 0) 
+	{
+		return false;
+	}
+	inStr = text;
+	sin = text;
+	inLen = inStr.length;
+
+	if (inLen > 11 || inLen < 11) 
+	{
+		return false;
+	}
+
+	for (var i = 0; i < text.length; i++) 
+	{
+		var ch = text.substring(i, i + 1)
+
+		if ((ch < "0" || "9" < ch) && (ch != " "))  
 		{
-            alert(xmlhttp.responseText);
-            if(document.getElementById("myDiv").style.visibility == "visible")
-            {
-                alert("visible");
-            }
-            else
-            {
-              document.getElementById("myDiv").style.visibility = "visible";  
-                alert("else");
-            }
-            
-		  document.getElementById("myDiv").innerHTML = xmlhttp.responseText;
-		 // document.getElementById("myDiv").style.display = "block";
+			return false;
+		}
+		if ((i == 3 || i == 7) && (ch != " ")) 
+		{
+			return false;
 		}
 	}
+	lastdigit = text.substring(10, 10 + 1);
+	// add numbers in odd positions; IE 1, 3, 6, 8		
+	var odd = ((text.substring(0,0 + 1)) * (1.0)  + (text.substring(2,2 + 1)) * (1.0)+(text.substring(5, 5+1)) * (1.0) + (text.substring(8,8 + 1)) * (1.0));
+            			
+	// form texting of numbers in even positions IE 2, 4, 6, 8
+	var enumbers =  (text.substring(1,1 + 1)) + (text.substring(4,4 + 1))+
+	(text.substring(6,6 + 1)) + (text.substring(9,9 + 1));
+            
+	// add together numbers in new text string
+	// take numbers in even positions; IE 2, 4, 6, 8
+	// and double them to form a new text string
+	// EG if numbers are 2,5,1,9 new text string is 410218
+	for (var i = 0; i < enumbers.length; i++) 
+	{
+		var ch = (enumbers.substring(i, i + 1) * 2);
+		ch_sum = ch_sum + ch;
+	}
+            
+	for (var i = 0; i < ch_sum.length; i++) 
+	{
+		var ch = (ch_sum.substring(i, i + 1));
+		esum = ((esum * 1.0) + (ch * 1.0));
+	}
+
+	checknum = (odd + esum);
+
+	// subtextact checknum from next highest multiple of 10
+	// to give check digit which is last digit in valid SIN
+	if (checknum <= 10) 
+	{
+		(checdigit = (10 - checknum));
+	}
+	if (checknum > 10 && checknum <= 20) 
+	{
+		(checkdigit = (20 - checknum));
+	}
+	if (checknum > 20 && checknum <= 30) 
+	{
+		(checkdigit = (30 - checknum));
+	}
+	if (checknum > 30 && checknum <= 40) 
+	{
+		(checkdigit = (40 - checknum));
+	}
+	if (checknum > 40 && checknum <= 50) 
+	{
+		(checkdigit = (50 - checknum));
+	}
+    if (checknum > 50 && checknum <= 60)
+	{
+		(checkdigit = (60 - checknum));
+	}
+			
+    if (checkdigit != lastdigit) 
+	{
+		return false;
+	}					  			
+	return true;
+}
+   
 </script>
 </head>
 <body>
@@ -3093,16 +3485,16 @@ function checkHours(value)
           </div>
       
         <div id="gentimeCardS" class="centerDiv">
-            <label id="sinLabelTCS" class="seasonalTimeCardLabel">SIN</label><input type="text" id="sinTextGenTCS" class="timeCardTextS" name="sinTextGenS">
-            <label id="compLabelTCS" class="seasonalTimeCardLabel">Company Name</label><input type="text" id="companyTextGenTCS" class="timeCardTextS" name="companyTextGenS">
+            <label id="sinLabelTCS" class="seasonalTimeCardLabel">SIN</label><input type="text" id="sinTextGenTCS" class="timeCardTextS" name="sinTextGenS"><span style="position:absolute; top:10%; left:60%;" id="sinGenSpanS"></span>
+            <label id="compLabelTCS" class="seasonalTimeCardLabel">Company Name</label><input type="text" id="companyTextGenTCS" class="timeCardTextS" name="companyTextGenS"><span style="position:absolute; top:20%; left:60%;" id="compGenSpanS"></span>
             <label id="pieceText" style="position:absolute;left:66%;top:23%;">Number of Pieces</label>
-            <label id="monLabelTCS" class="seasonalTimeCardLabel">Monday</label><input type="text" id="monTextTCS" class="timeCardTextS" name="monTextS"><input type="text" id="monPieces" class="piecesText">
-            <label id="tueLabelTCS" class="seasonalTimeCardLabel">Tuesday</label><input type="text" id="tueTextTCS" class="timeCardTextS" name="tueTextS"><input type="text" id="tuePieces" class="piecesText">
-            <label id="wedLabelTCS" class="seasonalTimeCardLabel">Wednesday</label><input type="text" id="wedTextTCS" class="timeCardTextS" name="wedTextS"><input type="text" id="wedPieces" class="piecesText">
-            <label id="thurLabelTCS" class="seasonalTimeCardLabel">Thursday</label><input type="text" id="thurTextTCS" class="timeCardTextS" name="thurTextS"><input type="text" id="thurPieces" class="piecesText">
-            <label id="friLabelTCS" class="seasonalTimeCardLabel">Friday</label><input type="text" id="friTextTCS" class="timeCardTextS" name="friTextS"><input type="text" id="friPieces" class="piecesText">
-            <label id="satLabelTCS" class="seasonalTimeCardLabel">Saturday</label><input type="text" id="satTextTCS" class="timeCardTextS" name="satTextS"><input type="text" id="satPieces" class="piecesText">
-            <label id="sunLabelTCS" class="seasonalTimeCardLabel">Sunday</label><input type="text" id="sunTextTCS" class="timeCardTextS" name="sunTextS"><input type="text" id="sunPieces" class="piecesText">
+            <label id="monLabelTCS" class="seasonalTimeCardLabel">Monday</label><input type="text" id="monTextTCS" class="timeCardTextSS" name="monTextS"><span style="position:absolute; top:30%; left:41%;" id="monGenSpanS"></span><input type="text" id="monPieces" class="piecesText"><span style="position:absolute; top:30%; left:76%;" id="monPSpanS"></span>
+            <label id="tueLabelTCS" class="seasonalTimeCardLabel">Tuesday</label><input type="text" id="tueTextTCS" class="timeCardTextSS" name="tueTextS"><span style="position:absolute; top:40%; left:41%;" id="tueGenSpanS"></span><input type="text" id="tuePieces" class="piecesText"><span style="position:absolute; top:40%; left:76%;" id="tuePSpanS"></span>
+            <label id="wedLabelTCS" class="seasonalTimeCardLabel">Wednesday</label><input type="text" id="wedTextTCS" class="timeCardTextSS" name="wedTextS"><span style="position:absolute; top:50%; left:41%;" id="wedGenSpanS"></span><input type="text" id="wedPieces" class="piecesText"><span style="position:absolute; top:50%; left:76%;" id="wedPSpanS"></span>
+            <label id="thurLabelTCS" class="seasonalTimeCardLabel">Thursday</label><input type="text" id="thurTextTCS" class="timeCardTextSS" name="thurTextS"><span style="position:absolute; top:60%; left:41%;" id="thurGenSpanS"></span><input type="text" id="thurPieces" class="piecesText"><span style="position:absolute; top:60%; left:76%;" id="thurPSpanS"></span>
+            <label id="friLabelTCS" class="seasonalTimeCardLabel">Friday</label><input type="text" id="friTextTCS" class="timeCardTextSS" name="friTextS"><span style="position:absolute; top:70%; left:41%;" id="friGenSpanS"></span><input type="text" id="friPieces" class="piecesText"><span style="position:absolute; top:70%; left:76%;" id="friPSpanS"></span>
+            <label id="satLabelTCS" class="seasonalTimeCardLabel">Saturday</label><input type="text" id="satTextTCS" class="timeCardTextSS" name="satTextS"><span style="position:absolute; top:80%; left:41%;" id="satGenSpanS"></span><input type="text" id="satPieces" class="piecesText"><span style="position:absolute; top:80%; left:76%;" id="satPSpanS"></span>
+            <label id="sunLabelTCS" class="seasonalTimeCardLabel">Sunday</label><input type="text" id="sunTextTCS" class="timeCardTextSS" name="sunTextS"><span style="position:absolute; top:90%; left:41%;" id="sunGenSpanS"></span><input type="text" id="sunPieces" class="piecesText"><span style="position:absolute; top:90%; left:76%;" id="sunPSpanS"></span>
               <button type="button" id="submitTimeCardBtnS" onclick="submitTimeCardForS()">Submit</button>  
             <input type="image" src="cancel.png" id="cancelImageTimeCard" class="cancelImage">
             <button id="goBackTimeCard" class="backBtn" onclick="goBackTimeCardS()">Back</button> 
@@ -3122,13 +3514,13 @@ function checkHours(value)
       
       <div id="searchDiv" class="centerDiv">
         <label id="userAction" class="employeeType"></label>
-        <label id="searchFnameLabel">First Name</label><input type="text" id="searchFnameText" name="searchFnameText">
-        <label id="searchLnameLabel">Last Name</label><input type="text" id="searchLnameText" name="searchLnameText">
-        <label id="searchSinLabel">SIN</label><input type="text" id="searchSinText" name="searchSinText">
+        <label id="searchFnameLabel">First Name</label><input type="text" id="searchFnameText" name="searchFnameText"><span style="position:absolute; top:10%; left:70%;" id="searchSpanGenFname"></span>
+        <label id="searchLnameLabel">Last Name</label><input type="text" id="searchLnameText" name="searchLnameText"><span style="position:absolute; top:20%; left:70%;" id="searchSpanGenLname"></span>
+        <label id="searchSinLabel">SIN</label><input type="text" id="searchSinText" name="searchSinText"><span style="position:absolute; top:30%; left:70%;" id="searchSpanGenSin"></span>
         <button id="searchEmpBtn">Search</button>
       </div>
       
-      <div id="myDiv"></div>
+      <div id="reportsDiv" class="centerDiv"></div>
       
       <p id="copyright">Developed & Maintained by DMS Inc.</p>   
   </div>
