@@ -1,6 +1,6 @@
-CREATE database EMS-PSS;
+CREATE database `EMS-PSS`;
 
-use EMS-PSS;
+use `EMS-PSS`;
 
 create table login(
 username varchar(100) NOT NULL,
