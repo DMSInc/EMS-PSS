@@ -286,10 +286,20 @@ function compareHireDayandTermination(hYYYY, hMM, hDD, tYYYY, tMM, tDD)
 //validation for salary
 function salaryValidation(value)
 {
-	var bSalary = true;
-	if(!(value > -1))
+	var bSalary = false;
+	if(userType == "A")
 	{
-		bSalary = false;
+		if(value > 0 && value != null && value != "")
+		{
+			bSalary = true;
+		}		
+	}
+	else
+	{
+		if(value >= 0 && value != null && value != "")
+		{
+			bSalary = true;
+		}
 	}
 	return bSalary;
 }
