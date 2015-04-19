@@ -161,15 +161,6 @@
 				}
 				
 				
-				
-				//$CompanyExist = checkCompanyExist($Company);  //Check  if the Company have been added to database.
-				
-				//if(!$CompanyExist)   // If the company has not been added to the DB, then add the company to DB
-				//{
-			//		mysql_query("Insert into company(CORPORATIONNAME) values('$Company')");
-			//	}
-				
-				
 				$CompanyID  = "";
 				if($Company !== "")
 				{
@@ -194,18 +185,6 @@
 					}
 				}
 				
-				
-				//if(!getPersonID($SIN,$PersonID))
-				//{
-				//	echo "Faile to Add Employee";
-				//	exit;
-			//	}
-			//	if(!getCompanyID($Company,$CompanyID))  //if true, company id already modified
-			//	{
-			//		echo "Faile to Add Employee";
-			//		exit;
-			//	}
-			
 				$EmployeeIDExist = checkEmployeeExist($PersonID,$CompanyID,$EmployType);   //?
 				
 				if(!$EmployeeIDExist)
@@ -278,44 +257,51 @@
 				$DOB	= getValueFromRequest('DOB');
 				$DOH 	= getValueFromRequest('DOH');
 				
-				$PersonExist = checkPersonExist($SIN);  //Check if the person have been added.
 				$PersonID ="";
-				if(!$PersonExist)    //If the database has not contain the person , then add the preson to DB.
+				if($SIN !== "")
 				{
-					mysql_query("Insert into person(FIRSTNAME, LASTNAME,SIN,DATEOFBIRTH) values('$FirstName' , '$LastName','$SIN','$DOB')") or exit(mysql_error());
-					$PersonID = mysql_insert_id();
+					$PersonExist = checkPersonExist($SIN);  //Check if the person have been added.
+					if(!$PersonExist)    //If the database has not contain the person , then add the preson to DB.
+					{
+						$insertPerson = mysql_query("Insert into person(FIRSTNAME, LASTNAME,SIN,DATEOFBIRTH) values('$FirstName' , '$LastName','$SIN','$DOB')") or exit(mysql_error());
+						$PersonID = mysql_insert_id();
+					}
+					else
+					{
+						getPersonID($SIN,$PersonID);
+					}
 				}
 				else
 				{
-						getPersonID($SIN,$PersonID);
+					$insertPerson = mysql_query("Insert into person(FIRSTNAME, LASTNAME,SIN,DATEOFBIRTH) values('$FirstName' , '$LastName','$SIN','$DOB')") or exit(mysql_error());
+					$PersonID = mysql_insert_id();
 				}
-				
-				//$CompanyExist = checkCompanyExist($Company);  //Check  if the Company have been added to database.
-				
-				//if(!$CompanyExist)   // If the company has not been added to the DB, then add the company to DB
-				//{
-			//		mysql_query("Insert into company(CORPORATIONNAME) values('$Company')");
-			//	}
 				
 				
 				$CompanyID  = "";
-				$insertCom_result = mysql_query("Insert into company(CORPORATIONNAME) values('$Company')") or exit(mysql_error());
-				if($insertCom_result)
+				if($Company !== "")
 				{
-					$CompanyID = mysql_insert_id();
+					$CompanyExist = checkCompanyExist($Company);  //Check  if the Company have been added to database.
+					if(!$CompanyExist)   // If the company has not been added to the DB, then add the company to DB
+					{
+						mysql_query("Insert into company(CORPORATIONNAME) values('$Company')") or exit(mysql_error());
+						$CompanyID =  mysql_insert_id();
+						
+					}	
+					else
+					{
+						getCompanyID($Company,$CompanyID);
+					}
 				}
-				
+				else
+				{
+					$insertCom_result = mysql_query("Insert into company(CORPORATIONNAME) values('$Company')") or exit(mysql_error());
+					if($insertCom_result)
+					{
+						$CompanyID = mysql_insert_id();
+					}
+				}
 	
-				if(!getPersonID($SIN,$PersonID))
-				{
-					echo "Faile to Add Employee";
-					exit;
-				}
-				if(!getCompanyID($Company,$CompanyID))  //if true, company id already modified
-				{
-					echo "Faile to Add Employee";
-					exit;
-				}
 				$EmployeeIDExist = checkEmployeeExist($PersonID,$CompanyID,$EmployType);   //?
 				
 				if(!$EmployeeIDExist)
@@ -331,15 +317,13 @@
 							if($Result)
 							{
 								
-								//mysql_query("Insert into employee(employee_id) values('$Result')") or exit(mysql_error());
-								
-								if(generalAddFullTimeEmployee($EmployeeID,$DOH))
+								if(generalAddPartTimeEmployee($EmployeeID,$DOH))
 								{
-									echo "Sucess To add FullTime Employee";
+									echo "Sucess To add PartTime Employee";
 								}
 								else
 								{
-									echo "Failed to add FullTIme Employee";
+									echo "Failed to add PartTime Employee";
 								}
 							}
 							else
@@ -349,7 +333,7 @@
 						}
 						else
 						{
-							echo "General Add Employee Failed ";
+							echo "General Add PartTime Employee Failed ";
 						}
 					}
 					else
@@ -366,13 +350,13 @@
 					if($Result)
 					{
 						//echo "get Employee ID via personID, CompanyId, EmployeeID";
-						if(generalAlterExistFullEmployee($EmployeeID,$DOH))
+						if(generalAlertExistPartTimeEmployee($EmployeeID,$DOH))
 						{
-							echo "Sucess To Alter FullTime Employee";
+							echo "Sucess To Alter PartTime Employee";
 						}
 						else
 						{
-							echo "Failed to Alter FullTIme Employee";
+							echo "Failed to Alter PartTime Employee";
 						}
 					}
 					else
@@ -384,7 +368,7 @@
 			}
 			else if($EmployType == "SN")
 			{
-				
+				generalAddSeansonEmployeeToDB();
 			}
 		}
 	}
@@ -871,7 +855,6 @@
 		}
 		else
 		{
-			echo 'mysql_query false';
 			mysql_free_result($result);
 			return false;
 		}
@@ -891,6 +874,37 @@
 			return false;
 		}
 	}
+	
+	function generalAddPartTimeEmployee($EmployeeID,$DateOfHire)
+	{
+		$result = mysql_query("Insert Into ParttimeEmployee(employee_id,dateofhire) values('$EmployeeID','$DateOfHire')");
+		if($result)
+		{
+			mysql_free_result($result);
+			return true;
+		}
+		else
+		{
+			mysql_free_result($result);
+			return false;
+		}
+	}
+	
+	function generalAlertExistPartTimeEmployee($EmployeeID,$DateOfHire)
+	{
+			$result = mysql_query("Update ParttimeEmployee SET dateofhire = '$DateOfHire' where employee_id = $EmployeeID");
+		if($result)
+		{
+			mysql_free_result($result);
+			return true;
+		}
+		else
+		{
+			mysql_free_result($result);
+			return false;
+		}
+	}
+	
 	
 	function searchEmployee($FNP,$LNP,$SINP,$UTP)
 	{
@@ -1189,11 +1203,6 @@
 			{
 				
 			}
-			
-				
-			
-			
-	
 		}
 		
 	}
@@ -1203,8 +1212,158 @@
 		$Date = date("Y-m-d", strtotime($Date));
 	}
 	
+	function generalAddSeansonEmployeeToDB()
+	{
+		$FirstName = getValueFromRequest('FN');
+		$LastName = getValueFromRequest('LN');
+		$Company = getValueFromRequest('CM');
+		$SIN 	= getValueFromRequest('SIN');
+		$DOB	= getValueFromRequest('DOB');
+		$DOH 	= getValueFromRequest('DOH');
+		$SeasonYear = getValueFromRequest('SY');
+		$Season		= getValueFromRequest('S');
+		$EmployType = "SN";
+		
+		$PersonID ="";
+		if($SIN !== "")
+		{
+			$PersonExist = checkPersonExist($SIN);  //Check if the person have been added.
+			if(!$PersonExist)    //If the database has not contain the person , then add the preson to DB.
+			{
+				$insertPerson = mysql_query("Insert into person(FIRSTNAME, LASTNAME,SIN,DATEOFBIRTH) values('$FirstName' , '$LastName','$SIN','$DOB')") or exit(mysql_error());
+				$PersonID = mysql_insert_id();
+			}
+			else
+			{
+				getPersonID($SIN,$PersonID);
+			}
+		}
+		else
+		{
+			$insertPerson = mysql_query("Insert into person(FIRSTNAME, LASTNAME,SIN,DATEOFBIRTH) values('$FirstName' , '$LastName','$SIN','$DOB')") or exit(mysql_error());
+			$PersonID = mysql_insert_id();
+		}
+		
+		
+		$CompanyID  = "";
+		if($Company !== "")
+		{
+			$CompanyExist = checkCompanyExist($Company);  //Check  if the Company have been added to database.
+			if(!$CompanyExist)   // If the company has not been added to the DB, then add the company to DB
+			{
+				mysql_query("Insert into company(CORPORATIONNAME) values('$Company')") or exit(mysql_error());
+				$CompanyID =  mysql_insert_id();
+				
+			}	
+			else
+			{
+				getCompanyID($Company,$CompanyID);
+			}
+		}
+		else
+		{
+			$insertCom_result = mysql_query("Insert into company(CORPORATIONNAME) values('$Company')") or exit(mysql_error());
+			if($insertCom_result)
+			{
+				$CompanyID = mysql_insert_id();
+			}
+		}
+
+		$EmployeeIDExist = checkEmployeeExist($PersonID,$CompanyID,$EmployType);   //?
+		
+		if(!$EmployeeIDExist)
+		{	
+			//check person id exsit in the table 
+			if(checkExsitPersonID($PersonID))
+			{
+				if(generalAddGeneralEmployee($PersonID, $CompanyID, $EmployType))
+				{
+					$EmployeeID = "";
+					$Result = getEmployeeID($PersonID,$CompanyID,$EmployeeID);
+					
+					if($Result)
+					{
+						
+						if(generalAddSeasonEmployee($EmployeeID,$SY,$S))
+						{
+							echo "Sucess To add Seasonal Employee";
+						}
+						else
+						{
+							echo "Failed to add Seasonal Employee";
+						}
+					}
+					else
+					{
+						echo "Employee do not exist!";
+					}
+				}
+				else
+				{
+					echo "General Add Seasonal Employee Failed ";
+				}
+			}
+			else
+			{
+				echo "Person ID exist in the table";
+			}
+		}
+		else
+		{
+			
+			$EmployeeID = "";
+			$Result = getEmployeeID($PersonID,$CompanyID,$EmployeeID);
+	
+			if($Result)
+			{
+				//echo "get Employee ID via personID, CompanyId, EmployeeID";
+				if(generalAlterExistSeasonEmployee($EmployeeID,$SY,$S))
+				{
+					echo "Sucess To Alter Seasonal Employee";
+				}
+				else
+				{
+					echo "Failed to Alter Seasonal Employee";
+				}
+			}
+			else
+			{
+				echo "Employee do not exist!";
+			}
+		}
+		mysql_close($connection);
+	}
 	
 	
+	function generalAddSeasonEmployee($EmployeeID,$SY,$S)
+	{
+		$result = mysql_query("Insert Into SeasonalEmployee(employee_id,seasonYear,season) values('$EmployeeID','$SY','$S')");
+		if($result)
+		{
+			mysql_free_result($result);
+			return true;
+		}
+		else
+		{
+			mysql_free_result($result);
+			return false;
+		}
+	}
+	
+	function generalAlterExistSeasonEmployee($EmployeeID,$SY,$S)
+	{
+		$result = mysql_query("Update SeasonalEmployee SET season = '$S', seasonYear = '$SY' where employee_id = $EmployeeID");
+		if($result)
+		{
+			mysql_free_result($result);
+			return true;
+		}
+		else
+		{
+			mysql_free_result($result);
+			return false;
+		}
+	}
 	
 	
 	
