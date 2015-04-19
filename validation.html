@@ -352,29 +352,27 @@ function seasonYearValidation(value)
 //validation for searching an employee like sin number
 
 //validation for hour
-function hourValidation(value)
+function hourlyRateValidation(value)
 {
 	var hourReg = /^\d*(?:\.\d{1,2})?$/;
-	var bResult = true;
-	if(value == null || value == "")
+	var bResult = false;
+
+	if(userType == "A")
 	{
-		bResult = false;
+		if(value != null && value != "" && value.match(hourReg) != null)
+		{
+			var hour = parseFloat(value);
+			if(hour != 0.00 && hour <= 24.00)
+			{
+				bResult = true;
+			}
+		}
 	}
 	else
 	{
-		if(value.match(hourReg) != null)
+		if(value >= 0 && value != null && value != "")
 		{
-
-			var hour = parseFloat(value);
-			if(hour == 0.00 || hour >= 24.01)
-			{
-				bResult = false;
-			}
-			
-		}
-		else
-		{
-			bResult = false;
+			bResult = true;
 		}
 	}
 	return bResult;
