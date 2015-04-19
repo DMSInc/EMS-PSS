@@ -5,7 +5,7 @@ session_start();
 	$username = $_POST['username'];
 	$password = $_POST['password'];
 	$dbname = 'users';
-	$connection = mysql_connect('localhost', 'root',' ') or die("Counldn't connect to the server");
+	$connection = mysql_connect('localhost', 'root','Conestoga1') or die("Counldn't connect to the server");
 	mysql_select_db($dbname, $connection);# or die("Failed to connect to MySQL: " . mysql_error());
 
 
