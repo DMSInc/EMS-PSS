@@ -211,7 +211,8 @@ var hDD;
 function hireValidation(value)
 {
 	var bDate  = false;
-	var dateReg = /^\d{4}-\d{2}-\d{2}$/;
+	//var dateReg = /^\d{4}-\d{2}-\d{2}$/;
+	var dateReg = /^\d{4}-\d{2}-\d{2}|^\d{4}-\d{1}-\d{1}|^\d{4}-\d{1}-\d{2}|^\d{4}-\d{2}-\d{1}$/;
 	
 	if(userType == "A")
 	{
@@ -332,7 +333,8 @@ function compareBirthdayAndHireDay(bYYYY, hYYYY)
 function terminationValidation(value)
 {
 	var bDate  = false;
-	var dateReg = /^\d{4}-\d{2}-\d{2}$/;
+	//var dateReg = /^\d{4}-\d{2}-\d{2}$/;
+	var dateReg = /^\d{4}-\d{2}-\d{2}|^\d{4}-\d{1}-\d{1}|^\d{4}-\d{1}-\d{2}|^\d{4}-\d{2}-\d{1}$/;
 	if(userType == "A")
 	{
 		
