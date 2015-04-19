@@ -372,29 +372,8 @@
 	}
 	else if($q == "selectSearchedEmployee")
 	{
-		$PersonID = getValueFromRequest('PSID');
-		$CompanyID = getValueFromRequest('CMID');
-		$EmployeeID 	= getValueFromRequest('EID');
-		$EmployeeType  =  getValueFromRequest('ET');
-		$UserType    = getValueFromRequest('UT');
 		
-		
-		
-		
-		
-		if($UserType == "G")
-		{
-			
-		}
-		else if($UserType == "A")
-		{
-		}
-		else
-		{
-			
-		}
-		
-		
+			userSelectSearchedEmployee();
 		
 	}
 	
@@ -840,8 +819,9 @@
 						$EmployeeType = mysql_result($result_EMP,$indexS,1);
 						$CompanyID = mysql_result($result_EMP,$indexS,2); 
 						
-						//$tableLists .="<tr><td>'$FN'</td><td>'$LN'</td><td>'$SIN'</td><td><button onclick='SelectEmp('$EmployeeID','$EmployeeType','$CompanyID','$PersonID')'>Select</button></td></tr>";
-						$tableLists .="<tr><td>'$FN'</td><td>'$LN'</td><td>'$SIN'</td><td><button onclick='SelectEmp()'>Select</button></td></tr>";
+						
+						//$tableLists .="<tr><td>'$FN'</td><td>'$LN'</td><td>'$SIN'</td><td><button value = '$EmployeeID' onclick='SelectEmp($EmployeeID,$EmployeeType,$CompanyID,$PersonID)'>Select</button></td></tr>";
+						$tableLists .="<tr><td>'$FN'</td><td>'$LN'</td><td>'$SIN'</td><td><button value='$EmployeeID' onclick='SelectEmp(this.value)'>Select</button></td></tr>";
 					}
 					
 					mysql_free_result(result_EMP);
@@ -861,12 +841,32 @@
 	
 	function userSelectSearchedEmployee()
 	{
-		$PersonID = getValueFromRequest('PSID');
-		$CompanyID = getValueFromRequest('CMID');
+		
+		
 		$EmployeeID 	= getValueFromRequest('EID');
-		$EmployeeType  =  getValueFromRequest('ET');
+		
+		
 		$UserType    = getValueFromRequest('UT');
 		
+		
+		$PersonID = "";
+		$CompanyID = "";
+		$EmployeeType  =  "";
+		$EmployeeStatus = "";
+		$EmployeeReasonForLeave = "";
+		
+		$result_PCE = mysql_query("Select person_id,company_id,EmployType,Employeestatus,ReasonForLeave from employee where ID = '$EmployeeID'");
+		if($result_PCE)
+		{
+		
+			$PersonID = mysql_result($result_PCE,0,0);
+			$CompanyID = mysql_result($result_PCE,0,1);
+			$EmployeeType = mysql_result($result_PCE,0,2);
+			$EmployeeStatus = mysql_result($result_PCE,0,3);
+			$EmployeeReasonForLeave = mysql_result($result_PCE,0,4);
+			mysql_free_result($result_PCE);
+			
+		}
 		$FirstName = "";
 		$LastName = "";
 		$SIN = "";
@@ -874,28 +874,32 @@
 		
 		$CompanyName = "";
 		
-		$result = mysql_query("Select FIRSTNAME,LASTNAME,SIN,DATEOFBIRTH FROM PERSON WHERE ID = '$PersonID' ");
+		
+		$result = mysql_query("Select FIRSTNAME,LASTNAME,SIN,DATEOFBIRTH FROM PERSON WHERE ID = '$PersonID' ") or exit(mysql_error());
 		if($result)
 		{
+		
 			$result_row = mysql_num_rows($result);
+			
 			if($result_row > 0)
 			{
+			
 				$tableLists = "<table>";
 				
-				$tableLists .= "<tr><td>'EmployeeType:'</td><td>'$EmployeeType'</td></tr>";
+				$tableLists .= "<tr bgcolor='#009900'><td>EmployeeType:</td><td>$EmployeeType</td></tr>";
 				
 				$FirstName = mysql_result($result,0,0);
-				$tableLists .= "<tr><td>'FirstName:'</td><td>'$FirstName'</td></tr>";
+				$tableLists .= "<tr bgcolor='#006666'><td>FirstName:</td><td>$FirstName</td></tr>";
 				
 				$LastName = mysql_result($result,0,1);
-				$tableLists .= "<tr><td>'LastName:'</td><td>'$LastName'</td></tr>";
+				$tableLists .= "<tr><td>LastName:</td><td>$LastName</td></tr>";
 				
 				
 				$SIN = mysql_result($result, 0,2);
-				$tableLists .= "<tr><td>'SIN:'</td><td>'$SIN'</td></tr>";
+				$tableLists .= "<tr><td>SIN:</td><td>$SIN</td></tr>";
 				
 				$DateOfBirth = mysql_result($result,0,3);
-				$tableLists .= "<tr><td>'DateOfBirth:'</td><td>'$DateOfBirth'</td></tr>";
+				$tableLists .= "<tr><td>DateOfBirth:</td><td>$DateOfBirth</td></tr>";
 				
 				//Free Result undo
 				mysql_free_result($result);
@@ -909,32 +913,117 @@
 					if($CompanyResult_row > 0)
 					{
 						$CompanyName = mysql_result($CompanyResult,0,0);
-						$tableLists .= "<tr><td>'CompanyName:'</td><td>'$CompanyName'</td></tr>";
+						$tableLists .= "<tr><td>CompanyName:</td><td>$CompanyName</td></tr>";
 					}
 				}
-				$tableLists .="</table>";
-				$arr = array('SelectResult' =>$tableLists);
+			
+			
+				if($EmployeeType == "FT")
+				{
+					$result_FT = mysql_query("Select dateofhire,dateoftermination,salary From FulltimeEmployee where employee_id = '$EmployeeID'")  or exit(mysql_error());
+					if($UserType == "A")
+					{
+						if($result_FT)
+						{
+							$DateOfHire = mysql_result($result_FT,0,0);
+							$DateOfTer = mysql_result($result_FT,0,1);
+							$Salary	 = mysql_result($result_FT,0,2);
+							$tableLists .= "<tr><td>DateOfHire:</td><td>$DateOfHire</td></tr>";
+							$tableLists .= "<tr><td>DateOfTermination:</td><td>$DateOfTer</td></tr>";
+							$tableLists .= "<tr><td>Salary:</td><td>$Salary</td></tr>";
+	
+						}
+					}
+					else if($UserType == "G")
+					{
+						if($result_FT)
+						{
+							$DateOfHire = mysql_result($result_FT,0,0);
+							
+							$tableLists .= "<tr><td>DateOfHire:</td><td>$DateOfHire</td></tr>";
+						}
+					}
+					mysql_free_result($result_FT);
+					
+				}
+				else if($EmployeeType == "PT")
+				{
+					$result_PT = mysql_query("Select dateofhire,dateoftermination,hourlyrate from ParttimeEmployee where employee_id='$EmployeeID'") or exit(mysql_error());
+					
+					if($UserType == "A")
+					{
+						if($result_PT)
+						{
+							$DateOfHire = mysql_result($result_PT,0,0);
+							$DateOfTer = mysql_result($result_PT,0,1);
+							$HourRate = mysql_result($result_PT,0,2);
+							
+							$tableLists .= "<tr><td>DateOfHire:</td><td>$DateOfHire</td></tr>";
+							$tableLists .= "<tr><td>DateOfTermination:</td><td>$DateOfTer</td></tr>";
+							$tableLists .= "<tr><td>HourlyRate:</td><td>$HourRate</td></tr>";
+						}
+						
+					}
+					else if($UserType == "G")
+					{
+						$DateOfHire = mysql_result($result_PT,0,0);
+						$tableLists .= "<tr><td>DateOfHire:</td><td>$DateOfHire</td></tr>";
+					}
+					mysql_free_result($result_PT);
+				}
+				else if($EmployeeType == "SN")
+				{
+					$result_SN = mysql_query("Select season,piecePay,seasonYear from SeasonalEmployee where employee_id='$EmployeeID'") or exit(mysql_error());
+					if($UserType == "A")
+					{
+						if($result_SN)
+						{
+							$Season = mysql_result($result_SN,0,0);
+							$PiecePay = mysql_result($result_SN,0,1);
+							$SeasonYear = mysql_result($result_SN,0,2);
+							
+							
+							$tableLists .= "<tr><td>Season:</td><td>$Season</td></tr>";
+							$tableLists .= "<tr><td>Piecepay:</td><td>$PiecePay</td></tr>";
+							$tableLists .= "<tr><td>SeasonYear:</td><td>$SeasonYear</td></tr>";
+						}
+					}
+					else if($UserType == "G")
+					{
+						$Season = mysql_result($result_SN,0,0);
+						$SeasonYear = mysql_result($result_SN,0,2);
+						
+						
+						$tableLists .= "<tr><td>Season:</td><td>$Season</td></tr>";
+						$tableLists .= "<tr><td>SeasonYear:</td><td>$SeasonYear</td></tr>";
+					}
+					
+					mysql_free_result($result_SN);
+					
+				}
+				else if($EmployeeType == "CT")
+				{
+					
+					if($UserType == "A")
+					{
+						$result_CT = mysql_query("Select contractStartDate,contractStopDate,fixedContractAmount from Contractor where employee_id='$EmployeeID'") or exit(mysql_error());
+						if($result_CT)
+						{
+							$ContractStartDate = mysql_result($result_CT,0,0);
+							$ContractStopdate = mysql_result($result_CT,0,1);
+							$ContractFixedContractAmount = mysql_result($result_CT,0,2);
+							
+							$tableLists .= "<tr><td>ContractStartDate:</td><td>$ContractStartDate</td></tr>";
+							$tableLists .= "<tr><td>ContractStopdate:</td><td>$ContractStopdate</td></tr>";
+							$tableLists .= "<tr><td>ContractFixedContractAmount:</td><td>$ContractFixedContractAmount</td></tr>";
+						}
+					}
+				}
+		
+				
+				$tableLists .= "</table>";
+				$arr = array('Result' => $tableLists);
 				echo json_encode($arr);
-				if(EmployeeType == "FT")
-				{
-					
-				}
-				else if(EmployeeType == "PT")
-				{
-				
-				}
-				else if(EmployeeType == "SN")
-				{
-					
-				}
-				else if(EmployeeType == "CT")
-				{
-				
-				}
-				else
-				{
-					
-				}
 				
 				
 			}

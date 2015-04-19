@@ -1319,9 +1319,9 @@ function submitAdminFullTimeEmp()
 		
 		sendData += makeUpJson("LN",{"LN":"Meng"});
 		
-		sendData += makeUpJson("CM",{"CM":"Conestoga"});
+		sendData += makeUpJson("CM",{"CM":"Cccc"});
 		
-		sendData += makeUpJson("SIN",{"SIN":"123456789"});
+		sendData += makeUpJson("SIN",{"SIN":"123456776"});
 		
 		sendData += makeUpJson("DOB",{"DOB":"19990909"});
 		
@@ -1902,7 +1902,77 @@ $(document).ready(function () {
         $("#searchDiv").fadeTo(1000, 1);
     });
 });     
-    
+   $(document).ready(function () {
+    "use strict";
+    $("#searchEmpBtn").click(function () {
+		alert("search");
+		
+		var value = "searchEmployee";
+		var sendData = "";
+	
+		sendData += makeUpJson("q",{"q":value},true);
+
+		sendData += makeUpJson("FN",{"FN":"Xiaodong"});
+		
+		//sendData += makeUpJson("LN",{"LN":"Meng"});
+	
+		//sendData += makeUpJson("SIN",{"SIN":"123456789"});
+		
+		sendData += makeUpJson("UT",{"UT":userType});
+		
+	
+		alert(sendData);
+	 $.ajax({url: "Database.php",
+							type: "GET",
+							async:true,
+							data : sendData,
+							success:function(result)
+							{
+								alert(result);
+								$("#searchResultDiv").html(makeItAnObject(result));
+							},
+							 error: function( objRequest )
+							 {
+								alert(objRequest);
+							 }
+							
+							});
+		
+	});
+});
+
+
+//function SelectEmp(EmployeeID,EmployeeType,CompanyID,PersonID)
+function SelectEmp(EmployeeID)
+{
+		
+		var value = "selectSearchedEmployee";
+		var sendData = "";
+	
+		sendData += makeUpJson("q",{"q":value},true);
+		
+		sendData += makeUpJson("EID",{"EID":EmployeeID});
+	
+		sendData += makeUpJson("UT",{"UT":userType});
+		
+			
+	 $.ajax({url: "Database.php",
+							type: "GET",
+							async:true,
+							data : sendData,
+							success:function(result)
+							{
+								$("#searchResultDiv").html(makeItAnObject(result));
+							},
+							 error: function( objRequest )
+							 {
+								alert(objRequest);
+							 }
+							
+							});
+		
+}
+
 
 function showReportsButtons()
 {
@@ -2306,7 +2376,7 @@ function submitTimeCardForFTPT()
 		
 		sendData += makeUpJson("UT",{"UT":"A"});
 		
-		sendData += makeUpJson("ET",{"ET":"SN"});
+		sendData += makeUpJson("ET",{"ET":"FT"});
 		
 		sendData += makeUpJson("FN",{"FN":"Xiaodong"});
 		
@@ -2671,6 +2741,7 @@ function goBackTimeCardS()
         <label id="searchLnameLabel">Last Name</label><input type="text" id="searchLnameText" name="searchLnameText">
         <label id="searchSinLabel">SIN</label><input type="text" id="searchSinText" name="searchSinText">
         <button id="searchEmpBtn">Search</button>
+		<div id="searchResultDiv"></div>
       </div>
       
       <p id="copyright">Developed & Maintained by DMS Inc.</p>   
