@@ -3,8 +3,8 @@
 
 	error_reporting(0);
 
-	$dbname = 'EMSPSS';
-	$connection = mysql_connect('localhost', 'root','Conestoga1') or die("Counldn't connect to the server");
+	$dbname = 'EMS-PSS';
+	$connection = mysql_connect('localhost', 'root',' ') or die("Counldn't connect to the server");
 	
 	mysql_select_db($dbname, $connection);# or die("Failed to connect to MySQL: " . mysql_error());
 	
@@ -523,7 +523,10 @@
 			userSelectSearchedEmployee();
 		
 	}
-	
+    else{
+        
+        echo "sameer";
+    }
 	function getValueFromRequest($Request)
 	{
 		$return = "";
