@@ -2741,7 +2741,7 @@ function goBackTimeCardS()
         <label id="searchLnameLabel">Last Name</label><input type="text" id="searchLnameText" name="searchLnameText">
         <label id="searchSinLabel">SIN</label><input type="text" id="searchSinText" name="searchSinText">
         <button id="searchEmpBtn">Search</button>
-		<div id="searchResultDiv"></div>
+		<div id="searchResultDiv" style=" width: 100%;   position:absolute; right:0px;  top:0px; " ></div>
       </div>
       
       <p id="copyright">Developed & Maintained by DMS Inc.</p>   

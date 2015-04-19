@@ -147,8 +147,7 @@
 				}
 				
 				$CompanyExist = checkCompanyExist($Company);  //Check  if the Company have been added to database.
-					
-			
+				
 				if(!$CompanyExist)   // If the company has not been added to the DB, then add the company to DB
 				{
 					mysql_query("Insert into company(CORPORATIONNAME) values('$Company')");
@@ -234,7 +233,104 @@
 			}
 			else if($EmployType == "PT")
 			{
+				$FirstName = getValueFromRequest('FN');
+				$LastName = getValueFromRequest('LN');
+				$Company = getValueFromRequest('CM');
+				$SIN 	= getValueFromRequest('SIN');
+				$DOB	= getValueFromRequest('DOB');
+				$DOH 	= getValueFromRequest('DOH');
 				
+				$PersonExist = checkPersonExist($SIN);  //Check if the person have been added.
+				
+				if(!$PersonExist)    //If the database has not contain the person , then add the preson to DB.
+				{
+					$insertPerson = mysql_query("Insert into person(FIRSTNAME, LASTNAME,SIN,DATEOFBIRTH) values('$FirstName' , '$LastName','$SIN','$DOB')") or exit(mysql_error());
+				}
+				
+				$CompanyExist = checkCompanyExist($Company);  //Check  if the Company have been added to database.
+				
+				if(!$CompanyExist)   // If the company has not been added to the DB, then add the company to DB
+				{
+					mysql_query("Insert into company(CORPORATIONNAME) values('$Company')");
+				}
+				
+				$PersonID ="";
+				$CompanyID  = "";
+				if(!getPersonID($SIN,$PersonID))
+				{
+					echo "Faile to Add Employee";
+					exit;
+				}
+				if(!getCompanyID($Company,$CompanyID))  //if true, company id already modified
+				{
+					echo "Faile to Add Employee";
+					exit;
+				}
+				$EmployeeIDExist = checkEmployeeExist($PersonID,$CompanyID,$EmployType);   //?
+				
+				if(!$EmployeeIDExist)
+				{	
+					//check person id exsit in the table 
+					if(checkExsitPersonID($PersonID))
+					{
+						if(generalAddGeneralEmployee($PersonID, $CompanyID, $EmployType))
+						{
+							$EmployeeID = "";
+							$Result = getEmployeeID($PersonID,$CompanyID,$EmployeeID);
+							
+							if($Result)
+							{
+								
+								//mysql_query("Insert into employee(employee_id) values('$Result')") or exit(mysql_error());
+								
+								if(generalAddFullTimeEmployee($EmployeeID,$DOH))
+								{
+									echo "Sucess To add FullTime Employee";
+								}
+								else
+								{
+									echo "Failed to add FullTIme Employee";
+								}
+							}
+							else
+							{
+								echo "Employee do not exist!";
+							}
+						}
+						else
+						{
+							echo "General Add Employee Failed ";
+						}
+					}
+					else
+					{
+						echo "Person ID exist in the table";
+					}
+				}
+				else
+				{
+					
+					$EmployeeID = "";
+					$Result = getEmployeeID($PersonID,$CompanyID,$EmployeeID);
+			
+					if($Result)
+					{
+						//echo "get Employee ID via personID, CompanyId, EmployeeID";
+						if(generalAlterExistFullEmployee($EmployeeID,$DOH))
+						{
+							echo "Sucess To Alter FullTime Employee";
+						}
+						else
+						{
+							echo "Failed to Alter FullTIme Employee";
+						}
+					}
+					else
+					{
+						echo "Employee do not exist!";
+					}
+				}
+				mysql_close($connection);
 			}
 			else if($EmployType == "SN")
 			{
@@ -841,14 +937,8 @@
 	
 	function userSelectSearchedEmployee()
 	{
-		
-		
 		$EmployeeID 	= getValueFromRequest('EID');
-		
-		
 		$UserType    = getValueFromRequest('UT');
-		
-		
 		$PersonID = "";
 		$CompanyID = "";
 		$EmployeeType  =  "";
@@ -892,14 +982,15 @@
 				$tableLists .= "<tr bgcolor='#006666'><td>FirstName:</td><td>$FirstName</td></tr>";
 				
 				$LastName = mysql_result($result,0,1);
-				$tableLists .= "<tr><td>LastName:</td><td>$LastName</td></tr>";
+				$tableLists .= "<tr bgcolor='#009900'><td>LastName:</td><td>$LastName</td></tr>";
 				
 				
 				$SIN = mysql_result($result, 0,2);
-				$tableLists .= "<tr><td>SIN:</td><td>$SIN</td></tr>";
+				$tableLists .= "<tr bgcolor='#006666'><td>SIN:</td><td>$SIN</td></tr>";
 				
 				$DateOfBirth = mysql_result($result,0,3);
-				$tableLists .= "<tr><td>DateOfBirth:</td><td>$DateOfBirth</td></tr>";
+				dateTransfor($DateOfBirth);
+				$tableLists .= "<tr bgcolor='#009900'><td>DateOfBirth:</td><td>$DateOfBirth</td></tr>";
 				
 				//Free Result undo
 				mysql_free_result($result);
@@ -913,7 +1004,7 @@
 					if($CompanyResult_row > 0)
 					{
 						$CompanyName = mysql_result($CompanyResult,0,0);
-						$tableLists .= "<tr><td>CompanyName:</td><td>$CompanyName</td></tr>";
+						$tableLists .= "<tr bgcolor='#006666'><td>CompanyName:</td><td>$CompanyName</td></tr>";
 					}
 				}
 			
@@ -926,11 +1017,13 @@
 						if($result_FT)
 						{
 							$DateOfHire = mysql_result($result_FT,0,0);
+							dateTransfor($DateOfHire);
 							$DateOfTer = mysql_result($result_FT,0,1);
+							dateTransfor($DateOfTer);
 							$Salary	 = mysql_result($result_FT,0,2);
-							$tableLists .= "<tr><td>DateOfHire:</td><td>$DateOfHire</td></tr>";
-							$tableLists .= "<tr><td>DateOfTermination:</td><td>$DateOfTer</td></tr>";
-							$tableLists .= "<tr><td>Salary:</td><td>$Salary</td></tr>";
+							$tableLists .= "<tr bgcolor='#009900'><td>DateOfHire:</td><td>$DateOfHire</td></tr>";
+							$tableLists .= "<tr bgcolor='#006666'><td>DateOfTermination:</td><td>$DateOfTer</td></tr>";
+							$tableLists .= "<tr bgcolor='#009900'><td>Salary:</td><td>$Salary</td></tr>";
 	
 						}
 					}
@@ -939,8 +1032,8 @@
 						if($result_FT)
 						{
 							$DateOfHire = mysql_result($result_FT,0,0);
-							
-							$tableLists .= "<tr><td>DateOfHire:</td><td>$DateOfHire</td></tr>";
+							dateTransfor($DateOfHire);
+							$tableLists .= "<tr bgcolor='#009900'><td>DateOfHire:</td><td>$DateOfHire</td></tr>";
 						}
 					}
 					mysql_free_result($result_FT);
@@ -955,19 +1048,22 @@
 						if($result_PT)
 						{
 							$DateOfHire = mysql_result($result_PT,0,0);
+							dateTransfor($DateOfHire);
 							$DateOfTer = mysql_result($result_PT,0,1);
+							dateTransfor($DateOfTer);
 							$HourRate = mysql_result($result_PT,0,2);
 							
-							$tableLists .= "<tr><td>DateOfHire:</td><td>$DateOfHire</td></tr>";
-							$tableLists .= "<tr><td>DateOfTermination:</td><td>$DateOfTer</td></tr>";
-							$tableLists .= "<tr><td>HourlyRate:</td><td>$HourRate</td></tr>";
+							$tableLists .= "<tr  bgcolor='#009900'><td>DateOfHire:</td><td>$DateOfHire</td></tr>";
+							$tableLists .= "<tr  bgcolor='#006666'><td>DateOfTermination:</td><td>$DateOfTer</td></tr>";
+							$tableLists .= "<tr  bgcolor='#009900'><td>HourlyRate:</td><td>$HourRate</td></tr>";
 						}
 						
 					}
 					else if($UserType == "G")
 					{
 						$DateOfHire = mysql_result($result_PT,0,0);
-						$tableLists .= "<tr><td>DateOfHire:</td><td>$DateOfHire</td></tr>";
+						dateTransfor($DateOfHire);
+						$tableLists .= "<tr bgcolor='#009900'><td>DateOfHire:</td><td>$DateOfHire</td></tr>";
 					}
 					mysql_free_result($result_PT);
 				}
@@ -983,9 +1079,9 @@
 							$SeasonYear = mysql_result($result_SN,0,2);
 							
 							
-							$tableLists .= "<tr><td>Season:</td><td>$Season</td></tr>";
-							$tableLists .= "<tr><td>Piecepay:</td><td>$PiecePay</td></tr>";
-							$tableLists .= "<tr><td>SeasonYear:</td><td>$SeasonYear</td></tr>";
+							$tableLists .= "<tr bgcolor='#009900'><td>Season:</td><td>$Season</td></tr>";
+							$tableLists .= "<tr  bgcolor='#006666'><td>Piecepay:</td><td>$PiecePay</td></tr>";
+							$tableLists .= "<tr bgcolor='#009900'><td>SeasonYear:</td><td>$SeasonYear</td></tr>";
 						}
 					}
 					else if($UserType == "G")
@@ -994,8 +1090,8 @@
 						$SeasonYear = mysql_result($result_SN,0,2);
 						
 						
-						$tableLists .= "<tr><td>Season:</td><td>$Season</td></tr>";
-						$tableLists .= "<tr><td>SeasonYear:</td><td>$SeasonYear</td></tr>";
+						$tableLists .= "<tr  bgcolor='#009900'><td>Season:</td><td>$Season</td></tr>";
+						$tableLists .= "<tr bgcolor='#006666'><td>SeasonYear:</td><td>$SeasonYear</td></tr>";
 					}
 					
 					mysql_free_result($result_SN);
@@ -1010,12 +1106,14 @@
 						if($result_CT)
 						{
 							$ContractStartDate = mysql_result($result_CT,0,0);
+							dateTransfor($ContractStartDate);
 							$ContractStopdate = mysql_result($result_CT,0,1);
+							dateTransfor($ContractStopdate);
 							$ContractFixedContractAmount = mysql_result($result_CT,0,2);
 							
-							$tableLists .= "<tr><td>ContractStartDate:</td><td>$ContractStartDate</td></tr>";
-							$tableLists .= "<tr><td>ContractStopdate:</td><td>$ContractStopdate</td></tr>";
-							$tableLists .= "<tr><td>ContractFixedContractAmount:</td><td>$ContractFixedContractAmount</td></tr>";
+							$tableLists .= "<tr bgcolor='#009900'><td>ContractStartDate:</td><td>$ContractStartDate</td></tr>";
+							$tableLists .= "<tr bgcolor='#006666'><td>ContractStopdate:</td><td>$ContractStopdate</td></tr>";
+							$tableLists .= "<tr bgcolor='#009900'><td>ContractFixedContractAmount:</td><td>$ContractFixedContractAmount</td></tr>";
 						}
 					}
 				}
@@ -1044,6 +1142,7 @@
 	{
 		$Date = date("Y-m-d", strtotime($Date));
 	}
+	
 	
 	
 	
