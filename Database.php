@@ -3,7 +3,7 @@
 
 	error_reporting(0);
 
-	$dbname = 'users';
+	$dbname = 'EMSPSS';
 	$connection = mysql_connect('localhost', 'root','Conestoga1') or die("Counldn't connect to the server");
 	
 	mysql_select_db($dbname, $connection);# or die("Failed to connect to MySQL: " . mysql_error());
@@ -139,32 +139,73 @@
 				$DOB	= getValueFromRequest('DOB');
 				$DOH 	= getValueFromRequest('DOH');
 				
-				$PersonExist = checkPersonExist($SIN);  //Check if the person have been added.
-				
-				if(!$PersonExist)    //If the database has not contain the person , then add the preson to DB.
-				{
-					$insertPerson = mysql_query("Insert into person(FIRSTNAME, LASTNAME,SIN,DATEOFBIRTH) values('$FirstName' , '$LastName','$SIN','$DOB')") or exit(mysql_error());
-				}
-				
-				$CompanyExist = checkCompanyExist($Company);  //Check  if the Company have been added to database.
-				
-				if(!$CompanyExist)   // If the company has not been added to the DB, then add the company to DB
-				{
-					mysql_query("Insert into company(CORPORATIONNAME) values('$Company')");
-				}
 				
 				$PersonID ="";
+				if($SIN !== "")
+				{
+					$PersonExist = checkPersonExist($SIN);  //Check if the person have been added.
+					if(!$PersonExist)    //If the database has not contain the person , then add the preson to DB.
+					{
+						$insertPerson = mysql_query("Insert into person(FIRSTNAME, LASTNAME,SIN,DATEOFBIRTH) values('$FirstName' , '$LastName','$SIN','$DOB')") or exit(mysql_error());
+						$PersonID = mysql_insert_id();
+					}
+					else
+					{
+						getPersonID($SIN,$PersonID);
+					}
+				}
+				else
+				{
+					$insertPerson = mysql_query("Insert into person(FIRSTNAME, LASTNAME,SIN,DATEOFBIRTH) values('$FirstName' , '$LastName','$SIN','$DOB')") or exit(mysql_error());
+					$PersonID = mysql_insert_id();
+				}
+				
+				
+				
+				//$CompanyExist = checkCompanyExist($Company);  //Check  if the Company have been added to database.
+				
+				//if(!$CompanyExist)   // If the company has not been added to the DB, then add the company to DB
+				//{
+			//		mysql_query("Insert into company(CORPORATIONNAME) values('$Company')");
+			//	}
+				
+				
 				$CompanyID  = "";
-				if(!getPersonID($SIN,$PersonID))
+				if($Company !== "")
 				{
-					echo "Faile to Add Employee";
-					exit;
+					$CompanyExist = checkCompanyExist($Company);  //Check  if the Company have been added to database.
+					if(!$CompanyExist)   // If the company has not been added to the DB, then add the company to DB
+					{
+						mysql_query("Insert into company(CORPORATIONNAME) values('$Company')") or exit(mysql_error());
+						$CompanyID =  mysql_insert_id();
+						
+					}	
+					else
+					{
+						getCompanyID($Company,$CompanyID);
+					}
 				}
-				if(!getCompanyID($Company,$CompanyID))  //if true, company id already modified
+				else
 				{
-					echo "Faile to Add Employee";
-					exit;
+					$insertCom_result = mysql_query("Insert into company(CORPORATIONNAME) values('$Company')") or exit(mysql_error());
+					if($insertCom_result)
+					{
+						$CompanyID = mysql_insert_id();
+					}
 				}
+				
+				
+				//if(!getPersonID($SIN,$PersonID))
+				//{
+				//	echo "Faile to Add Employee";
+				//	exit;
+			//	}
+			//	if(!getCompanyID($Company,$CompanyID))  //if true, company id already modified
+			//	{
+			//		echo "Faile to Add Employee";
+			//		exit;
+			//	}
+			
 				$EmployeeIDExist = checkEmployeeExist($PersonID,$CompanyID,$EmployType);   //?
 				
 				if(!$EmployeeIDExist)
@@ -179,9 +220,6 @@
 							
 							if($Result)
 							{
-								
-								//mysql_query("Insert into employee(employee_id) values('$Result')") or exit(mysql_error());
-								
 								if(generalAddFullTimeEmployee($EmployeeID,$DOH))
 								{
 									echo "Sucess To add FullTime Employee";
@@ -241,21 +279,33 @@
 				$DOH 	= getValueFromRequest('DOH');
 				
 				$PersonExist = checkPersonExist($SIN);  //Check if the person have been added.
-				
+				$PersonID ="";
 				if(!$PersonExist)    //If the database has not contain the person , then add the preson to DB.
 				{
-					$insertPerson = mysql_query("Insert into person(FIRSTNAME, LASTNAME,SIN,DATEOFBIRTH) values('$FirstName' , '$LastName','$SIN','$DOB')") or exit(mysql_error());
+					mysql_query("Insert into person(FIRSTNAME, LASTNAME,SIN,DATEOFBIRTH) values('$FirstName' , '$LastName','$SIN','$DOB')") or exit(mysql_error());
+					$PersonID = mysql_insert_id();
 				}
-				
-				$CompanyExist = checkCompanyExist($Company);  //Check  if the Company have been added to database.
-				
-				if(!$CompanyExist)   // If the company has not been added to the DB, then add the company to DB
+				else
 				{
-					mysql_query("Insert into company(CORPORATIONNAME) values('$Company')");
+						getPersonID($SIN,$PersonID);
 				}
 				
-				$PersonID ="";
+				//$CompanyExist = checkCompanyExist($Company);  //Check  if the Company have been added to database.
+				
+				//if(!$CompanyExist)   // If the company has not been added to the DB, then add the company to DB
+				//{
+			//		mysql_query("Insert into company(CORPORATIONNAME) values('$Company')");
+			//	}
+				
+				
 				$CompanyID  = "";
+				$insertCom_result = mysql_query("Insert into company(CORPORATIONNAME) values('$Company')") or exit(mysql_error());
+				if($insertCom_result)
+				{
+					$CompanyID = mysql_insert_id();
+				}
+				
+	
 				if(!getPersonID($SIN,$PersonID))
 				{
 					echo "Faile to Add Employee";
@@ -334,6 +384,7 @@
 			}
 			else if($EmployType == "SN")
 			{
+				
 			}
 		}
 	}
@@ -926,11 +977,17 @@
 				
 			}
 			$tableLists .="</table>";
-		}
-		mysql_free_result(result);
+			mysql_free_result(result);
 		
-		$arr = array('searchResult' =>$tableLists);
-		echo json_encode($arr);
+			$arr = array('searchResult' =>$tableLists);
+			echo json_encode($arr);
+		}
+		else
+		{
+			$arr = array('searchResult' => "No Result");
+			echo json_encode($arr);
+		}
+		
 	
 	}
 	
