@@ -377,3 +377,18 @@ function hourlyRateValidation(value)
 	}
 	return bResult;
 }
+
+
+
+//Admin user fix contract amount validation
+function fixContractAmountValidation(value)
+{
+	var bFixContractAmount = false;
+
+	if(value != null && value != "" && value > 0)
+	{
+		bFixContractAmount = true;
+		
+	}
+	return bFixContractAmount;
+}
