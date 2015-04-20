@@ -4,7 +4,7 @@ session_start();
 	$login = $_POST['login'];
 	$username = $_POST['username'];
 	$password = $_POST['password'];
-	$dbname = 'ems-pss';
+	$dbname = 'emspss';
 	$connection = mysql_connect('localhost', 'root','Conestoga1') or die("Counldn't connect to the server");
 	mysql_select_db($dbname, $connection);# or die("Failed to connect to MySQL: " . mysql_error());
 
@@ -25,6 +25,8 @@ session_start();
 			else{
                 $_SESSION["loginStatus"]="fail";
                 header('Location: Login.php');
+				
+				
 			}
 
 		}
