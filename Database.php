@@ -3,8 +3,8 @@
 
 	error_reporting(0);
 
-	$dbname = 'EMS-PSS';
-	$connection = mysql_connect('localhost', 'root',' ') or die("Counldn't connect to the server");
+	$dbname = 'EMSPSS';
+	$connection = mysql_connect('localhost', 'root','Conestoga1') or die("Counldn't connect to the server");
 	
 	mysql_select_db($dbname, $connection);# or die("Failed to connect to MySQL: " . mysql_error());
 	
@@ -59,6 +59,7 @@
 					echo "Faile to Add Employee";
 					exit;
 				}
+				
 				$EmployeeIDExist = checkEmployeeExist($PersonID,$CompanyID,$EmployType);
 				
 				if(!$EmployeeIDExist)
@@ -132,6 +133,7 @@
 			$EmployType = getValueFromRequest('ET'); //get Employ type.
 			if($EmployType == "FT")
 			{
+			
 				$FirstName = getValueFromRequest('FN');
 				$LastName = getValueFromRequest('LN');
 				$Company = getValueFromRequest('CM');
@@ -144,6 +146,7 @@
 				if($SIN !== "")
 				{
 					$PersonExist = checkPersonExist($SIN);  //Check if the person have been added.
+				
 					if(!$PersonExist)    //If the database has not contain the person , then add the preson to DB.
 					{
 						$insertPerson = mysql_query("Insert into person(FIRSTNAME, LASTNAME,SIN,DATEOFBIRTH) values('$FirstName' , '$LastName','$SIN','$DOB')") or exit(mysql_error());
@@ -151,7 +154,9 @@
 					}
 					else
 					{
+								
 						getPersonID($SIN,$PersonID);
+						
 					}
 				}
 				else
@@ -162,17 +167,27 @@
 				
 				
 				$CompanyID  = "";
+			
 				if($Company !== "")
 				{
+					
 					$CompanyExist = checkCompanyExist($Company);  //Check  if the Company have been added to database.
+					
 					if(!$CompanyExist)   // If the company has not been added to the DB, then add the company to DB
 					{
-						mysql_query("Insert into company(CORPORATIONNAME) values('$Company')") or exit(mysql_error());
-						$CompanyID =  mysql_insert_id();
+		
+						$result = mysql_query("Insert into company(CORPORATIONNAME) values('$Company')") or exit(mysql_error());
+						if($result)
+						{
+							$CompanyID =  mysql_insert_id();
+						}
+						
+						
 						
 					}	
 					else
-					{
+					{		
+					
 						getCompanyID($Company,$CompanyID);
 					}
 				}
@@ -187,6 +202,7 @@
 				
 				$EmployeeIDExist = checkEmployeeExist($PersonID,$CompanyID,$EmployType);   //?
 				
+			
 				if(!$EmployeeIDExist)
 				{	
 					//check person id exsit in the table 
@@ -393,18 +409,37 @@
 				$DateOfTermination  = "";
 				$Salary = "";
 	
-				
 				getFullTimeDOHDOTSalary($EmployID,$DateOfHire,$DateOfTermination,$Salary);
 				
-				$array = array('FN' => $FirstName, 'LN' => $LastName, 'DOB' => $DateOfBirth,'DOH' => $DateOfHire, 'DOT' => $DateOfTermination, 'Salary' => $Salary);
+				$array = array('FN' => $FirstName, 'LN' => $LastName, 'CM'=> $COM, 'SIN' => $SIN, 'DOB' => $DateOfBirth, 'DOH' => $DateOfHire, 'DOT' => $DateOfTermination, 'Salary' => $Salary);
 				echo json_encode($array);
 				
 			}
 			else if($EmplyeeType == "PT")
 			{
+				$FirstName = "";
+				$LastName = "";
+				$DateOfBirth = "";
+				$DateOfHire = "";
+
+				getFirstNameLastNameDOB($SIN,$FirstName,$LastName,$DateOfBirth);
+
+				$array = array('FN' => $FirstName, 'LN' => $LastName, 'DOB' => $DateOfBirth,'DOH' => $DateOfHire, 'SIN' => $SIN, 'COM' => $COM);
+				echo json_encode($array);
+
 			}
 			else if($EmplyeeType == "SN")
 			{
+				$FirstName = "";
+				$LastName = "";
+				$DateOfBirth = "";
+				$SeasonYear = "";
+				$Season = "";
+				$DateOfHire = "";
+				getFirstNameLastNameDOB($SIN,$FirstName,$LastName,$DateOfBirth);
+
+				$array = array('FN' => $FirstName, 'LN' => $LastName, 'DOB' => $DateOfBirth,'DOH' => $DateOfHire, 'SY' => $SeasonYear, 'S' => $Season, 'SIN' => $SIN, 'COM' => $COM);
+				echo json_encode($array);
 			}
 		}
 		else
@@ -437,6 +472,13 @@
 				$SaturdayH = getValueFromRequest('SAH');
 				$SundayH = getValueFromRequest('SUNH');
 				$WeekAmount = getValueFromRequest('WA');
+				
+				$ChildEmployee = mysql_query("Select ID from SeasonalEmployee where employee_id = '$EmpID' AND Employeestatus = 'Active'")  or exit(mysql_error());
+				if($ChildEmployee)
+				{
+					$EmpID = mysql_result($ChildEmployee,0,0);
+				}
+				
 				if(insertTimeCard($EmpID, $MondayH, $TuesdayH, $WednesdayH, $ThursdayH, $FridayH,$SaturdayH,$SundayH))
 				{
 					 $TimeCardID = mysql_insert_id();
@@ -494,6 +536,7 @@
 	}
 	else if($q == "searchEmployee")
 	{
+		
 		$FNP = getValueFromRequest('FN');
 		$LNP = getValueFromRequest('LN');
 		$SINP 	= getValueFromRequest('SIN');
@@ -507,28 +550,35 @@
 			userSelectSearchedEmployee();
 		
 	}
-	else if($ == "addNewUser")
+	else if ($q == "generalSeniorityReport")
 	{
+		generateSeniorityReport();
+		
+	}
+	else if($q == "addNewUser")
+ 	{
 		$UserName = getValueFromRequest('UN');
-		$FirstName = getValueFromRequest('FN');
-		$LastName = getValueFromRequest('LN');
-		$SecurityLevel = getValueFromRequest('SL');
-		$Password = getValueFromRequest('PD');
+ 		$FirstName = getValueFromRequest('FN');
+ 		$LastName = getValueFromRequest('LN');
+ 		$SecurityLevel = getValueFromRequest('SL');
+ 		$Password = getValueFromRequest('PD');
+		
+		$insertLogin = mysql_query("Insert into login(FIRSTNAME, LASTNAME, PASSWORD, TYPE) values('$FirstName' , '$LastName','$Password','$SecurityLevel')") or exit(mysql_error());
 
 		$UserNameExist = checkUserNameExist($UserName);
 		if (!$UserNameExist) 
 		{
 			$insertLogin = mysql_query("Insert into login(USERNAME, FIRSTNAME, LASTNAME, PASSWORD, TYPE) values('$UserName', $FirstName' , '$LastName','$Password','$SecurityLevel')") or exit(mysql_error());
 		}
-		
-		mysql_close($connection);
-		
-		
+ 		
+ 		mysql_close($connection);
 	}
     else{
         
         echo "sameer";
     }
+	
+	
 	function getValueFromRequest($Request)
 	{
 		$return = "";
@@ -543,6 +593,24 @@
 			$return  = $obj[$Request];
 		}	
 		return $return;
+	}
+	
+	
+	function checkUserNameExist($UserName)
+	{
+		$UserNameExistAccount = mysql_query("Select count(*) as count from login where username = '$UserName'") or exit(mysql_error());
+		$row = mysql_fetch_object($PersonExistAccount);
+		$UserAccount = $row->count;
+		
+		if($UserAccount > 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+			
+		}
 	}
 	
 	function insertSeasonEmpWeekPiece($TimeCardID,$PieceAmount)
@@ -603,22 +671,6 @@
 		}
 	}
 	
-	function checkUserNameExist($UserName)
-	{
-		$UserNameExistAccount = mysql_query("Select count(*) as count from login where username = '$UserName'") or exit(mysql_error());
-		$row = mysql_fetch_object($PersonExistAccount);
-		$UserAccount = $row->count;
-		
-		if($UserAccount > 0)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-			
-		}
-	}
 	function checkPersonExist($PersonSIN)
 	{
 		$PersonExistAccount = mysql_query("Select count(*) as count from person where SIN = '$PersonSIN'") or exit(mysql_error());
@@ -639,9 +691,21 @@
 	function checkCompanyExist($CompanyName)
 	{
 		
-		$CompanyExist = mysql_query("Select * From Company where  CORPORATIONNAME = '$CompanyName' limit 1") or exit(mysql_error());
+		//$query = sprintf("SELECT * FROM Company WHERE CORPORATIONNAME='%s'",
+       //     mysql_real_escape_string($CompanyName));
+			
+			//echo $query;
+            
+		//$query = "Select * From Company where  CORPORATIONNAME = '$CompanyName'";
+		//$query =  mysql_real_escape_string($query);
+		//echo $query;
+		//	$query =  str_replace("'","''", $query);
+		//	echo $query;
+		//$CompanyExist = mysql_query($query) or exit(mysql_error());
+		$CompanyExist = mysql_query("Select * From Company where  CORPORATIONNAME = '$CompanyName'") or exit(mysql_error());
+	
 		$CompanyExist_Rows = mysql_num_rows($CompanyExist);
-		
+	
 		if($CompanyExist_Rows > 0)
 		{
 			mysql_free_result($CompanyExist);
@@ -732,10 +796,14 @@
 	{
 		if($PersonID !== "" && $CompanyID !== "" )
 		{
-		
+			echo $PersonID;
+			echo $CompanyID;
+			echo $EmployeeType;
+	
 			$result = mysql_query("Insert Into employee(company_id, person_id,EmployType) values('$CompanyID','$PersonID','$EmployeeType')");
 			if($result)
 			{
+				
 				mysql_free_result($result);
 				return true;
 			}
@@ -811,6 +879,17 @@
 		
 		return $resultValue;
 	}
+	
+	
+	function getWorkStatusByEmployeeIDFTPTCT($EmployeeID,&$WorkStatus)
+	{
+		$result = mysql_query("Select Employeestatus from employee where ID = '$EmployeeID' ");
+		if($result)
+		{
+			$WorkStatus =  mysql_result($result,0,0);
+		}
+	}
+	
 	
 	function checkEmployeeExist($PersonID, $CompanyID, $EmployeeType)
 	{
@@ -946,7 +1025,6 @@
 		$result = "";
 		if($FNP !== "" && $LNP == "" && $SINP == "")
 		{
-
 			$result = mysql_query("Select ID,FIRSTNAME,LASTNAME,SIN From  PERSON where FIRSTNAME='$FNP'") or exit(mysql_error());
 		}
 		else if($FNP == "" && $LNP !== "" && $SINP == "")
@@ -1005,7 +1083,9 @@
 					exit;
 				}
 				
-				$result_EMP = mysql_query("Select ID, EmployType, company_id From employee where person_id = '$PersonID'") or exit(mysql_error());
+				
+				
+				//$result_EMP = mysql_query("Select ID, EmployType, company_id From employee where person_id = '$PersonID'") or exit(mysql_error());
 				
 				$result_EMP_row = mysql_num_rows($result_EMP);
 				
@@ -1017,9 +1097,45 @@
 						$EmployeeType = mysql_result($result_EMP,$indexS,1);
 						$CompanyID = mysql_result($result_EMP,$indexS,2); 
 						
+						if($EmployeeType == "SN")
+						{
+							$result_Season = "";
+							
+							if($UTP == "G")
+							{
+								$result_Season = mysql_query("Select ID from SeasonalEmployee where  employee_id = '$EmployeeID' AND Employeestatus = 'Active' ") or exit(mysql_error());
+							}
+							else if($UTP == "A")
+							{
+								$result_Season = mysql_query("Select ID from SeasonalEmployee where  employee_id = '$EmployeeID'") or exit(mysql_error());
+							}
+							
 						
+							
+							if($result_Season)
+							{
+								$result_SeasonNum = mysql_num_rows($result_Season);
+								if($result_SeasonNum > 0)
+								{
+									for($i = 0;  $i < $result_SeasonNum; $i++)
+									{		
+											$temp = $EmployeeID;
+											$childID = mysql_result($result_Season,$i,0);
+											$temp .= "|";
+											$temp .= $childID;
+											$tableLists .="<tr><td>'$FN'</td><td>'$LN'</td><td>'$SIN'</td><td><button value='$temp' onclick='SelectEmp(this.value)'>Select</button></td></tr>";
+									}
+									
+								}
+							}
+							
+						}
+						else
+						{
+							$tableLists .="<tr><td>'$FN'</td><td>'$LN'</td><td>'$SIN'</td><td><button value='$EmployeeID' onclick='SelectEmp(this.value)'>Select</button></td></tr>";
+						}
 						//$tableLists .="<tr><td>'$FN'</td><td>'$LN'</td><td>'$SIN'</td><td><button value = '$EmployeeID' onclick='SelectEmp($EmployeeID,$EmployeeType,$CompanyID,$PersonID)'>Select</button></td></tr>";
-						$tableLists .="<tr><td>'$FN'</td><td>'$LN'</td><td>'$SIN'</td><td><button value='$EmployeeID' onclick='SelectEmp(this.value)'>Select</button></td></tr>";
+						
 					}
 					
 					mysql_free_result(result_EMP);
@@ -1032,6 +1148,7 @@
 		
 			$arr = array('searchResult' =>$tableLists);
 			echo json_encode($arr);
+			//echo $tableLists;
 		}
 		else
 		{
@@ -1045,15 +1162,24 @@
 	
 	function userSelectSearchedEmployee()
 	{
+		
 		$EmployeeID 	= getValueFromRequest('EID');
 		$UserType    = getValueFromRequest('UT');
 		$PersonID = "";
 		$CompanyID = "";
 		$EmployeeType  =  "";
 		$EmployeeStatus = "";
-		$EmployeeReasonForLeave = "";
+	
 		
-		$result_PCE = mysql_query("Select person_id,company_id,EmployType,Employeestatus,ReasonForLeave from employee where ID = '$EmployeeID'");
+		if (strpos($EmployeeID, '|') !== false)
+		{
+			$pieces = explode("|", $EmployeeID);
+			$EmployeeID =  $pieces[0];
+		}
+	
+		
+		
+		$result_PCE = mysql_query("Select person_id,company_id,EmployType,Employeestatus from employee where ID = '$EmployeeID'");
 		if($result_PCE)
 		{
 		
@@ -1061,10 +1187,17 @@
 			$CompanyID = mysql_result($result_PCE,0,1);
 			$EmployeeType = mysql_result($result_PCE,0,2);
 			$EmployeeStatus = mysql_result($result_PCE,0,3);
-			$EmployeeReasonForLeave = mysql_result($result_PCE,0,4);
+	
 			mysql_free_result($result_PCE);
 			
 		}
+			
+		if (strpos($EmployeeID, '|') !== false)
+		{
+			$pieces = explode("|", $EmployeeID);
+			$EmployeeID =  $pieces[1];
+		}
+		
 		$FirstName = "";
 		$LastName = "";
 		$SIN = "";
@@ -1129,9 +1262,11 @@
 							$DateOfTer = mysql_result($result_FT,0,1);
 							dateTransfor($DateOfTer);
 							$Salary	 = mysql_result($result_FT,0,2);
+							getWorkStatusByEmployeeIDFTPTCT($EmployeeID,$EmployeeStatus);
 							$tableLists .= "<tr bgcolor='#009900'><td>DateOfHire:</td><td>$DateOfHire</td></tr>";
 							$tableLists .= "<tr bgcolor='#006666'><td>DateOfTermination:</td><td>$DateOfTer</td></tr>";
 							$tableLists .= "<tr bgcolor='#009900'><td>Salary:</td><td>$Salary</td></tr>";
+							$tableLists .= "<tr bgcolor='#009900'><td>WorkStatus:</td><td>$EmployeeStatus</td></tr>";
 	
 						}
 					}
@@ -1160,10 +1295,12 @@
 							$DateOfTer = mysql_result($result_PT,0,1);
 							dateTransfor($DateOfTer);
 							$HourRate = mysql_result($result_PT,0,2);
+							getWorkStatusByEmployeeIDFTPTCT($EmployeeID,$EmployeeStatus);
 							
 							$tableLists .= "<tr  bgcolor='#009900'><td>DateOfHire:</td><td>$DateOfHire</td></tr>";
 							$tableLists .= "<tr  bgcolor='#006666'><td>DateOfTermination:</td><td>$DateOfTer</td></tr>";
 							$tableLists .= "<tr  bgcolor='#009900'><td>HourlyRate:</td><td>$HourRate</td></tr>";
+							$tableLists .= "<tr ><td>WorkStatus:</td><td>$EmployeeStatus</td></tr>";
 						}
 						
 					}
@@ -1177,7 +1314,8 @@
 				}
 				else if($EmployeeType == "SN")
 				{
-					$result_SN = mysql_query("Select season,piecePay,seasonYear from SeasonalEmployee where employee_id='$EmployeeID'") or exit(mysql_error());
+					
+					$result_SN = mysql_query("Select season,piecePay,seasonYear,Employeestatus from SeasonalEmployee where ID='$EmployeeID'") or exit(mysql_error());
 					if($UserType == "A")
 					{
 						if($result_SN)
@@ -1185,11 +1323,15 @@
 							$Season = mysql_result($result_SN,0,0);
 							$PiecePay = mysql_result($result_SN,0,1);
 							$SeasonYear = mysql_result($result_SN,0,2);
+							$EmployeeStatus = mysql_result($result_SN,0,3);
 							
+							//$result_WorkStatus = mysql_query("Select Employeestatus from SeasonalEmployee where ID = '$'")
 							
 							$tableLists .= "<tr bgcolor='#009900'><td>Season:</td><td>$Season</td></tr>";
 							$tableLists .= "<tr  bgcolor='#006666'><td>Piecepay:</td><td>$PiecePay</td></tr>";
 							$tableLists .= "<tr bgcolor='#009900'><td>SeasonYear:</td><td>$SeasonYear</td></tr>";
+							$tableLists .= "<tr ><td>WorkStatus:</td><td>$EmployeeStatus</td></tr>";
+						
 						}
 					}
 					else if($UserType == "G")
@@ -1228,8 +1370,9 @@
 		
 				
 				$tableLists .= "</table>";
-				$arr = array('Result' => $tableLists);
-				echo json_encode($arr);
+				echo $tableLists; 
+				//$arr = array('Result' => $tableLists);
+				//echo json_encode($arr);
 				
 				
 			}
@@ -1351,13 +1494,13 @@
 			if($Result)
 			{
 				//echo "get Employee ID via personID, CompanyId, EmployeeID";
-				if(generalAlterExistSeasonEmployee($EmployeeID,$SY,$S))
+				if(generalAddSeasonEmployee($EmployeeID,$SY,$S))
 				{
-					echo "Sucess To Alter Seasonal Employee";
+					echo "Sucess To Add Seasonal Employee";
 				}
 				else
 				{
-					echo "Failed to Alter Seasonal Employee";
+					echo "Failed to Add Seasonal Employee";
 				}
 			}
 			else
@@ -1399,8 +1542,168 @@
 		}
 	}
 	
+	function generateSeniorityReport()
+	{
+		$Company = getValueFromRequest('CM');
+		$result_Com = mysql_query("Select ID from company where CORPORATIONNAME = '$Company'") or exit(mysql_error());
+		$result_COMID = "";
+		if($result_Com)
+		{						
+		
+				$result_Count = mysql_num_rows($result_Com);
+				if($result_Count > 0)
+				{
+					$result_COMID = mysql_result($result_Com,0,0);
+				
+				}
+			
+		
+			$tableLists = "<table>"; 
+			$tableLists .="<tr><th>Employee Name</th><th>SIN</th><th>Type</th><th>Date of Hire</th><th>Years of  Service</th></tr>";
+			if($result_COMID !== "")
+			{
+				$result = mysql_query("Select ID, person_id, Employeestatus,EmployType from employee where company_id = '$result_COMID' AND (EmployType = 'FT'  OR EmployType = 'PT' )AND employeestatus != 'Incomplete'") or exit(mysql_error());
+					
+				if($result)
+				{
+				
+					$result_Count = mysql_num_rows($result);
+					
+					for($i = 0; $i < $result_Count; $i++)
+					{
+						$EmployeeID = mysql_result($result,$i,0);
+				
+						$PersonID = mysql_result($result,$i,1);
+			
+						$WorkStatus = mysql_result($result,$i,2);
+						$EmployeeType = mysql_result($result,$i,3);
+			
+			
+						$Firstname = "";
+						$Lastname = "";
+						$SIN = "";
+						
+						$result_Person = mysql_query("Select FIRSTNAME,LASTNAME,SIN from PERSON where ID = '$PersonID'") or exit(mysql_error());
+						if($result_Person)
+						{
+							
+							$Firstname = mysql_result($result_Person,0,0);
+							$Lastname = mysql_result($result_Person,0,1);
+							$SIN = mysql_result($result_Person,0,2);
+							
+							mysql_free_result(result_Person);
+						}
+						
+						$colum1 = $Firstname;
+			
+						$colum1 .= $Lastname;
+						
+						$colum2 = $SIN;
+						
+						$colum3 = "";
+						if($EmployeeType == 'FT')
+						{
+							$colum3 = "FullTime";
+						}
+						else if($EmployeeType == 'PT')
+						{
+							$colum3 = "PartTime";
+						}
+						
+						$colum4 = "";
+						$colum5 = "";
+						
+						if($WorkStatus == "Active")
+						{
+						$result_ChildFT = "";
+							if($EmployeeType == 'FT')
+							{
+								$result_ChildFT = mysql_query("Select dateofhire from FulltimeEmployee where employee_id = '$EmployeeID'") or exit(mysql_error());
+							}
+							else
+							{
+								$result_ChildFT = mysql_query("Select dateofhire from ParttimeEmployee where employee_id = '$EmployeeID'") or exit(mysql_error());
+							}
+							
+							if($result_ChildFT)
+							{
+								$colum4 = mysql_result($result_ChildFT,0,0);
+								
+								$time = date('Y-m-d');
+								$Y = "";
+								$M = "";
+								$arr = DiffDate($colum4, $time);
+							
+								$Y = $arr['y'];
+								$M = $arr['m'];
+	
+							
+								if($Y > 0)
+								{
+									$colum5 = $Y;
+									if($Y > 1)
+									{
+										$colum5 .= " Years";
+									}
+									else
+									{
+										$colum5 .= " Year";
+									}
+								}
+								else
+								{
+									$colum5 = $M;
+									if($M > 1)
+									{
+										$colum5 .= " Months";
+									}
+									else
+									{
+										$colum5 .= " Month";
+									}
+								}
+
+							}
+						}
+				
+					
+						$tableLists .= "<tr><td>$colum1</td><td>$colum2</td><td>$colum3</td><td>$colum4</td><td>$colum5</td></tr>";
+					}
+				}
+				
+				echo $tableLists;
+				
+			}
+		}
+		else
+		{
+		}
+	}
 	
 	
+	
+	function DiffDate($date1, $date2) 
+	{ 
+	  if (strtotime($date1) > strtotime($date2)) 
+	  { 
+		$ymd = $date2; 
+		$date2 = $date1; 
+		$date1 = $ymd; 
+	  } 
+	  list($y1, $m1, $d1) = explode('-', $date1); 
+	  list($y2, $m2, $d2) = explode('-', $date2); 
+	  $y = $m = $d = $_m = 0; 
+	  $math = ($y2 - $y1) * 12 + $m2 - $m1; 
+	  $y = round($math / 12); 
+	  $m = intval($math % 12); 
+	  $d = (mktime(0, 0, 0, $m2, $d2, $y2) - mktime(0, 0, 0, $m2, $d1, $y2)) / 86400; 
+	  if ($d < 0) { 
+		$m -= 1; 
+		$d += date('j', mktime(0, 0, 0, $m2, 0, $y2)); 
+	  } 
+	  $m < 0 && $y -= 1; 
+	  return array('y' => $y,'m' => $m, 'd'=>$d); 
+	} 
 	
 	
 	
