@@ -1,6 +1,6 @@
-CREATE database `EMS-PSS`;
+CREATE database EMSPSS;
 
-use `EMS-PSS`;
+use EMSPSS;
 
 create table login(
 username varchar(100) NOT NULL,
@@ -45,8 +45,7 @@ Create table if not exists  employee(
 ID integer not null auto_increment,
 company_id integer not null,
 person_id  integer not null,
-Employeestatus varchar(40),
-ReasonForLeave varchar(40),
+Employeestatus varchar(40) default 'Inactive',
 EmployType     varchar(10), 
 Foreign key fk_companyid(company_id) references company(ID),
 Foreign key fk_personid(person_id) references person(ID),
@@ -104,6 +103,8 @@ Create table if not exists SeasonalEmployee(
 	season varchar(40),
 	piecePay varchar(40),
 	seasonYear varchar(40),
+	Employeestatus varchar(40) default 'Inactive',
+
 	Foreign key fk_employeeid(employee_id) references employee(id),
 	primary key(ID)
 
@@ -120,3 +121,16 @@ Create table if not exists Contractor(
 	primary key(ID)
 
 );
+
+Create table if not exists Audit(
+	ID integer not null auto_increment,
+	user_id integer not null,
+	changetime varchar(40),
+	SIN        varchar(40),
+	TableName	varchar(40),
+	field 	   varchar(40),
+	oldValue	varchar(200),
+	newvalue 	varchar(200),
+	primary key(ID)
+);
+
