@@ -461,14 +461,35 @@ function seasonYearValidation(value)
 {
 	var bSeasonYear = true;
 	var yearReg = /^\d{4}$/;
-
-	if(value == null || value == "")
+	if(userType == "A")
 	{
-		bSeasonYear = false;
+		if(value == null || value == "")
+		{
+			bSeasonYear = false;
+		}
+		else
+		{
+			if(value.match(yearReg) != null)
+			{
+				var yyyy = parseInt(value);
+				if(yyyy < 1902 || yyyy > (new Date().getFullYear())) 
+				{
+					bSeasonYear = false;
+				}
+			}
+			else
+			{
+				bSeasonYear = false;
+			}
+		}
 	}
 	else
 	{
-		if(value.match(yearReg) != null)
+		if(value != null || value != "" || value.match(yearReg) == null)
+		{
+			bSeasonYear = false;
+		}
+		else
 		{
 			var yyyy = parseInt(value);
 			if(yyyy < 1902 || yyyy > (new Date().getFullYear())) 
@@ -476,11 +497,8 @@ function seasonYearValidation(value)
 				bSeasonYear = false;
 			}
 		}
-		else
-		{
-			bSeasonYear = false;
-		}
 	}
+	
 	return bSeasonYear;
 //validation for time card fields
 
