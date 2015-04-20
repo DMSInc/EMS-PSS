@@ -1922,11 +1922,11 @@ $(document).ready(function () {
         {
             if(maintaineneceType=="timeCardEmp")
             {
-//              $("#selectEmpTypeDivForGenUser").fadeTo(1000, 0, function (){
-//                  document.getElementById("selectEmpTypeDivForGenUser").style.visibility = "hidden";
-//                  document.getElementById("gentimeCardFTPT").style.visibility = "visible";
-//                $("#gentimeCardFTPT").fadeTo(1000, 1);
-//              });
+              $("#selectEmpTypeDivForGenUser").fadeTo(1000, 0, function (){
+                  document.getElementById("selectEmpTypeDivForGenUser").style.visibility = "hidden";
+                  document.getElementById("gentimeCardFTPT").style.visibility = "visible";
+                $("#gentimeCardFTPT").fadeTo(1000, 1);
+              });
             }
         }
     //clear the previous form data
@@ -2941,7 +2941,10 @@ function cancelImage()
         }
     }
 }
+function validatePTAdminAdd()
+{
     
+}
 function submitAdminContractEmp()
 {
     //start the validation
@@ -2953,7 +2956,7 @@ function submitAdminContractEmp()
 function submitAdminPartTimeEmp()
 {
     //start the validation
-
+    validatePTAdminAdd();
     //if no errors then goto this page
     location.href = "Database.php";
 }
@@ -2966,7 +2969,7 @@ function submitAdminSeasonEmp()
 }
 function submitTimeCardForFTPT()
 {
-    
+    alert("sdfsdf");
     emptyAllTCSpanValues();
   
     //check the validation
