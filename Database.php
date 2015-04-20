@@ -507,6 +507,15 @@
 			userSelectSearchedEmployee();
 		
 	}
+	else if($ == "addNewUser")
+	{
+		$FirstName = getValueFromRequest('FN');
+		$LastName = getValueFromRequest('LN');
+		$UserID = getValueFromRequest('UID');
+		$SecurityLevel = getValueFromRequest('SL');
+		
+		
+	}
     else{
         
         echo "sameer";
