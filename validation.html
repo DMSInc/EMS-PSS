@@ -104,7 +104,7 @@ var ch_sum = "";
 var checkdigit = 0;
 var sin = "";
 var lastdigit = 0;
-function sinValidation(value)
+function sinValidation(inputValue)
 {
 	esum = 0;
     enumbers = "";
@@ -114,11 +114,21 @@ function sinValidation(value)
     sin = "";
     lastdigit = 0;
 	var bCheckSinResult = false;
-	
-    if (isNum(value.value))
+	if(userType == "A")
 	{
-		bCheckSinResult = true;
+		if (isNum(inputValue))
+		{
+			bCheckSinResult = true;
+		}
 	}
+	else
+	{
+		if(isNum(inputValue) || inputValue == "" || inputValue == 0 || inputValue.length == 0)
+		{
+			bCheckSinResult = true;
+		}
+	}
+    
 
 	return bCheckSinResult;
 }
