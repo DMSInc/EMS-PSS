@@ -80,12 +80,19 @@ function companyValidation(inputValue)
 {
 
 	var bCompany = true;
-	var companyCheck = inputValue;
-
-	if(companyCheck == null || companyCheck == "")
+	if(userType == "A")
 	{
-		bCompany = false;
+		if(inputValue == null || inputValue == "")
+		{
+			bCompany = false;
+		}
 	}
+	else
+	{
+		bCompany = true;
+	}
+
+	
 	return bCompany;
 }
 //validation for sin
