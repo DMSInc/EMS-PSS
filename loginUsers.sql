@@ -4,8 +4,11 @@ use EMSPSS;
 
 create table login(
 username varchar(100) NOT NULL,
+firstname varchar(40),
+lastname varchar(40),
 `password` varchar(200) NOT NULL,
 `type` varchar(5) NOT NULL,
+securitylevel varchar(10),
 primary key(username)
 );
 

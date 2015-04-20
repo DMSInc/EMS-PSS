@@ -511,8 +511,12 @@
 	{
 		$FirstName = getValueFromRequest('FN');
 		$LastName = getValueFromRequest('LN');
-		$UserID = getValueFromRequest('UID');
 		$SecurityLevel = getValueFromRequest('SL');
+		$Password = getValueFromRequest('PD');
+		
+		$insertLogin = mysql_query("Insert into login(FIRSTNAME, LASTNAME, PASSWORD, SECURITYLEVEL) values('$FirstName' , '$LastName','$Password','$SecurityLevel')") or exit(mysql_error());
+		
+		mysql_close($connection);
 		
 		
 	}
