@@ -102,7 +102,6 @@ session_start();
     color: white;
     visibility: hidden;
 }
-/*
 #addEmpAdminUser{
     position:absolute;
     top: 25%;
@@ -110,7 +109,6 @@ session_start();
     color: white;
     visibility: hidden;
 }
-*/
 #modEmp{
     position:absolute;
     top: 37%;
@@ -316,9 +314,15 @@ position:absolute;
 #adminUserAddingFTEmp{
     visibility: hidden;
 }
+#adminUserAddingFTEmpAdd{
+    visibility: hidden;
+}        
 #adminUserAddingPTEmp{
     visibility: hidden;
 }
+    #adminUserAddingPTEmpAdd{
+    visibility: hidden;
+}    
 #adminUserAddingSEmp{
     visibility: hidden;
 }
@@ -906,12 +910,13 @@ var bYYYY = 0;
 var hYYYY;
 var hMM;
 var hDD;
+var oldSin="";    
 
    $(document).ready(function () {
     userType="<?php echo $_SESSION["userType"]; ?>";
        if(userType==="A")
        {
-           //document.getElementById("addEmpAdminUser").style.visibility = "visible";
+           document.getElementById("addEmpAdminUser").style.visibility = "visible";
            document.getElementById("modEmp").style.visibility = "visible";
            document.getElementById("delEmp").style.visibility = "visible";
           // document.getElementById("timeCardEmpAdminUser").style.visibility = "visible";
@@ -1080,12 +1085,42 @@ function hideAdminDeleteForm()
     }
 }
     
+function getSeniorityReport()
+{	
+
+		var sendData = "";
+		var company = document.getElementById("reportCompanyNameText").value;
+		sendData += makeUpJson("q",{"q":"generalSeniorityReport"},true);
+		sendData += makeUpJson("CM",{"CM":company});
+
+		
+		alert(sendData);
+			 $.ajax({url: "Database.php",
+							type: "GET",
+							async:true,
+							data : sendData,
+							success:function(result)
+							{
+								//alert(result);
+								
+								  document.getElementById("reportsResult").style.visibility = "visible";
+								$("#reportsResult").fadeTo(1000, 1);
+								$("#reportsResult").html(result);
+							},
+							 error: function( objRequest )
+							 {
+								alert(objRequest);
+							 }
+							
+							});
+	}
+    
 function hideAdminAddEmpForm()
 {
-    if(document.getElementById("adminUserAddingFTEmp").style.visibility == "visible")
+    if(document.getElementById("adminUserAddingFTEmpAdd").style.visibility == "visible")
     {        
-         $("#adminUserAddingFTEmp").fadeTo(1000, 0,function(){
-             document.getElementById("adminUserAddingFTEmp").style.visibility = "hidden";
+         $("#adminUserAddingFTEmpAdd").fadeTo(1000, 0,function(){
+             document.getElementById("adminUserAddingFTEmpAdd").style.visibility = "hidden";
              //show card time divs
             document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
             $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
@@ -1094,10 +1129,10 @@ function hideAdminAddEmpForm()
     }
     else
     {
-        if(document.getElementById("adminUserAddingPTEmp").style.visibility == "visible")
+        if(document.getElementById("adminUserAddingPTEmpAdd").style.visibility == "visible")
         {        
-             $("#adminUserAddingPTEmp").fadeTo(1000, 0,function(){
-                 document.getElementById("adminUserAddingPTEmp").style.visibility = "hidden";
+             $("#adminUserAddingPTEmpAdd").fadeTo(1000, 0,function(){
+                 document.getElementById("adminUserAddingPTEmpAdd").style.visibility = "hidden";
                  //show card time divs
                 document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
                 $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
@@ -1146,49 +1181,49 @@ function hideAdminAddEmpForm()
         }
     }
 }
-//function addEmpDivsAdmin()
-//{
-//
-//    //if its the first choice
-//    if(maintaineneceType=="")
-//    {
-//       // alert("nnnn");
-//        document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
-//        $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
-//        document.getElementById("addEmployeeLabelAdmin").innerHTML="Add Employee Admin";
-//    }
-//    else
-//    {
-//        //if going back and forth in add emp meny only
-//        if(maintaineneceType==="addEmployee")
-//        {
-//        }
-//        //last button pressed was time card button
-//        else
-//        {
-//            if(maintaineneceType==="timeCardEmp")
-//            {
-//                hideAdminTimeCardForm();
-//            }
-//            else
-//            {
-//                if(maintaineneceType==="modifyEmployee")
-//                {
-//                    hideAdminModifyForm();
-//                }
-//                else
-//                {
-//                    if(maintaineneceType==="deleteEmployee")
-//                    {
-//                        hideAdminDeleteForm();
-//                    }
-//                }
-//            }
-//        }           
-//    }
-//     //document.getElementById("addEmployeeLabelAdmin").innerHTML="Add Employee Admin";
-//     maintaineneceType = "addEmployee";
-//}
+function addEmpDivsAdmin()
+{
+
+    //if its the first choice
+    if(maintaineneceType=="")
+    {
+       // alert("nnnn");
+        document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
+        $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
+        document.getElementById("addEmployeeLabelAdmin").innerHTML="Add Employee Admin";
+    }
+    else
+    {
+        //if going back and forth in add emp meny only
+        if(maintaineneceType==="addEmployee")
+        {
+        }
+        //last button pressed was time card button
+        else
+        {
+            if(maintaineneceType==="timeCardEmp")
+            {
+                hideAdminTimeCardForm();
+            }
+            else
+            {
+                if(maintaineneceType==="modifyEmployee")
+                {
+                    hideAdminModifyForm();
+                }
+                else
+                {
+                    if(maintaineneceType==="deleteEmployee")
+                    {
+                        hideAdminDeleteForm();
+                    }
+                }
+            }
+        }           
+    }
+     //document.getElementById("addEmployeeLabelAdmin").innerHTML="Add Employee Admin";
+     maintaineneceType = "addEmployee";
+}
     
     
 //admin user modifying user
@@ -1351,13 +1386,13 @@ function  makeUpJson(key,keyValue,prefix)
 }    
 	      
     
-////Admin user wants to add an employee
-//  $(document).ready(function () {
-//    "use strict";
-//    $("#addEmpAdminUser").click(function () {
-//        addEmpDivsAdmin();
-//            });
-//  });
+//Admin user wants to add an employee
+  $(document).ready(function () {
+    "use strict";
+    $("#addEmpAdminUser").click(function () {
+        addEmpDivsAdmin();
+            });
+  });
     
 //Admin user wants to modify an employee
   $(document).ready(function () {
@@ -1798,8 +1833,8 @@ $(document).ready(function () {
         if(maintaineneceType=="addEmployee"){
                 $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function () {
                 document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
-                document.getElementById("adminUserAddingFTEmp").style.visibility = "visible";
-                $("#adminUserAddingFTEmp").fadeTo(1000, 1);
+                document.getElementById("adminUserAddingFTEmpAdd").style.visibility = "visible";
+                $("#adminUserAddingFTEmpAdd").fadeTo(1000, 1);
                 document.getElementById("employeeTypeFT").innerHTML = "Fulltime Employee";
             });
         }
@@ -1883,8 +1918,8 @@ $(document).ready(function () {
          if(maintaineneceType=="addEmployee"){
             $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function () {
                 document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
-                document.getElementById("adminUserAddingPTEmp").style.visibility = "visible";
-                $("#adminUserAddingPTEmp").fadeTo(1000, 1);
+                document.getElementById("adminUserAddingPTEmpAdd").style.visibility = "visible";
+                $("#adminUserAddingPTEmpAdd").fadeTo(1000, 1);
                  document.getElementById("employeeTypePT").innerHTML = "Parttime Employee";
             });
         }
@@ -2381,7 +2416,8 @@ $(document).ready(function () {
     "use strict";
     $("#generateReport").click(function (){ 
         //get the report from the server and show it in the div
-        alert("generate report, USE reportsResult this div to show result");
+       // alert("generate report, USE reportsResult this div to show result");
+        getSeniorityReport();
     });
 });
     
@@ -2508,16 +2544,16 @@ function showReportsButtons()
 
 function showMaintainenceButtons()
 {
-    //document.getElementById("addEmpAdminUser").style.visibility = "visible";
+    document.getElementById("addEmpAdminUser").style.visibility = "visible";
     document.getElementById("modEmp").style.visibility = "visible";
     document.getElementById("delEmp").style.visibility = "visible";
-   // document.getElementById("timeCardEmpAdminUser").style.visibility = "visible";
-//    $("#addEmpAdminUser").animate(
-//        {
-//            width: "15%"
-//        },
-//        "slow"
-//    );
+    //document.getElementById("timeCardEmpAdminUser").style.visibility = "visible";
+    $("#addEmpAdminUser").animate(
+        {
+            width: "15%"
+        },
+        "slow"
+    );
     $("#modEmp").animate(
         {
             width: "15%"
@@ -2664,17 +2700,17 @@ function hideReportsButton()
 function hideMaintaineneceButtons()
 {
     // check which div is visible
-    if( document.getElementById("modEmp").style.visibility == "visible")
+    if( document.getElementById("addEmpAdminUser").style.visibility == "visible")
     {
-//        $("#addEmpAdminUser").animate(
-//            {
-//                width: "0%"
-//            },
-//            600,
-//            function () {
-//                document.getElementById("addEmpAdminUser").style.visibility = "hidden";
-//            }
-//        );
+        $("#addEmpAdminUser").animate(
+            {
+                width: "0%"
+            },
+            600,
+            function () {
+                document.getElementById("addEmpAdminUser").style.visibility = "hidden";
+            }
+        );
        $("#modEmp").animate(
             {
                 width: "0%"
@@ -2745,12 +2781,18 @@ function hideAllAdminForms()
             document.getElementById("adminUserAddingFTEmp").style.visibility = "hidden";
         });
     }
-//    if(document.getElementById("adminUserAddingPTEmp").style.visibility == "visible")
-//    {
-//        $("#adminUserAddingPTEmp").fadeTo(1000, 0, function () {
-//            document.getElementById("adminUserAddingPTEmp").style.visibility = "hidden";
-//        });
-//    }
+     if(document.getElementById("adminUserAddingFTEmpAdd").style.visibility == "visible")
+    {
+        $("#adminUserAddingFTEmpAdd").fadeTo(1000, 0, function () {
+            document.getElementById("adminUserAddingFTEmpAdd").style.visibility = "hidden";
+        });
+    }
+    if(document.getElementById("adminUserAddingPTEmpAdd").style.visibility == "visible")
+    {
+        $("#adminUserAddingPTEmpAdd").fadeTo(1000, 0, function () {
+            document.getElementById("adminUserAddingPTEmpAdd").style.visibility = "hidden";
+        });
+    }
 //
 //    if(document.getElementById("adminUserAddingSEmp").style.visibility == "visible")
 //    {
@@ -2795,20 +2837,20 @@ function hideAllAdminForms()
 
 function goBack()
 {
-    if(document.getElementById("adminUserAddingFTEmp").style.visibility == "visible")
+    if(document.getElementById("adminUserAddingFTEmpAdd").style.visibility == "visible")
     {
-        $("#adminUserAddingFTEmp").fadeTo(1000, 0, function () {
-            document.getElementById("adminUserAddingFTEmp").style.visibility = "hidden";
+        $("#adminUserAddingFTEmpAdd").fadeTo(1000, 0, function () {
+            document.getElementById("adminUserAddingFTEmpAdd").style.visibility = "hidden";
             document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
             $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
         });
     }
     else
     {
-        if(document.getElementById("adminUserAddingPTEmp").style.visibility == "visible")
+        if(document.getElementById("adminUserAddingPTEmpAdd").style.visibility == "visible")
         {
-            $("#adminUserAddingPTEmp").fadeTo(1000, 0, function () {
-                document.getElementById("adminUserAddingPTEmp").style.visibility = "hidden";
+            $("#adminUserAddingPTEmpAdd").fadeTo(1000, 0, function () {
+                document.getElementById("adminUserAddingPTEmpAdd").style.visibility = "hidden";
                 document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
                 $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
             });
@@ -2840,18 +2882,18 @@ function goBack()
     
 function cancelImage()
 {
-    if(document.getElementById("adminUserAddingFTEmp").style.visibility == "visible")
+    if(document.getElementById("adminUserAddingFTEmpAdd").style.visibility == "visible")
     {
-        $("#adminUserAddingFTEmp").fadeTo(1000, 0, function () {
-            document.getElementById("adminUserAddingFTEmp").style.visibility = "hidden";
+        $("#adminUserAddingFTEmpAdd").fadeTo(1000, 0, function () {
+            document.getElementById("adminUserAddingFTEmpAdd").style.visibility = "hidden";
         });
     }
     else
     {
-        if(document.getElementById("adminUserAddingPTEmp").style.visibility == "visible")
+        if(document.getElementById("adminUserAddingPTEmpAdd").style.visibility == "visible")
         {
-             $("#adminUserAddingPTEmp").fadeTo(1000, 0, function () {
-                document.getElementById("adminUserAddingPTEmp").style.visibility = "hidden";
+             $("#adminUserAddingPTEmpAdd").fadeTo(1000, 0, function () {
+                document.getElementById("adminUserAddingPTEmpAdd").style.visibility = "hidden";
             });
         }
         else
@@ -3939,7 +3981,7 @@ function isNum(text)
 
   <div id="backDiv">  
 <!--      Button for Admin User-->
-<!--    <button id="addEmpAdminUser" class="buttonStyles">Add Employee</button>-->
+    <button id="addEmpAdminUser" class="buttonStyles">Add Employee</button>
     <button id="modEmp" class="buttonStyles">Modify Employee</button>
     <button id="delEmp" class="buttonStyles">Delete Employee</button>
 <!--    <button id="timeCardEmpAdminUser" class="buttonStyles">Time Card</button>-->
@@ -4006,8 +4048,42 @@ function isNum(text)
             <button id="goBack" class="backBtn">Back</button> 
           </div>
       
+       <div id="adminUserAddingFTEmpAdd" class="centerDiv">
+<!--           <div id="adminUserAddingFTEmp" style="position:absolute; top:50%; width:80%;height:100%;left:10%;">-->
+                <form class="adminAddEmpForm">
+                    <label id="employeeTypeFT" class="employeeType"></label>
+                    <label id="fnameLabelAdmin" class="fnameL">First Name</label><input type="text" id="fnameTextAdmin" name="fnameTextAdmin" class="fname"/>
+                    <label id="lnameLabelAdmin" class="lnameL">Last Name</label><input type="text" id="lnameTextAdmin"  name="lnameTextAdmin" class="lname"/>
+                    <label id="companyLabelAdmin" class="companyL">Company</label><input type="text" id="compTextAdmin"  name="compTextAdmin" class="company"/>
+                    <label id="sinLabelAdmin" class="sinL">SIN</label><input type="text" id="sinTextAdmin"  name="sinTextAdmin" class="sin"/>
+                    <label id="dobLabelAdmin" class="dobL">Date OF Birth</label><input type="text" id="dobTextAdmin"  name="dobTextAdmin" class="dob"/>
+                    <label id="dohLabelAdmin" class="dohL">Date Of Hire</label><input type="text" id="dohTextAdmin"  name="dohTextAdmin" class="doh"/>
+                    <label id="dotLabelAdmin">Date Of Termination</label><input type="text" id="dotTextAdmin"  name="dotTextAdmin" class="dot"/>
+                    <label id="salaryLabelAdmin">Salary</label><input type="text"  name="salary" id="salary"/>
+                    <button type="button" class="submitBtn" id="btnSubmitFT" onclick="submitAdminFullTimeEmp()">Submit</button>
+                </form>
+                <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>
+                <button class="backBtn" onclick="goBack()">Back</button> 
 
-      
+                      </div>
+      <div id="adminUserAddingPTEmpAdd" class="centerDiv">
+                    <form class="adminAddEmpForm">
+                        <label id="employeeTypePT" class="employeeType"></label>
+                        <label id="fnameLabelAdmin" class="fnameL">First Name</label><input type="text" id="fnameTextAdminPT" name="fnameTextAdmin" class="fname"/>
+                        <label id="lnameLabelAdmin" class="lnameL">Last Name</label><input type="text" id="lnameTextAdminPT" name="lnameTextAdmin" class="lname"/>
+                        <label id="companyLabelAdmin" class="companyL">Company</label><input type="text" id="compTextAdminPT" name="compTextAdmin" class="company"/>
+                        <label id="sinLabelAdmin" class="sinL">SIN</label><input type="text" id="sinTextAdminPT"  name="sinTextAdmin" class="sin"/>
+                        <label id="dobLabelAdmin" class="dobL">Date OF Birth</label><input type="text" id="dobTextAdminPT" name="dobTextAdmin"  class="dob"/>
+                        <label id="dohLabelAdmin" class="dohL">Date Of Hire</label><input type="text" id="dohTextAdminPT"  name="dohTextAdmin" class="doh"/>
+                        <label id="dotLabelAdmin">Date Of Termination</label><input type="text" id="dotTextAdminPT"  name="dotTextAdmin" class="dot"/>
+                        <label id="hourlyRateLabelAdmin">Hourly Rate</label><input type="text"  name="hourlyRate" id="hourlyRatePT"/>
+                        <button type="button" class="submitBtn" id="btnSubmitPT" onclick="submitAdminPartTimeEmp()">Submit</button>
+                    </form>
+                    <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>
+                    <button class="backBtn" onclick="goBack()">Back</button> 
+
+                </div>
+           
       
 <!--
         <div id="adminUserAddingCEmp" class="centerDiv">   
