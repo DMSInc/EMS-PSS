@@ -264,9 +264,9 @@ function hireValidation(value)
 			var yyyy = parseInt(regs[0]);
 			var mm = parseInt(regs[1]);
 			var dd = parseInt(regs[2]);
-			bYYYY = yyyy;
+			hYYYY = yyyy;
 			
-			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31) 
+			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31 && compareBirthdayAndHireDay(bYYYY, yyyy) == true) 
 			{
 				bDate = true;
 				if(mm == 2 && dd > 28)
