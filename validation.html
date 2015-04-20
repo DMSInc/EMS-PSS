@@ -489,7 +489,7 @@ function seasonYearValidation(value)
 		{
 			bSeasonYear = false;
 		}
-		else
+		if(value.match(yearReg) != null)
 		{
 			var yyyy = parseInt(value);
 			if(yyyy < 1902 || yyyy > (new Date().getFullYear())) 
