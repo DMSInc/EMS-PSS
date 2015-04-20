@@ -2969,7 +2969,7 @@ function submitAdminSeasonEmp()
 }
 function submitTimeCardForFTPT()
 {
-    alert("sdfsdf");
+
     emptyAllTCSpanValues();
   
     //check the validation
@@ -2996,7 +2996,7 @@ function submitTimeCardForS()
     //validate the fields
     if(validateTCForS()=="true")
     {
-       createJSONObjectTimeCardGen("enterTimeCard","SN");
+       createJSONObjectTimeCardGenS("enterTimeCard","SN");
     }
 }
     
@@ -3493,7 +3493,7 @@ function createJSONObjectAddEmpAdmin(userAction)
 							
 							});
 }
-function createJSONObjectTimeCardGen(userAction,empType)
+    function createJSONObjectTimeCardGenS(userAction,empType)
 {
    // alert("submit time card for ft and pt");
 	 
@@ -3508,6 +3508,66 @@ function createJSONObjectTimeCardGen(userAction,empType)
         var fri = document.getElementById("friTextTCS").value;
         var sat = document.getElementById("satTextTCS").value;
         var sun = document.getElementById("sunTextTCS").value; 
+    
+		sendData += makeUpJson("q",{"q":userAction},true);
+        sendData += makeUpJson("ET",{"ET":empType});
+		sendData += makeUpJson("SIN",{"SIN":sin});
+		
+		sendData += makeUpJson("CM",{"CM":comp});
+		sendData += makeUpJson("MH",{"MH":mon});
+		sendData += makeUpJson("TH",{"TH":tue});
+		
+		sendData += makeUpJson("WH",{"WH":wed});
+		
+		sendData += makeUpJson("THH",{"THH":thur});
+		
+		sendData += makeUpJson("FH",{"FH":fri});
+		
+		sendData += makeUpJson("SAH",{"SAH":sat});
+		
+		sendData += makeUpJson("SUNH",{"SUNH":sun});
+        
+        var sum = sumAllPieces();
+    
+        sendData += makeUpJson("WA",{"WA":sum});
+		
+	   $.ajax({url: "Database.php",
+							type: "GET",
+							async:true,
+							data : sendData,
+							success:function(result)
+							{
+							//alert(result);
+								var values = [];
+								values = makeItAnObject(result);
+								var len= values.length;
+								for(var i = 0; i< len; i++)
+								{
+									//alert(values[i]);
+								}
+							},
+							 error: function( objRequest )
+							 {
+								//alert(objRequest);
+							 }
+							
+							});
+}  
+function createJSONObjectTimeCardGen(userAction,empType)
+{
+   // alert("submit time card for ft and pt");
+	 
+		//var value = "enterTimeCard";
+		var sendData = "";
+	    var sin = document.getElementById("sinTextGenTC").value;
+        var comp = document.getElementById("companyTextGenTC").value;
+        var mon = document.getElementById("monTextTC").value;
+        var tue = document.getElementById("tueTextTC").value;
+        var wed = document.getElementById("wedTextTC").value;
+        var thur = document.getElementById("thurTextTC").value; 
+        var fri = document.getElementById("friTextTC").value;
+        var sat = document.getElementById("satTextTC").value;
+        var sun = document.getElementById("sunTextTC").value; 
     
 		sendData += makeUpJson("q",{"q":userAction},true);
         sendData += makeUpJson("ET",{"ET":empType});
