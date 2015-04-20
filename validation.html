@@ -566,3 +566,17 @@ function fixContractAmountValidation(value)
 	}
 	return bFixContractAmount;
 }
+
+
+//validation for addNewUser password inputValue
+function passwordValidation(inputValue)
+{
+	bPassword = false;
+	var result = inputValue.replace(/ /g, "");
+	if(inputValue != null && inputValue != "" && inputValue.length != 0 && result.length != 0)
+	{
+		bPassword = true;
+	}
+
+	return bPassword;
+}
