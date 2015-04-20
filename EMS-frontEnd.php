@@ -627,7 +627,15 @@ position: absolute;
     left:40%;
     top:20%;
 }
-
+#searchResult{
+position:absolute;
+    left :10%;
+    top:40%;
+    height:30%;
+    width:30%;
+    color:blue;
+    background-color:white;
+}
 #sinLabelAdminC{
     position:absolute;
     left:10%;
@@ -1301,15 +1309,30 @@ function  makeUpJson(key,keyValue,prefix)
             });
   });
     
+function clearSearchSpans()
+{
+    document.getElementById("searchSpanGenFname").innerHTML = "";
+    document.getElementById("searchSpanGenLname").innerHTML = "";
+    document.getElementById("searchSpanGenSin").innerHTML = "";
+}
     
-    
+    function clearSearchFields()
+    {
+         document.getElementById("searchSinText").value = "";
+    document.getElementById("searchFnameText").value = "";
+    document.getElementById("searchLnameText").value = "";
+    }
+   
+
+ 
   $(document).ready(function () {
     "use strict";
     $("#searchEmpBtn").click(function (){
+        clearSearchSpans();
         var boolSearch = "true";
         if(document.getElementById("searchFnameText").value =="" && document.getElementById("searchLnameText").value =="" && document.getElementById("searchSinText").value =="")
         {
-            alert("3 empty");   
+            //show the error message.
         }
         else
         {
@@ -1377,7 +1400,7 @@ function  makeUpJson(key,keyValue,prefix)
 							success:function(result)
 							{
 								alert(result);
-								$("#searchResultDiv").html(makeItAnObject(result));
+								$("#searchResultDiv").html(result);
 							},
 							 error: function( objRequest )
 							 {
@@ -1392,7 +1415,7 @@ function  makeUpJson(key,keyValue,prefix)
 //function SelectEmp(EmployeeID,EmployeeType,CompanyID,PersonID)
 function SelectEmp(EmployeeID)
 {
-		
+		alert("fsfjjlsjfsjfkljk");
 		var value = "selectSearchedEmployee";
 		var sendData = "";
 	
@@ -1409,7 +1432,7 @@ function SelectEmp(EmployeeID)
 							data : sendData,
 							success:function(result)
 							{
-								$("#searchResultDiv").html(makeItAnObject(result));
+							alert(result);	$("#searchResultDiv").html(result);
 							},
 							 error: function( objRequest )
 							 {
@@ -1962,7 +1985,8 @@ $(document).ready(function () {
  $(document).ready(function () {
     "use strict";
     $("#searchBtnGen").click(function (){ 
-       
+       clearSearchSpans();
+        clearSearchFields();
         if(genUserAction == "reports")
         {
             hideReportsBtnsGen();
@@ -1980,6 +2004,7 @@ $(document).ready(function () {
         document.getElementById("searchDiv").style.visibility = "visible";
         $("#searchDiv").fadeTo(1000, 1); 
         genUserAction="search";
+        
        
     });
  });    
@@ -3518,8 +3543,9 @@ function isNum(text)
         <label id="searchLnameLabel">Last Name</label><input type="text" id="searchLnameText" name="searchLnameText"><span style="position:absolute; top:20%; left:70%;" id="searchSpanGenLname"></span>
         <label id="searchSinLabel">SIN</label><input type="text" id="searchSinText" name="searchSinText"><span style="position:absolute; top:30%; left:70%;" id="searchSpanGenSin"></span>
         <button id="searchEmpBtn">Search</button>
+      <div id="searchResultDiv" style="position:absolute; width:100%;top:0px;left:0px;"></div>   
       </div>
-      
+
       <div id="reportsDiv" class="centerDiv"></div>
       
       <p id="copyright">Developed & Maintained by DMS Inc.</p>   
