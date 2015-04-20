@@ -509,12 +509,17 @@
 	}
 	else if($ == "addNewUser")
 	{
+		$UserName = getValueFromRequest('UN');
 		$FirstName = getValueFromRequest('FN');
 		$LastName = getValueFromRequest('LN');
 		$SecurityLevel = getValueFromRequest('SL');
 		$Password = getValueFromRequest('PD');
-		
-		$insertLogin = mysql_query("Insert into login(FIRSTNAME, LASTNAME, PASSWORD, TYPE) values('$FirstName' , '$LastName','$Password','$SecurityLevel')") or exit(mysql_error());
+
+		$UserNameExist = checkUserNameExist($UserName);
+		if (!$UserNameExist) 
+		{
+			$insertLogin = mysql_query("Insert into login(USERNAME, FIRSTNAME, LASTNAME, PASSWORD, TYPE) values('$UserName', $FirstName' , '$LastName','$Password','$SecurityLevel')") or exit(mysql_error());
+		}
 		
 		mysql_close($connection);
 		
@@ -598,6 +603,22 @@
 		}
 	}
 	
+	function checkUserNameExist($UserName)
+	{
+		$UserNameExistAccount = mysql_query("Select count(*) as count from login where username = '$UserName'") or exit(mysql_error());
+		$row = mysql_fetch_object($PersonExistAccount);
+		$UserAccount = $row->count;
+		
+		if($UserAccount > 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+			
+		}
+	}
 	function checkPersonExist($PersonSIN)
 	{
 		$PersonExistAccount = mysql_query("Select count(*) as count from person where SIN = '$PersonSIN'") or exit(mysql_error());
