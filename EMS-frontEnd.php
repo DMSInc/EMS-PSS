@@ -102,6 +102,7 @@ session_start();
     color: white;
     visibility: hidden;
 }
+/*
 #addEmpAdminUser{
     position:absolute;
     top: 25%;
@@ -109,6 +110,7 @@ session_start();
     color: white;
     visibility: hidden;
 }
+*/
 #modEmp{
     position:absolute;
     top: 37%;
@@ -323,6 +325,9 @@ position:absolute;
 #adminUserAddingCEmp{
     visibility: hidden;
 }
+#newUserForm{
+    visibility: hidden;
+    }
 #adminModifyingEmp{
     visibility:hidden;
 }
@@ -363,6 +368,35 @@ position:absolute;
 }  
 #sinLabelTC{
     top:10%;
+}
+#fnameNewUserLabel{
+top:10%;
+}
+        #lnameNewUserLabel{
+top:20%;
+}
+        #securityLevelNewUserLabel{
+top:30%;
+}
+        #passwordNewUserLabel{
+top:40%;
+}
+#fnameNewUserText{
+top:10%;
+}
+        #lnameNewUserText{
+top:20%;
+}
+        #selectSecurityLevel{
+top:30%;
+}
+        #passwordNewUserText{
+top:40%;
+}   
+#submitNewUser{
+    position:absolute;
+    left:30%;
+    top:50%;
 }
 #compLabelTC{
     top:20%;
@@ -840,11 +874,15 @@ var checkdigit = 0;
 var sin = "";
 var lastdigit = 0;
 var bYYYY = 0;
+var hYYYY;
+var hMM;
+var hDD;
+
    $(document).ready(function () {
     userType="<?php echo $_SESSION["userType"]; ?>";
        if(userType==="A")
        {
-           document.getElementById("addEmpAdminUser").style.visibility = "visible";
+           //document.getElementById("addEmpAdminUser").style.visibility = "visible";
            document.getElementById("modEmp").style.visibility = "visible";
            document.getElementById("delEmp").style.visibility = "visible";
           // document.getElementById("timeCardEmpAdminUser").style.visibility = "visible";
@@ -925,35 +963,35 @@ function addEmpDivs()
     }
      maintaineneceType = "addEmployee";
 }
-
-function hideAdminTimeCardForm()
-{
-    //check which time card divs are open
-    if(document.getElementById("adminUserTimeCard").style.visibility == "visible")
-    {        
-         $("#adminUserTimeCard").fadeTo(1000, 0,function(){
-             document.getElementById("adminUserTimeCard").style.visibility = "hidden";
-             //show card time divs
-                document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
-                $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
-                // document.getElementById("addEmployeeLabelAdmin").innerHTML="Time Card Admin";
-         });
-    }
-    else
-    {
-        if(document.getElementById("selectEmpTypeDivForAdminUser").style.visibility == "visible")
-        {
-            $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0,function(){
-             document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
-
-            //show card time divs
-            document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
-            $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
-                  //  document.getElementById("addEmployeeLabelAdmin").innerHTML="Time Card Employee Admin";
-         });
-        }
-    }
-}
+//
+//function hideAdminTimeCardForm()
+//{
+//    //check which time card divs are open
+//    if(document.getElementById("adminUserTimeCard").style.visibility == "visible")
+//    {        
+//         $("#adminUserTimeCard").fadeTo(1000, 0,function(){
+//             document.getElementById("adminUserTimeCard").style.visibility = "hidden";
+//             //show card time divs
+//                document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
+//                $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
+//                // document.getElementById("addEmployeeLabelAdmin").innerHTML="Time Card Admin";
+//         });
+//    }
+//    else
+//    {
+//        if(document.getElementById("selectEmpTypeDivForAdminUser").style.visibility == "visible")
+//        {
+//            $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0,function(){
+//             document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
+//
+//            //show card time divs
+//            document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
+//            $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
+//                  //  document.getElementById("addEmployeeLabelAdmin").innerHTML="Time Card Employee Admin";
+//         });
+//        }
+//    }
+//}
     
 function hideAdminModifyForm()
 {
@@ -1079,49 +1117,49 @@ function hideAdminAddEmpForm()
         }
     }
 }
-function addEmpDivsAdmin()
-{
-
-    //if its the first choice
-    if(maintaineneceType=="")
-    {
-       // alert("nnnn");
-        document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
-        $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
-        document.getElementById("addEmployeeLabelAdmin").innerHTML="Add Employee Admin";
-    }
-    else
-    {
-        //if going back and forth in add emp meny only
-        if(maintaineneceType==="addEmployee")
-        {
-        }
-        //last button pressed was time card button
-        else
-        {
-            if(maintaineneceType==="timeCardEmp")
-            {
-                hideAdminTimeCardForm();
-            }
-            else
-            {
-                if(maintaineneceType==="modifyEmployee")
-                {
-                    hideAdminModifyForm();
-                }
-                else
-                {
-                    if(maintaineneceType==="deleteEmployee")
-                    {
-                        hideAdminDeleteForm();
-                    }
-                }
-            }
-        }           
-    }
-     //document.getElementById("addEmployeeLabelAdmin").innerHTML="Add Employee Admin";
-     maintaineneceType = "addEmployee";
-}
+//function addEmpDivsAdmin()
+//{
+//
+//    //if its the first choice
+//    if(maintaineneceType=="")
+//    {
+//       // alert("nnnn");
+//        document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
+//        $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
+//        document.getElementById("addEmployeeLabelAdmin").innerHTML="Add Employee Admin";
+//    }
+//    else
+//    {
+//        //if going back and forth in add emp meny only
+//        if(maintaineneceType==="addEmployee")
+//        {
+//        }
+//        //last button pressed was time card button
+//        else
+//        {
+//            if(maintaineneceType==="timeCardEmp")
+//            {
+//                hideAdminTimeCardForm();
+//            }
+//            else
+//            {
+//                if(maintaineneceType==="modifyEmployee")
+//                {
+//                    hideAdminModifyForm();
+//                }
+//                else
+//                {
+//                    if(maintaineneceType==="deleteEmployee")
+//                    {
+//                        hideAdminDeleteForm();
+//                    }
+//                }
+//            }
+//        }           
+//    }
+//     //document.getElementById("addEmployeeLabelAdmin").innerHTML="Add Employee Admin";
+//     maintaineneceType = "addEmployee";
+//}
     
     
 //admin user modifying user
@@ -1284,13 +1322,13 @@ function  makeUpJson(key,keyValue,prefix)
 }    
 	      
     
-//Admin user wants to add an employee
-  $(document).ready(function () {
-    "use strict";
-    $("#addEmpAdminUser").click(function () {
-        addEmpDivsAdmin();
-            });
-  });
+////Admin user wants to add an employee
+//  $(document).ready(function () {
+//    "use strict";
+//    $("#addEmpAdminUser").click(function () {
+//        addEmpDivsAdmin();
+//            });
+//  });
     
 //Admin user wants to modify an employee
   $(document).ready(function () {
@@ -1300,7 +1338,71 @@ function  makeUpJson(key,keyValue,prefix)
             });
   });
     
+    
+     $(document).ready(function () {
+    "use strict";
+    $("#submitNewUser").click(function () {
+       createNewUser();
+            });
+  });
        
+function createNewUser()
+{
+    emptyAllNewUserSpans();
+    //validate all the fields
+    if(validateNewUserFields()=="true")
+    {
+        //create New User
+    }
+}
+    
+function emptyAllNewUserFields()
+{
+    document.getElementById("fnameNewUserText").value = "";
+    document.getElementById("lnameNewUserText").value = "";
+    document.getElementById("selectSecurityLevel").selectedIndex = 0;
+    document.getElementById("passwordNewUserText").value  = "";
+}
+
+function emptyAllNewUserSpans()
+{
+    document.getElementById("spanFnameNewUser").innerHTML = "";
+    document.getElementById("spanLnameNewUser").innerHTML = "";
+    document.getElementById("spanSecLevelNewUser").innerHTML = "";
+    document.getElementById("spanpasswordNewUser").innerHTML  = "";
+}
+    
+function validateNewUserFields()
+{
+    var boolToSubmit="true";
+    if(!checkFname(document.getElementById("fnameNewUserText").value))
+    {
+        //show error message
+        document.getElementById("spanFnameNewUser").innerHTML = "*Invalid Data";
+        boolToSubmit="false";
+    } 
+    if(!checkLname(document.getElementById("lnameNewUserText").value))
+    {
+        //show error message
+        document.getElementById("spanLnameNewUser").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(document.getElementById("selectSecurityLevel").selectedIndex == 0)
+    {
+        //show error message
+        document.getElementById("spanSecLevelNewUser").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(document.getElementById("passwordNewUserText").value=="")
+    {
+        //show error message
+        document.getElementById("spanpasswordNewUser").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+  
+    return boolToSubmit;
+}
+    
     //Admin user wants to delete an employee
   $(document).ready(function () {
     "use strict";
@@ -1361,7 +1463,7 @@ function clearSearchSpans()
             if(document.getElementById("searchSinText").value !="")
             {
                 //do the validation
-                if(!checkSin(document.getElementById("searchSinText").value))
+                if(!checkSin(document.getElementById("searchSinText").value,"true"))
                 {
                     //show the error
                     document.getElementById("searchSpanGenSin").innerHTML = "*Invalid Data";  
@@ -1470,7 +1572,20 @@ $(document).ready(function () {
         });
 });
     
+$(document).ready(function () {
+    "use strict";
+        $("#adminCreateNewUser").click(function () {
+            createNewUserForAdmin();
+        });
+});    
     
+function createNewUserForAdmin()
+{
+    emptyAllNewUserFields();
+    emptyAllNewUserSpans();
+     document.getElementById("newUserForm").style.visibility = "visible";
+    $("#newUserForm").fadeTo(1000, 1);
+}
     
 //general user selected to add full time employee .    
 $(document).ready(function () {
@@ -1650,7 +1765,7 @@ $(document).ready(function () {
     //clear the previous form data
      
     document.getElementById("seasonYearText").value = "";
-    document.getElementById("seasonTypeDD").value = "winter"; 
+    document.getElementById("seasonTypeDD").selectedIndex = 0; 
     });
 });
     
@@ -1683,7 +1798,7 @@ $(document).ready(function () {
     //clear the previous form data
      
     document.getElementById("seasonYearText").value = "";
-    document.getElementById("seasonTypeDD").value = "winter"; 
+    document.getElementById("seasonTypeDD").selectedIndex = 0; 
     });
 });
     
@@ -1715,7 +1830,7 @@ $(document).ready(function () {
     //clear the previous form data
      
     document.getElementById("seasonYearText").value = "";
-    document.getElementById("seasonTypeDD").value = "winter"; 
+    document.getElementById("seasonTypeDD").selectedIndex = 0; 
     });
 });
     
@@ -1752,7 +1867,7 @@ function clearAllFields()
      document.getElementById("dobText").value = "";
      document.getElementById("dohText").value = "";
      document.getElementById("seasonYearText").value = "";
-     document.getElementById("seasonTypeDD").value = "winter";
+     document.getElementById("seasonTypeDD").selectedIndex = 0;
 }
 $(document).ready(function () {
     "use strict";
@@ -1839,7 +1954,8 @@ $(document).ready(function () {
             {
                 if(userAction=="search")
                 {
-
+                     hideAllAdminForms();
+                    showMaintainenceButtons();
                 }
             }
         }
@@ -1861,14 +1977,15 @@ $(document).ready(function () {
         {
             if(userAction=="search")
             {
-                
+                hideAllAdminForms();
+                showReportsButtons();
             }
             else
             {
                 if(userAction=="systemAdmin")
                 {
                     hideSystemButtons();
-                     hideAllAdminForms();
+                    hideAllAdminForms();
                     showReportsButtons();
                 }
             }
@@ -1893,7 +2010,8 @@ $(document).ready(function () {
         {
             if(userAction=="search")
             {
-                
+                hideAllAdminForms();
+                showAdminSystemButtons();
             }
             else
             {
@@ -1934,6 +2052,7 @@ $(document).ready(function () {
             }
         }
         hideAllAdminForms();
+    
         userAction ="search";
         
         document.getElementById("userAction").innerHTML = "Search For an Employee";
@@ -2137,16 +2256,16 @@ function showReportsButtons()
 
 function showMaintainenceButtons()
 {
-    document.getElementById("addEmpAdminUser").style.visibility = "visible";
+    //document.getElementById("addEmpAdminUser").style.visibility = "visible";
     document.getElementById("modEmp").style.visibility = "visible";
     document.getElementById("delEmp").style.visibility = "visible";
    // document.getElementById("timeCardEmpAdminUser").style.visibility = "visible";
-    $("#addEmpAdminUser").animate(
-        {
-            width: "15%"
-        },
-        "slow"
-    );
+//    $("#addEmpAdminUser").animate(
+//        {
+//            width: "15%"
+//        },
+//        "slow"
+//    );
     $("#modEmp").animate(
         {
             width: "15%"
@@ -2293,17 +2412,17 @@ function hideReportsButton()
 function hideMaintaineneceButtons()
 {
     // check which div is visible
-    if( document.getElementById("addEmpAdminUser").style.visibility == "visible")
+    if( document.getElementById("modEmp").style.visibility == "visible")
     {
-        $("#addEmpAdminUser").animate(
-            {
-                width: "0%"
-            },
-            600,
-            function () {
-                document.getElementById("addEmpAdminUser").style.visibility = "hidden";
-            }
-        );
+//        $("#addEmpAdminUser").animate(
+//            {
+//                width: "0%"
+//            },
+//            600,
+//            function () {
+//                document.getElementById("addEmpAdminUser").style.visibility = "hidden";
+//            }
+//        );
        $("#modEmp").animate(
             {
                 width: "0%"
@@ -2412,6 +2531,13 @@ function hideAllAdminForms()
             document.getElementById("searchDiv").style.visibility = "hidden";
         });
     }
+     if(document.getElementById("newUserForm").style.visibility == "visible")
+    {
+        $("#newUserForm").fadeTo(1000, 0, function () {
+            document.getElementById("newUserForm").style.visibility = "hidden";
+        });
+    }
+    
 }
  
 
@@ -2579,13 +2705,13 @@ function validateTCForS()
 {
     var boolToSubmit = "true";
 
-    if(!checkSin(document.getElementById("sinTextGenTCS").value))
+    if(!checkSin(document.getElementById("sinTextGenTCS").value,"true"))
     {
         //show error message
         document.getElementById("sinGenSpanS").innerHTML = "*Invalid Data";
         boolToSubmit="false";
     } 
-    if(!checkCompany(document.getElementById("companyTextGenTCS").value))
+    if(!checkCompany(document.getElementById("companyTextGenTCS").value,"true"))
     {
         //show error message
         document.getElementById("compGenSpanS").innerHTML = "*Invalid Data";
@@ -2697,13 +2823,13 @@ if(!checkLname(document.getElementById("lnameText").value))
         document.getElementById("lnameGenSpan").innerHTML = "*Invalid Data";
          boolToSubmit="false";
     } 
-    if(!checkCompany(document.getElementById("compText").value))
+    if(!checkCompany(document.getElementById("compText").value, "false"))
     {
         //show error message
         document.getElementById("companyGenSpan").innerHTML = "*Invalid Data";
          boolToSubmit="false";
     } 
-    if(!checkSin(document.getElementById("sinText").value))
+    if(!checkSin(document.getElementById("sinText").value,"false"))
     {
        // alert(document.getElementById("sinText").value);
         //show error message
@@ -2737,13 +2863,13 @@ if(!checkLname(document.getElementById("lnameText").value))
 function validateTCFromFTPT()
 {
     var boolToSubmit="true";
-    if(!checkSin(document.getElementById("sinTextGenTC").value))
+    if(!checkSin(document.getElementById("sinTextGenTC").value ,"true"))
     {
         //show error message
         document.getElementById("sinTCGenSpan").innerHTML = "*Invalid Data";
         boolToSubmit="false";
     } 
-    if(!checkCompany(document.getElementById("companyTextGenTC").value))
+    if(!checkCompany(document.getElementById("companyTextGenTC").value ,"true"))
     {
         //show error message
         document.getElementById("compTCGenSpan").innerHTML = "*Invalid Data";
@@ -2845,6 +2971,7 @@ function emptyAllSpanValues()
         document.getElementById("dobGenSpan").innerHTML = "";
         document.getElementById("dohGenSpan").innerHTML = "";
         document.getElementById("seasonYearGenSpan").innerHTML = "";
+         document.getElementById("seasonGenSpan").innerHTML = ""
 }
 function emptyAllTCSpanValues()
 {
@@ -3112,12 +3239,12 @@ function checkLname(inputValue)
 	return bName;
 }   
 //validation for comapny
-function checkCompany(inputValue)
+function checkCompany(inputValue,boolTimeCard)
 {
 
 
 	var bCompany = true;
-	if(userType == "A")
+	if(userType == "A" || boolTimeCard =="true")
 	{
 		if(inputValue == null || inputValue == "")
 		{
@@ -3133,6 +3260,7 @@ function checkCompany(inputValue)
 	return bCompany;
 }   
     
+
 function checkDateOfHire(value)
 {
 	var bDate  = false;
@@ -3152,9 +3280,10 @@ function checkDateOfHire(value)
 			hDD = dd;
 			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31 && compareBirthdayAndHireDay(bYYYY, yyyy) == true)
 			{
-				if(mm == 2 && mm <= 28)
+				bDate = true;
+				if(mm == 2 && dd >28)
 				{
-					bDate = true;
+					bDate = false;
 				}
 			}
 		}
@@ -3173,11 +3302,12 @@ function checkDateOfHire(value)
 			var dd = parseInt(regs[2]);
 			bYYYY = yyyy;
 			
-			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31) 
+			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31 && compareBirthdayAndHireDay(bYYYY, yyyy) == true) 
 			{
-				if(mm == 2 && mm <= 28)
+				bDate = true;
+				if(mm == 2 && dd > 28)
 				{
-					bDate = true;
+					bDate = false;
 				}
 				
 			}
@@ -3204,9 +3334,10 @@ function checkDateOfBirth(value)
 			
 			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31) 
 			{
-				if(mm == 2 && mm <= 28)
+				bDate = true;
+				if(mm == 2 && dd > 28)
 				{
-					bDate = true;
+					bDate = false;
 				}
 				
 			}
@@ -3229,8 +3360,7 @@ function checkDateOfBirth(value)
 			
 			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31) 
 			{
-                bDate = true;
-                
+				bDate = true;
 				if(mm == 2 && dd > 28)
 				{
 					bDate = false;
@@ -3257,19 +3387,40 @@ function compareBirthdayAndHireDay(bYYYY, hYYYY)
 	
 }
 
-//validaiton for season year
+//validate season year    
 function checkSeasonYear(value)
 {
 	var bSeasonYear = true;
 	var yearReg = /^\d{4}$/;
-
-	if(value == null || value == "")
+	if(userType == "A")
 	{
-		bSeasonYear = false;
+		if(value == null || value == "")
+		{
+			bSeasonYear = false;
+		}
+		else
+		{
+			if(value.match(yearReg) != null)
+			{
+				var yyyy = parseInt(value);
+				if(yyyy < 1902 || yyyy > (new Date().getFullYear())) 
+				{
+					bSeasonYear = false;
+				}
+			}
+			else
+			{
+				bSeasonYear = false;
+			}
+		}
 	}
 	else
 	{
-		if(value.match(yearReg) != null)
+		if(value != null || value != "" || value.match(yearReg) == null)
+		{
+			bSeasonYear = false;
+		}
+		else
 		{
 			var yyyy = parseInt(value);
 			if(yyyy < 1902 || yyyy > (new Date().getFullYear())) 
@@ -3277,14 +3428,11 @@ function checkSeasonYear(value)
 				bSeasonYear = false;
 			}
 		}
-		else
-		{
-			bSeasonYear = false;
-		}
 	}
-
-	return bSeasonYear;
+    return bSeasonYear;
 }
+	
+	
 //validation for hour
 function checkHours(value)
 {
@@ -3336,14 +3484,14 @@ function sampleCallBack()
     if(xmlhttp.readyState==4)
     {
 
-            document.getElementById("reportsDiv").style.visibility = "visible";
-            $("#reportsDiv").fadeTo(1000, 1);
+        document.getElementById("reportsDiv").style.visibility = "visible";
+        $("#reportsDiv").fadeTo(1000, 1);
         
       document.getElementById("reportsDiv").innerHTML = xmlhttp.responseText;
     }
 }
 
-function checkSin(inputValue)
+function checkSin(inputValue,boolTimeCard)
 {
    	esum = 0;
     enumbers = "";
@@ -3353,7 +3501,7 @@ function checkSin(inputValue)
     sin = "";
     lastdigit = 0;
 	var bCheckSinResult = false;
-	if(userType == "A")
+	if(userType == "A" || boolTimeCard=="true" )
 	{
 		if (isNum(inputValue))
 		{
@@ -3478,7 +3626,7 @@ function isNum(text)
 
   <div id="backDiv">  
 <!--      Button for Admin User-->
-    <button id="addEmpAdminUser" class="buttonStyles">Add Employee</button>
+<!--    <button id="addEmpAdminUser" class="buttonStyles">Add Employee</button>-->
     <button id="modEmp" class="buttonStyles">Modify Employee</button>
     <button id="delEmp" class="buttonStyles">Delete Employee</button>
 <!--    <button id="timeCardEmpAdminUser" class="buttonStyles">Time Card</button>-->
@@ -3532,11 +3680,12 @@ function isNum(text)
                     <label id="seasonYearLabel" class="seasonyearL">Season Year</label><input type="text" id="seasonYearText" class="seasonyear" name="seasonYearTextG" /> <span style="position:absolute; top:70%; left:70%;" id="seasonYearGenSpan"></span>
                     <label id="seasonTypeLabel" class="seasonLGen">Season</label>
                       <select id="seasonTypeDD" class="seasonTypeGen" name="seasonTypeDDG">
+                        <option value="">Select Your Season</option>
                         <option value="winter">Winter</option>
                         <option value="spring">Spring</option>
                         <option value="fall">Fall</option>
                         <option value="summer">Summer</option>
-                    </select> 
+                    </select><span style="position:absolute; top:80%; left:70%;" id="seasonGenSpan"></span>
                     <input type="hidden" name="needCompletion" value="Y">
                     <button type="button" class="submitBtn" id="genUserAddEmp" onclick="submitGenEmp()">Submit</button>
             </form>
@@ -3627,6 +3776,19 @@ function isNum(text)
            </form>
           </div>
       
+        <div id="newUserForm" class="centerDiv">
+            <label id="fnameNewUserLabel" class="timeCardLabel">First Name</label><input type="text" id="fnameNewUserText" class="timeCardText"><span id="spanFnameNewUser" style="position:absolute; top:10%; left:70%;"></span>
+             <label id="lnameNewUserLabel" class="timeCardLabel">First Name</label><input type="text" class="timeCardText" id="lnameNewUserText"><span id="spanLnameNewUser" style="position:absolute; top:20%; left:70%;"></span>
+             <label id="securityLevelNewUserLabel" class="timeCardLabel">Security Level</label>
+            <select id="selectSecurityLevel" class="timeCardText">
+                <option value="">Select Security Level</option>
+                <option value="Admin">Admin</option>
+                <option value="General">General</option>
+            </select>
+            <span id="spanSecLevelNewUser" style="position:absolute; top:30%; left:70%;"></span>
+             <label id="passwordNewUserLabel" class="timeCardLabel">Password</label><input class="timeCardText" type="text" id="passwordNewUserText"><span id="spanpasswordNewUser" style="position:absolute; top:40%; left:70%;"></span>
+            <button type="button" id="submitNewUser">Create</button>
+        </div>
           <div id="gentimeCardFTPT" class="centerDiv">
             <label id="sinLabelTC" class="timeCardLabel">SIN</label><input type="text" id="sinTextGenTC" class="timeCardText" name="sinTextGen"><span style="position:absolute; top:10%; left:70%;" id="sinTCGenSpan"></span>
             <label id="compLabelTC" class="timeCardLabel">Company Name</label><input type="text" id="companyTextGenTC" class="timeCardText" name="companyTextGen"><span style="position:absolute; top:20%; left:70%;" id="compTCGenSpan"></span>
