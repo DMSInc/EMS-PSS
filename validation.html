@@ -227,9 +227,10 @@ function hireValidation(value)
 			hDD = dd;
 			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31 && compareBirthdayAndHireDay(bYYYY, yyyy) == true)
 			{
-				if(mm == 2 && mm <= 28)
+				bDate = true;
+				if(mm == 2 && dd >28)
 				{
-					bDate = true;
+					bDate = false;
 				}
 			}
 		}
@@ -250,9 +251,10 @@ function hireValidation(value)
 			
 			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31) 
 			{
-				if(mm == 2 && mm <= 28)
+				bDate = true;
+				if(mm == 2 && dd > 28)
 				{
-					bDate = true;
+					bDate = false;
 				}
 				
 			}
@@ -279,9 +281,10 @@ function birthdayValidation(value)
 			
 			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31) 
 			{
-				if(mm == 2 && mm <= 28)
+				bDate = true;
+				if(mm == 2 && dd > 28)
 				{
-					bDate = true;
+					bDate = false;
 				}
 				
 			}
@@ -304,9 +307,10 @@ function birthdayValidation(value)
 			
 			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31) 
 			{
-				if(mm == 2 && mm <= 28)
+				bDate = true;
+				if(mm == 2 && dd > 28)
 				{
-					bDate = true;
+					bDate = false;
 				}
 				
 			}
@@ -347,9 +351,10 @@ function terminationValidation(value)
 			bYYYY = yyyy;
 			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31 && compareHireDayandTermination(hYYYY, hMM, hDD, yyyy, mm, dd) == true)
 			{
-				if (mm == 2 && mm <=28)
+				bDate = true;
+				if (mm == 2 && dd >28)
 				{
-					bDate = true;
+					bDate = false;
 				}
 			}
 		}
@@ -370,9 +375,10 @@ function terminationValidation(value)
 			
 			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31) 
 			{
-				if(mm == 2 && mm <= 28)
+				bDate = true;
+				if(mm == 2 && dd > 28)
 				{
-					bDate = true;
+					bDate = false;
 				}
 				
 			}
