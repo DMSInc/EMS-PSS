@@ -363,9 +363,11 @@ position:absolute;
 #btnSubmitC{
     top:80%;
 }
+/*
 #adminUserTimeCard{
     visibility:hidden;
 }  
+*/
 #sinLabelTC{
     top:10%;
 }
@@ -670,6 +672,23 @@ position:absolute;
     color:blue;
     background-color:white;
 }
+        #modifySinLabel{
+        top:10%;
+        }
+        #modifySinText{
+        top:10%;
+        }
+        #modifyCompanyLabel{
+        top:20%;
+        }
+         #modifyCompanyText{
+        top:20%;
+        }
+        #submitModify{
+        position:absolute;
+            left:35%;
+            top:35%;
+        }
 #sinLabelAdminC{
     position:absolute;
     left:10%;
@@ -1345,14 +1364,56 @@ function  makeUpJson(key,keyValue,prefix)
        createNewUser();
             });
   });
-       
+     
+   $(document).ready(function () {
+    "use strict";
+    $("#submitModify").click(function () {
+        modifyEmp();
+            });
+  });    
+    
+function modifyEmp()
+{
+    emptyModifySpans();
+    //validate the fields
+    if(validateModifyFields() == "true")
+    {
+        //modify in database
+    }
+}
+function validateModifyFields()
+{
+   
+    var boolToSubmit="true";
+    
+    if(!checkSin(document.getElementById("modifySinText").value,"true"))
+    {
+        //show error message
+        document.getElementById("spanModifySin").innerHTML = "*Invalid Data";
+        boolToSubmit="false";
+    } 
+    if(!checkCompany(document.getElementById("modifyCompanyText").value))
+    {
+        //show error message
+        document.getElementById("spanModifyCompany").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    return boolToSubmit;
+}
+    
+function emptyModifySpans()
+{
+    document.getElementById("spanModifySin").innerHTML = "";
+    document.getElementById("spanModifyCompany").innerHTML = "";
+}
+    
 function createNewUser()
 {
     emptyAllNewUserSpans();
     //validate all the fields
     if(validateNewUserFields()=="true")
     {
-        //create New User
+        //create New User in database
     }
 }
     
@@ -1637,11 +1698,11 @@ $(document).ready(function () {
         {
             if(maintaineneceType=="timeCardEmp")
             {
-              $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function (){
-                  document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
-                  document.getElementById("adminUserTimeCard").style.visibility = "visible";
-                $("#adminUserTimeCard").fadeTo(1000, 1);
-              });
+//              $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function (){
+//                  document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
+//                  document.getElementById("adminUserTimeCard").style.visibility = "visible";
+//                $("#adminUserTimeCard").fadeTo(1000, 1);
+//              });
             }
             else
             {
@@ -1655,14 +1716,14 @@ $(document).ready(function () {
                  }
                 else
                 {
-                     if(maintaineneceType=="deleteEmployee")
-                     {
-                         $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function (){
-                  document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
-                  document.getElementById("adminUserDeleteEmp").style.visibility = "visible";
-                $("#adminUserDeleteEmp").fadeTo(1000, 1);
-              });
-                     }
+                    if(maintaineneceType=="deleteEmployee")
+                    {
+                        $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function (){
+                        document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
+                        document.getElementById("adminUserDeleteEmp").style.visibility = "visible";
+                        $("#adminUserDeleteEmp").fadeTo(1000, 1);
+                        });
+                    }
                 }
             }
         }
@@ -1693,11 +1754,11 @@ $(document).ready(function () {
         {
             if(maintaineneceType=="timeCardEmp")
             {
-              $("#selectEmpTypeDivForGenUser").fadeTo(1000, 0, function (){
-                  document.getElementById("selectEmpTypeDivForGenUser").style.visibility = "hidden";
-                  document.getElementById("gentimeCardFTPT").style.visibility = "visible";
-                $("#gentimeCardFTPT").fadeTo(1000, 1);
-              });
+//              $("#selectEmpTypeDivForGenUser").fadeTo(1000, 0, function (){
+//                  document.getElementById("selectEmpTypeDivForGenUser").style.visibility = "hidden";
+//                  document.getElementById("gentimeCardFTPT").style.visibility = "visible";
+//                $("#gentimeCardFTPT").fadeTo(1000, 1);
+//              });
             }
         }
     //clear the previous form data
@@ -1722,11 +1783,33 @@ $(document).ready(function () {
         {
             if(maintaineneceType=="timeCardEmp")
             {
-              $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function (){
-                  document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
-                  document.getElementById("adminUserTimeCard").style.visibility = "visible";
-                $("#adminUserTimeCard").fadeTo(1000, 1);
-              });
+//              $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function (){
+//                  document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
+//                  document.getElementById("adminUserTimeCard").style.visibility = "visible";
+//                $("#adminUserTimeCard").fadeTo(1000, 1);
+//              });
+            }
+            else
+            {
+                 if(maintaineneceType=="modifyEmployee")
+                 {
+                    $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function (){
+                    document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
+                    document.getElementById("adminModifyingEmp").style.visibility = "visible";
+                    $("#adminModifyingEmp").fadeTo(1000, 1);
+                    });
+                 }
+                else
+                {
+                    if(maintaineneceType=="deleteEmployee")
+                    {
+                        $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function (){
+                        document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
+                        document.getElementById("adminUserDeleteEmp").style.visibility = "visible";
+                        $("#adminUserDeleteEmp").fadeTo(1000, 1);
+                        });
+                    }
+                }
             }
         }
     //clear the previous form data
@@ -1760,6 +1843,7 @@ $(document).ready(function () {
                 $("#gentimeCardS").fadeTo(1000, 1);
               });
             }
+            
         }
         
     //clear the previous form data
@@ -1787,11 +1871,33 @@ $(document).ready(function () {
         {
             if(maintaineneceType=="timeCardEmp")
             {
-              $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function (){
-                  document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
-                  document.getElementById("adminUserTimeCard").style.visibility = "visible";
-                $("#adminUserTimeCard").fadeTo(1000, 1);
-              });
+//              $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function (){
+//                  document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
+//                  document.getElementById("adminUserTimeCard").style.visibility = "visible";
+//                $("#adminUserTimeCard").fadeTo(1000, 1);
+//              });
+            }
+            else
+            {
+                 if(maintaineneceType=="modifyEmployee")
+                 {
+                    $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function (){
+                    document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
+                    document.getElementById("adminModifyingEmp").style.visibility = "visible";
+                    $("#adminModifyingEmp").fadeTo(1000, 1);
+                    });
+                 }
+                else
+                {
+                    if(maintaineneceType=="deleteEmployee")
+                    {
+                        $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function (){
+                        document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
+                        document.getElementById("adminUserDeleteEmp").style.visibility = "visible";
+                        $("#adminUserDeleteEmp").fadeTo(1000, 1);
+                        });
+                    }
+                }
             }
         }
         
@@ -1819,11 +1925,33 @@ $(document).ready(function () {
         {
             if(maintaineneceType=="timeCardEmp")
             {
-              $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function (){
-                  document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
-                  document.getElementById("adminUserTimeCard").style.visibility = "visible";
-                $("#adminUserTimeCard").fadeTo(1000, 1);
-              });
+//              $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function (){
+//                  document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
+//                  document.getElementById("adminUserTimeCard").style.visibility = "visible";
+//                $("#adminUserTimeCard").fadeTo(1000, 1);
+//              });
+            }
+            else
+            {
+                 if(maintaineneceType=="modifyEmployee")
+                 {
+                    $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function (){
+                    document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
+                    document.getElementById("adminModifyingEmp").style.visibility = "visible";
+                    $("#adminModifyingEmp").fadeTo(1000, 1);
+                    });
+                 }
+                else
+                {
+                    if(maintaineneceType=="deleteEmployee")
+                    {
+                        $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function (){
+                        document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
+                        document.getElementById("adminUserDeleteEmp").style.visibility = "visible";
+                        $("#adminUserDeleteEmp").fadeTo(1000, 1);
+                        });
+                    }
+                }
             }
         }
 
@@ -1886,16 +2014,16 @@ $(document).ready(function () {
     });
 });
     
-    $(document).ready(function () {
-    "use strict";
-    $("#goBackTimeCardAdmin").click(function () {
-        $("#adminUserTimeCard").fadeTo(1000, 0, function () {
-            document.getElementById("adminUserTimeCard").style.visibility = "hidden";
-            document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
-            $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
-        });
-    });
-});
+//    $(document).ready(function () {
+//    "use strict";
+//    $("#goBackTimeCardAdmin").click(function () {
+//        $("#adminUserTimeCard").fadeTo(1000, 0, function () {
+//            document.getElementById("adminUserTimeCard").style.visibility = "hidden";
+//            document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
+//            $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
+//        });
+//    });
+//});
     
 $(document).ready(function () {
     "use strict";
@@ -3772,7 +3900,9 @@ function isNum(text)
 <!--      Admin user modifying an employee-->
        <div id="adminModifyingEmp" class="centerDiv"> 
            <form class="adminAddEmpForm">
-                <label>modify emp</label>
+                <label id="modifySinLabel" class="timeCardLabel">SIN</label><input type="text" id="modifySinText" class="timeCardText"><span id="spanModifySin" style="position:absolute; top:10%; left:70%;"></span>
+               <label id="modifyCompanyLabel" class="timeCardLabel">Company Name</label><input type="text" id="modifyCompanyText" class="timeCardText"><span id="spanModifyCompany" style="position:absolute; top:20%; left:70%;"></span>
+               <button type="button" id="submitModify">Modify</button>
            </form>
           </div>
       
@@ -3820,11 +3950,13 @@ function isNum(text)
             <button id="goBackTimeCard" class="backBtn" onclick="goBackTimeCardS()">Back</button> 
         </div>
       
+<!--
         <div id="adminUserTimeCard" class="centerDiv">
             <label id="ok">admin time card</label>
             <input type="image" src="cancel.png" id="cancelImageTimeCardAdmin" class="cancelImage"/>
             <button id="goBackTimeCardAdmin" class="backBtn">Back</button> 
           </div>
+-->
       
         <div id="adminUserDeleteEmp" class="centerDiv">
             <label id="ok">admin delete card</label>
