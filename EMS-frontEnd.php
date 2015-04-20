@@ -517,7 +517,7 @@ position:absolute;
 }
 .fname{
     position: absolute;
-    left: 40%;
+    left: 50%;
     top: 10%;
 }
 .lnameL{
@@ -527,7 +527,7 @@ position:absolute;
 }
 .lname{
     position: absolute;
-    left: 40%;
+    left: 50%;
     top: 20%;
 }
 .companyL{
@@ -537,7 +537,7 @@ position:absolute;
 }
 .company{
     position: absolute;
-    left: 40%;
+    left: 50%;
     top: 30%;
 }
 .sinL{
@@ -547,7 +547,7 @@ position:absolute;
 }
 .sin{
     position: absolute;
-    left: 40%;
+    left: 50%;
     top: 40%;
 }
 .dobL{
@@ -557,7 +557,7 @@ position:absolute;
 }
 .dob{
     position: absolute;
-    left: 40%;
+    left: 50%;
     top: 50%;
 }
 .dohL{
@@ -567,7 +567,7 @@ position:absolute;
 }
 .doh{
     position: absolute;
-    left: 40%;
+    left: 50%;
     top: 60%;
 }
 .seasonL{
@@ -609,9 +609,14 @@ position: absolute;
 }
 #dotTextAdmin{
     position: absolute;
-    left: 40%;
+    left: 50%;
     top: 70%;
 }
+    #dotTextAdminPT{
+    position: absolute;
+    left: 50%;
+    top: 70%;
+}    
  #salaryLabelAdmin{
     position: absolute;
     left: 10%;
@@ -619,9 +624,14 @@ position: absolute;
 }
 #salary{
     position: absolute;
-    left: 40%;
+    left: 50%;
     top: 80%;
 } 
+    #hourlyRatePT{
+    position: absolute;
+    left: 50%;
+    top: 80%;
+}     
 #hourlyRateLabelAdmin{
     position: absolute;
     left: 10%;
@@ -1354,6 +1364,8 @@ function  makeUpJson(key,keyValue,prefix)
     "use strict";
     $("#modEmp").click(function () {
         modifyEmpDivsAdmin();
+        emptyModifySpans();
+        emptyModifyFields();
             });
   });
     
@@ -1379,8 +1391,100 @@ function modifyEmp()
     if(validateModifyFields() == "true")
     {
         //modify in database
+        createJSONModifyObject("modifyEmployee");
     }
 }
+function createJSONModifyObject(userAction)
+{
+    if(employeeType=="ST")
+    {
+        employeeType="SN";
+    }
+    
+    var sendData = "";
+        var sin = document.getElementById("modifySinText").value;
+        var company = document.getElementById("modifyCompanyText").value;
+        
+		sendData += makeUpJson("q",{"q":userAction},true);
+		
+		sendData += makeUpJson("CM",{"CM":company});
+	
+		sendData += makeUpJson("SIN",{"SIN":sin});
+		
+		sendData += makeUpJson("ET",{"ET":employeeType});
+    
+    if(employeeType=="FT")
+    {
+		document.getElementById("adminUserAddingFTEmp").style.visibility = "visible";
+	   $("#adminUserAddingFTEmp").fadeTo(1000, 1);
+    }
+    if(employeeType=="PT")
+    {
+     document.getElementById("adminUserAddingPTEmp").style.visibility = "visible";
+	   $("#adminUserAddingPTEmp").fadeTo(1000, 1);   
+    }
+		//alert(sendData);
+	 $.ajax({url: "Database.php",
+							type: "GET",
+							async:true,
+							data : sendData,
+							success:function(result)
+							{
+                                alert(result);   
+								var values = [];
+								values = makeItAnObject(result);
+                                showModifyResultFT(values,employeeType);
+//                                if(employeeType=="FT")
+//                                {
+//                                    showModifyResultFT(values,employeeType);
+//                                }
+//                                if(employeeType=="PT")
+//                                {
+//                                    showModifyResultPT(values,employeeType);
+//                                }
+                               
+							},
+							 error: function( objRequest )
+							 {
+								//alert(objRequest);
+							 }
+							
+							});
+    
+}
+    
+function showModifyResultFT(values,employeeType)
+{
+
+        
+    if(employeeType=="FT")
+    {   
+        document.getElementById("employeeTypeFT").innerHTML = "Fulltime Employee";
+        document.getElementById("fnameTextAdmin").value = values[0];
+        document.getElementById("lnameTextAdmin").value = values[1];
+        document.getElementById("compTextAdmin").value = document.getElementById("modifyCompanyText").value;
+        document.getElementById("sinTextAdmin").value = document.getElementById("modifySinText").value;
+        document.getElementById("dobTextAdmin").value = values[2];
+        document.getElementById("dohTextAdmin").value = values[3];
+        document.getElementById("dotTextAdmin").value = values[4];
+        document.getElementById("salary").value = values[5];
+    }
+    if(employeeType=="PT")
+    {
+        document.getElementById("employeeTypePT").innerHTML = "Parttime Employee";
+        document.getElementById("fnameTextAdminPT").value = values[0];
+        document.getElementById("lnameTextAdminPT").value = values[1];
+        document.getElementById("compTextAdminPT").value = document.getElementById("modifyCompanyText").value;
+        document.getElementById("sinTextAdminPT").value = document.getElementById("modifySinText").value;
+        document.getElementById("dobTextAdminPT").value = values[2];
+        document.getElementById("dohTextAdminPT").value = values[3];
+        document.getElementById("dotTextAdminPT").value = values[4];
+         document.getElementById("hourlyRatePT").value = values[5];
+    }
+    
+}
+        
+    
 function validateModifyFields()
 {
    
@@ -1406,6 +1510,10 @@ function emptyModifySpans()
     document.getElementById("spanModifySin").innerHTML = "";
     document.getElementById("spanModifyCompany").innerHTML = "";
 }
+ function emptyModifyFields(){
+  document.getElementById("modifySinText").value = "";
+    document.getElementById("modifyCompanyText").value = "";   
+ }
     
 function createNewUser()
 {
@@ -1573,6 +1681,7 @@ function clearSearchSpans()
 							 }
 							
 							});
+        
 		
 	}
 
@@ -2262,10 +2371,25 @@ $(document).ready(function () {
  $(document).ready(function () {
     "use strict";
     $("#seniorityReportGen").click(function (){    
-       saveFileContent(); 
+       //saveFileContent(); 
+        showReportDiv();
+        
     });
  });
     
+    $(document).ready(function () {
+    "use strict";
+    $("#generateReport").click(function (){ 
+        //get the report from the server and show it in the div
+        alert("generate report, USE reportsResult this div to show result");
+    });
+});
+    
+function showReportDiv()
+{
+    document.getElementById("reportsDiv").style.visibility = "visible";
+    $("#reportsDiv").fadeTo(1000, 1);
+}
     
 function hideAllGenForms()
 {
@@ -2621,26 +2745,26 @@ function hideAllAdminForms()
             document.getElementById("adminUserAddingFTEmp").style.visibility = "hidden";
         });
     }
-    if(document.getElementById("adminUserAddingPTEmp").style.visibility == "visible")
-    {
-        $("#adminUserAddingPTEmp").fadeTo(1000, 0, function () {
-            document.getElementById("adminUserAddingPTEmp").style.visibility = "hidden";
-        });
-    }
-
-    if(document.getElementById("adminUserAddingSEmp").style.visibility == "visible")
-    {
-        $("#adminUserAddingSEmp").fadeTo(1000, 0, function () {
-            document.getElementById("adminUserAddingSEmp").style.visibility = "hidden";
-        });
-    }
-
-    if(document.getElementById("adminUserAddingCEmp").style.visibility == "visible")
-    {
-        $("#adminUserAddingCEmp").fadeTo(1000, 0, function () {
-            document.getElementById("adminUserAddingCEmp").style.visibility = "hidden";
-        });
-    }
+//    if(document.getElementById("adminUserAddingPTEmp").style.visibility == "visible")
+//    {
+//        $("#adminUserAddingPTEmp").fadeTo(1000, 0, function () {
+//            document.getElementById("adminUserAddingPTEmp").style.visibility = "hidden";
+//        });
+//    }
+//
+//    if(document.getElementById("adminUserAddingSEmp").style.visibility == "visible")
+//    {
+//        $("#adminUserAddingSEmp").fadeTo(1000, 0, function () {
+//            document.getElementById("adminUserAddingSEmp").style.visibility = "hidden";
+//        });
+//    }
+//
+//    if(document.getElementById("adminUserAddingCEmp").style.visibility == "visible")
+//    {
+//        $("#adminUserAddingCEmp").fadeTo(1000, 0, function () {
+//            document.getElementById("adminUserAddingCEmp").style.visibility = "hidden";
+//        });
+//    }
     if(document.getElementById("adminUserDeleteEmp").style.visibility == "visible")
     {
         $("#adminUserDeleteEmp").fadeTo(1000, 0, function () {
@@ -3162,7 +3286,68 @@ function createJSONObjectAddEmp(userAction,empType,userType)
 							});
 }
     
+$(document).ready(function () {
+    "use strict";
+    $("#submitAdminFullTimeEmp").click(function () {    
+        submitAddFTEmpAdmin();
+    });
+});
     
+function submitAdminFullTimeEmp()
+{
+    //validate data
+    
+    //submit data
+    createJSONObjectAddEmpAdmin("addEmployee","FT","A");
+}
+function createJSONObjectAddEmpAdmin(userAction,empType,userType)
+{
+		var sendData = "";
+    var fname = document.getElementById("fnameTextAdmin").value;
+     var lname = document.getElementById("lnameTextAdmin").value;
+     var company = document.getElementById("compTextAdmin").value;
+     var sin = document.getElementById("sinTextAdmin").value;
+     var dob = document.getElementById("dobTextAdmin").value;
+     var doh = document.getElementById("dohText").value;
+		sendData += makeUpJson("q",{"q":userAction},true);
+		
+		sendData += makeUpJson("UT",{"UT":userType});
+		
+		sendData += makeUpJson("ET",{"ET":empType});
+		
+		sendData += makeUpJson("FN",{"FN":fname});
+		
+		sendData += makeUpJson("LN",{"LN":lname});
+		
+		sendData += makeUpJson("CM",{"CM":company});
+		
+		sendData += makeUpJson("SIN",{"SIN":sin});
+		
+		sendData += makeUpJson("DOB",{"DOB":dob});
+		
+		sendData += makeUpJson("DOH",{"DOH":doh});
+		
+		sendData += makeUpJson("DOT",{"DOT":"20101010"});
+		
+		sendData += makeUpJson("Salary",{"Salary":"90000"});
+		
+	//alert(sendData);
+	 $.ajax({url: "Database.php",
+							type: "GET",
+							async:true,
+							data : sendData,
+							success:function(result)
+							{
+							
+								//alert(result);
+							},
+							 error: function( objRequest )
+							 {
+								//alert(objRequest);
+							 }
+							
+							});
+}
 function createJSONObjectTimeCardGen(userAction,empType)
 {
    // alert("submit time card for ft and pt");
@@ -3428,7 +3613,7 @@ function checkDateOfHire(value)
 			var yyyy = parseInt(regs[0]);
 			var mm = parseInt(regs[1]);
 			var dd = parseInt(regs[2]);
-			bYYYY = yyyy;
+			hYYYY = yyyy;
 			
 			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31 && compareBirthdayAndHireDay(bYYYY, yyyy) == true) 
 			{
@@ -3444,7 +3629,7 @@ function checkDateOfHire(value)
 	return bDate;
 }
 //validaiton for date of birth
-
+var bYYYY;
 function checkDateOfBirth(value)
 {
 	var bDate  = false;
@@ -3590,34 +3775,34 @@ function checkHours(value)
 	return bResult;
 }
     
-function saveFileContent()
-{	
-    if (window.XMLHttpRequest)	
-    {
-      // code for IE7+, Firefox, Chrome, Opera, SafariCreate
-      xmlhttp=new XMLHttpRequest();
-    }
-    else
-    {
-      // code for IE6, IE5
-      xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    xmlhttp.onreadystatechange=sampleCallBack;
-    xmlhttp.open("GET","Database.php",true);
-    xmlhttp.send(null);
-}
-    
-function sampleCallBack()
-{
-    if(xmlhttp.readyState==4)
-    {
-
-        document.getElementById("reportsDiv").style.visibility = "visible";
-        $("#reportsDiv").fadeTo(1000, 1);
-        
-      document.getElementById("reportsDiv").innerHTML = xmlhttp.responseText;
-    }
-}
+//function saveFileContent()
+//{	
+//    if (window.XMLHttpRequest)	
+//    {
+//      // code for IE7+, Firefox, Chrome, Opera, SafariCreate
+//      xmlhttp=new XMLHttpRequest();
+//    }
+//    else
+//    {
+//      // code for IE6, IE5
+//      xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+//    }
+//    xmlhttp.onreadystatechange=sampleCallBack;
+//    xmlhttp.open("GET","Database.php",true);
+//    xmlhttp.send(null);
+//}
+//    
+//function sampleCallBack()
+//{
+//    if(xmlhttp.readyState==4)
+//    {
+//
+//        document.getElementById("reportsDiv").style.visibility = "visible";
+//        $("#reportsDiv").fadeTo(1000, 1);
+//        
+//      document.getElementById("reportsDiv").innerHTML = xmlhttp.responseText;
+//    }
+//}
 
 function checkSin(inputValue,boolTimeCard)
 {
@@ -3821,65 +4006,10 @@ function isNum(text)
             <button id="goBack" class="backBtn">Back</button> 
           </div>
       
-           <div id="adminUserAddingFTEmp" class="centerDiv">
-            <form class="adminAddEmpForm">
-                <label id="employeeTypeFT" class="employeeType"></label>
-                <label id="fnameLabelAdmin" class="fnameL">First Name</label><input type="text" id="fnameTextAdmin" name="fnameTextAdmin" class="fname"/>
-                <label id="lnameLabelAdmin" class="lnameL">Last Name</label><input type="text" id="lnameTextAdmin"  name="lnameTextAdmin" class="lname"/>
-                <label id="companyLabelAdmin" class="companyL">Company</label><input type="text" id="compTextAdmin"  name="compTextAdmin" class="company"/>
-                <label id="sinLabelAdmin" class="sinL">SIN</label><input type="text" id="sinTextAdmin"  name="sinTextAdmin" class="sin"/>
-                <label id="dobLabelAdmin" class="dobL">Date OF Birth</label><input type="text" id="dobTextAdmin"  name="dobTextAdmin" class="dob"/>
-                <label id="dohLabelAdmin" class="dohL">Date Of Hire</label><input type="text" id="dohTextAdmin"  name="dohTextAdmin" class="doh"/>
-                <label id="dotLabelAdmin">Date Of Termination</label><input type="text" id="dotTextAdmin"  name="dotTextAdmin" class="dot"/>
-                <label id="salaryLabelAdmin">Salary</label><input type="text"  name="salary" id="salary"/>
-                <button type="button" class="submitBtn" id="btnSubmitFT" onclick="submitAdminFullTimeEmp()">Submit</button>
-            </form>
-            <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>
-            <button class="backBtn" onclick="goBack()">Back</button> 
-             
-          </div>
-      
-        <div id="adminUserAddingPTEmp" class="centerDiv">
-            <form class="adminAddEmpForm">
-                <label id="employeeTypePT" class="employeeType"></label>
-                <label id="fnameLabelAdmin" class="fnameL">First Name</label><input type="text" id="fnameTextAdmin" name="fnameTextAdmin" class="fname"/>
-                <label id="lnameLabelAdmin" class="lnameL">Last Name</label><input type="text" id="lnameTextAdmin" name="lnameTextAdmin" class="lname"/>
-                <label id="companyLabelAdmin" class="companyL">Company</label><input type="text" id="compTextAdmin" name="compTextAdmin" class="company"/>
-                <label id="sinLabelAdmin" class="sinL">SIN</label><input type="text" id="sinTextAdmin"  name="sinTextAdmin" class="sin"/>
-                <label id="dobLabelAdmin" class="dobL">Date OF Birth</label><input type="text" id="dobTextAdmin" name="dobTextAdmin"  class="dob"/>
-                <label id="dohLabelAdmin" class="dohL">Date Of Hire</label><input type="text" id="dohTextAdmin"  name="dohTextAdmin" class="doh"/>
-                <label id="dotLabelAdmin">Date Of Termination</label><input type="text" id="dotTextAdmin"  name="dotTextAdmin" class="dot"/>
-                <label id="hourlyRateLabelAdmin">Hourly Rate</label><input type="text"  name="hourlyRate" id="hourlyRate"/>
-                <button type="button" class="submitBtn" id="btnSubmitPT" onclick="submitAdminPartTimeEmp()">Submit</button>
-            </form>
-            <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>
-            <button class="backBtn" onclick="goBack()">Back</button> 
-           
-          </div>
-      
-          <div id="adminUserAddingSEmp" class="centerDiv">
-              <form class="adminAddEmpForm">
-                    <label id="employeeTypeS" class="employeeType"></label>
-                    <label id="fnameLabelAdmin" class="fnameL">First Name</label><input type="text" id="fnameTextAdminS" class="fname" name="fnameTextAdminS"/>
-                    <label id="lnameLabelAdmin" class="lnameL">Last Name</label><input type="text" id="lnameTextAdminS" class="lname" name="lnameTextAdminS"/>
-                    <label id="companyLabelAdmin" class="companyL">Company</label><input type="text" id="compTextAdminS" class="company" name="compTextAdminS"/>
-                    <label id="sinLabelAdmin" class="sinL">SIN</label><input type="text" id="sinTextAdminS" name="sinTextAdminS" class="sin"/>
-                    <label id="dobLabelAdmin" class="dobL">Date OF Birth</label><input type="text" id="dobTextAdminS" name="dobTextAdminS" class="dob"/>         
-                    <label id="seasonTypeLabelAdmin" class="seasonL">Season</label>
-                      <select id="seasonTypeDDAdminS" name="seasonTypeDDAdminS" class="season">
-                        <option value="winter">Winter</option>
-                        <option value="spring">Spring</option>
-                        <option value="fall">Fall</option>
-                        <option value="summer">Summer</option>
-                    </select> 
-                    <label id="seasonYearLabelAdmin" class="seasonyearL">Season Year</label><input type="text" id="seasonYearTextAdminS" class="seasonyear" name="seasonYearTextAdminS" />
-                    <button type="button" class="submitBtn" id="btnSubmitS" onclick="submitAdminSeasonEmp()">Submit</button>
-            </form>
-            <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>
-            <button class="backBtn" onclick="goBack()">Back</button> 
-          </div>
+
       
       
+<!--
         <div id="adminUserAddingCEmp" class="centerDiv">   
             <form class="adminAddEmpForm">
                 <label id="employeeTypeC" class="employeeType"></label>
@@ -3896,14 +4026,76 @@ function isNum(text)
             <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>
             <button class="backBtn" onclick="goBack()">Back</button>       
           </div>
+-->
       
 <!--      Admin user modifying an employee-->
        <div id="adminModifyingEmp" class="centerDiv"> 
-           <form class="adminAddEmpForm">
+
                 <label id="modifySinLabel" class="timeCardLabel">SIN</label><input type="text" id="modifySinText" class="timeCardText"><span id="spanModifySin" style="position:absolute; top:10%; left:70%;"></span>
                <label id="modifyCompanyLabel" class="timeCardLabel">Company Name</label><input type="text" id="modifyCompanyText" class="timeCardText"><span id="spanModifyCompany" style="position:absolute; top:20%; left:70%;"></span>
                <button type="button" id="submitModify">Modify</button>
-           </form>
+<!--           <div id="modifyResultDiv" style="position:absolute;top:50%;left:10%; background-color:white;"></div>-->
+<!--               <div id="adminUserAddingFTEmp" class="centerDiv">-->
+           <div id="adminUserAddingFTEmp" style="position:absolute; top:50%; width:80%;height:100%;left:10%;">
+<!--                <form class="adminAddEmpForm">-->
+                    <label id="employeeTypeFT" class="employeeType"></label>
+                    <label id="fnameLabelAdmin" class="fnameL">First Name</label><input type="text" id="fnameTextAdmin" name="fnameTextAdmin" class="fname"/>
+                    <label id="lnameLabelAdmin" class="lnameL">Last Name</label><input type="text" id="lnameTextAdmin"  name="lnameTextAdmin" class="lname"/>
+                    <label id="companyLabelAdmin" class="companyL">Company</label><input type="text" id="compTextAdmin"  name="compTextAdmin" class="company"/>
+                    <label id="sinLabelAdmin" class="sinL">SIN</label><input type="text" id="sinTextAdmin"  name="sinTextAdmin" class="sin"/>
+                    <label id="dobLabelAdmin" class="dobL">Date OF Birth</label><input type="text" id="dobTextAdmin"  name="dobTextAdmin" class="dob"/>
+                    <label id="dohLabelAdmin" class="dohL">Date Of Hire</label><input type="text" id="dohTextAdmin"  name="dohTextAdmin" class="doh"/>
+                    <label id="dotLabelAdmin">Date Of Termination</label><input type="text" id="dotTextAdmin"  name="dotTextAdmin" class="dot"/>
+                    <label id="salaryLabelAdmin">Salary</label><input type="text"  name="salary" id="salary"/>
+                    <button type="button" class="submitBtn" id="btnSubmitFT" onclick="submitAdminFullTimeEmp()">Submit</button>
+<!--                </form>-->
+<!--                <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>-->
+<!--                <button class="backBtn" onclick="goBack()">Back</button> -->
+
+                      </div>
+                <div id="adminUserAddingPTEmp" style="position:absolute; top:50%; width:80%;height:100%;left:10%;">
+        <!--            <form class="adminAddEmpForm">-->
+                        <label id="employeeTypePT" class="employeeType"></label>
+                        <label id="fnameLabelAdmin" class="fnameL">First Name</label><input type="text" id="fnameTextAdminPT" name="fnameTextAdmin" class="fname"/>
+                        <label id="lnameLabelAdmin" class="lnameL">Last Name</label><input type="text" id="lnameTextAdminPT" name="lnameTextAdmin" class="lname"/>
+                        <label id="companyLabelAdmin" class="companyL">Company</label><input type="text" id="compTextAdminPT" name="compTextAdmin" class="company"/>
+                        <label id="sinLabelAdmin" class="sinL">SIN</label><input type="text" id="sinTextAdminPT"  name="sinTextAdmin" class="sin"/>
+                        <label id="dobLabelAdmin" class="dobL">Date OF Birth</label><input type="text" id="dobTextAdminPT" name="dobTextAdmin"  class="dob"/>
+                        <label id="dohLabelAdmin" class="dohL">Date Of Hire</label><input type="text" id="dohTextAdminPT"  name="dohTextAdmin" class="doh"/>
+                        <label id="dotLabelAdmin">Date Of Termination</label><input type="text" id="dotTextAdminPT"  name="dotTextAdmin" class="dot"/>
+                        <label id="hourlyRateLabelAdmin">Hourly Rate</label><input type="text"  name="hourlyRate" id="hourlyRatePT"/>
+                        <button type="button" class="submitBtn" id="btnSubmitPT" onclick="submitAdminPartTimeEmp()">Submit</button>
+<!--                    </form>-->
+<!--                    <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>-->
+                    <button class="backBtn" onclick="goBack()">Back</button> 
+
+                </div>
+           
+<!--
+               <div id="adminUserAddingSEmp" style="position:absolute; top:50%; width:80%;height:100%;left:10%;">
+                  <form class="adminAddEmpForm">
+                        <label id="employeeTypeS" class="employeeType"></label>
+                        <label id="fnameLabelAdmin" class="fnameL">First Name</label><input type="text" id="fnameTextAdminS" class="fname" name="fnameTextAdminS"/>
+                        <label id="lnameLabelAdmin" class="lnameL">Last Name</label><input type="text" id="lnameTextAdminS" class="lname" name="lnameTextAdminS"/>
+                        <label id="companyLabelAdmin" class="companyL">Company</label><input type="text" id="compTextAdminS" class="company" name="compTextAdminS"/>
+                        <label id="sinLabelAdmin" class="sinL">SIN</label><input type="text" id="sinTextAdminS" name="sinTextAdminS" class="sin"/>
+                        <label id="dobLabelAdmin" class="dobL">Date OF Birth</label><input type="text" id="dobTextAdminS" name="dobTextAdminS" class="dob"/>         
+                        <label id="seasonTypeLabelAdmin" class="seasonL">Season</label>
+                          <select id="seasonTypeDDAdminS" name="seasonTypeDDAdminS" class="season">
+                            <option value="winter">Winter</option>
+                            <option value="spring">Spring</option>
+                            <option value="fall">Fall</option>
+                            <option value="summer">Summer</option>
+                        </select> 
+                        <label id="seasonYearLabelAdmin" class="seasonyearL">Season Year</label><input type="text" id="seasonYearTextAdminS" class="seasonyear" name="seasonYearTextAdminS" />
+                        <button type="button" class="submitBtn" id="btnSubmitS" onclick="submitAdminSeasonEmp()">Submit</button>
+                </form>
+    
+                <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>
+                <button class="backBtn" onclick="goBack()">Back</button> 
+    
+              </div>
+-->
           </div>
       
         <div id="newUserForm" class="centerDiv">
@@ -3973,7 +4165,11 @@ function isNum(text)
       <div id="searchResultDiv" style="position:absolute;top:50%;left:10%; background-color:white;"></div>   
       </div>
 
-      <div id="reportsDiv" class="centerDiv"></div>
+      <div id="reportsDiv" class="centerDiv">
+        <label id="reportCompNameLabel">Company Name</label><input type="text" id="reportCompanyNameText">
+          <button id="generateReport">Generate</button>
+          <div id="reportsResult" style="position:absolute;left:10%;top:20%;height:100%;width:90%;overflow-y:scroll;"></div>
+    </div>
       
       <p id="copyright">Developed & Maintained by DMS Inc.</p>   
   </div>
