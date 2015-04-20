@@ -125,7 +125,7 @@ session_start();
 }
 #timeCardEmp{
     position:absolute;
-    top: 61%;
+    top: 37%;
     background-color: #339966;
     color: white;
     visibility: hidden;
@@ -839,7 +839,7 @@ var ch_sum = "";
 var checkdigit = 0;
 var sin = "";
 var lastdigit = 0;
-    
+var bYYYY = 0;
    $(document).ready(function () {
     userType="<?php echo $_SESSION["userType"]; ?>";
        if(userType==="A")
@@ -1085,7 +1085,7 @@ function addEmpDivsAdmin()
     //if its the first choice
     if(maintaineneceType=="")
     {
-        alert("nnnn");
+       // alert("nnnn");
         document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
         $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
         document.getElementById("addEmployeeLabelAdmin").innerHTML="Add Employee Admin";
@@ -1314,6 +1314,7 @@ function clearSearchSpans()
     document.getElementById("searchSpanGenFname").innerHTML = "";
     document.getElementById("searchSpanGenLname").innerHTML = "";
     document.getElementById("searchSpanGenSin").innerHTML = "";
+    document.getElementById("searchError").innerHTML  = "";
 }
     
     function clearSearchFields()
@@ -1333,6 +1334,7 @@ function clearSearchSpans()
         if(document.getElementById("searchFnameText").value =="" && document.getElementById("searchLnameText").value =="" && document.getElementById("searchSinText").value =="")
         {
             //show the error message.
+            document.getElementById("searchError").innerHTML = "*Enter fields to search.";
         }
         else
         {
@@ -1390,21 +1392,21 @@ function clearSearchSpans()
 		sendData += makeUpJson("SIN",{"SIN":sin});
 		
 		sendData += makeUpJson("UT",{"UT":userType});
-		
+		document.getElementById("searchResultDiv").style.visibility = "visible";
 	
-		alert(sendData);
+		//alert(sendData);
 	 $.ajax({url: "Database.php",
 							type: "GET",
 							async:true,
 							data : sendData,
 							success:function(result)
 							{
-								alert(result);
+								//alert(result);
 								$("#searchResultDiv").html(result);
 							},
 							 error: function( objRequest )
 							 {
-								alert(objRequest);
+								//alert(objRequest);
 							 }
 							
 							});
@@ -1415,7 +1417,6 @@ function clearSearchSpans()
 //function SelectEmp(EmployeeID,EmployeeType,CompanyID,PersonID)
 function SelectEmp(EmployeeID)
 {
-		alert("fsfjjlsjfsjfkljk");
 		var value = "selectSearchedEmployee";
 		var sendData = "";
 	
@@ -1432,11 +1433,12 @@ function SelectEmp(EmployeeID)
 							data : sendData,
 							success:function(result)
 							{
-							alert(result);	$("#searchResultDiv").html(result);
+							//alert(result);	
+                            $("#searchResultDiv").html(result);
 							},
 							 error: function( objRequest )
 							 {
-								alert(objRequest);
+							//	alert(objRequest);
 							 }
 							
 							});
@@ -1987,6 +1989,7 @@ $(document).ready(function () {
     $("#searchBtnGen").click(function (){ 
        clearSearchSpans();
         clearSearchFields();
+         document.getElementById("searchResultDiv").style.visibility = "hidden";
         if(genUserAction == "reports")
         {
             hideReportsBtnsGen();
@@ -2702,6 +2705,7 @@ if(!checkLname(document.getElementById("lnameText").value))
     } 
     if(!checkSin(document.getElementById("sinText").value))
     {
+       // alert(document.getElementById("sinText").value);
         //show error message
         document.getElementById("sinGenSpan").innerHTML = "*Invalid Data";
          boolToSubmit="false";
@@ -2823,7 +2827,7 @@ function submitGenEmp()
                //check whether all validation succeeded or not
                 if(validateGenAddForm("true") =="true")
                 {
-                    alert("done");
+                    //alert("done");
                     //create a json object 
                     createJSONObjectAddEmp("addEmployee","SN","G");
                 } 
@@ -2893,11 +2897,11 @@ function createJSONObjectAddEmp(userAction,empType,userType)
 							success:function(result)
 							{
 							
-								alert(result);
+								//alert(result);
 							},
 							 error: function( objRequest )
 							 {
-								alert(objRequest);
+								//alert(objRequest);
 							 }
 							
 							});
@@ -2948,7 +2952,7 @@ function createJSONObjectTimeCardGen(userAction,empType)
 							data : sendData,
 							success:function(result)
 							{
-							alert(result);
+							//alert(result);
 								var values = [];
 								values = makeItAnObject(result);
 								var len= values.length;
@@ -2959,11 +2963,52 @@ function createJSONObjectTimeCardGen(userAction,empType)
 							},
 							 error: function( objRequest )
 							 {
-								alert(objRequest);
+								//alert(objRequest);
 							 }
 							
 							});
 }    
+    
+function makeItAnObject(jsonvalue)
+      {
+        var jsonObj;
+        var keys = []; 		// array to hold the JSON keys
+        var subKeys = [];
+        var values = [];
+        var haveSubElements;
+
+        var jsonString = jsonvalue;		// what did the user enter?
+	  
+	  // use eval() to translate (parse) the string into an object
+	  jsonObj = eval("(" + jsonString + ")");
+
+	  // now walk through the JSON object and print out the key/value pairs
+
+	  haveSubElements = false;
+	  for (var key in jsonObj)
+	  {
+	    keys.push(key);		// make a list of the highest level items in the JSON object
+
+	    if(typeof jsonObj[key] === 'object')	// check if the value for this key value is itself an object - meaning that there is more to the hierarchy of the JSON object
+	    {
+	       haveSubElements = true;
+	       for (var subElement in jsonObj[key])
+	       {
+ 	         for (var subKey in jsonObj[key][subElement])
+	         {
+                 if(subElement == 0) subKeys.push(subKey);
+                 values.push(jsonObj[key][subElement][subKey]);
+               }
+	       }
+	    }
+	    else
+	    {
+	      values.push(jsonObj[key]);
+	    }
+	  }
+
+      return values;
+      }     
 
 function sumAllPieces()
 {
@@ -2992,156 +3037,226 @@ function goBackTimeCardS()
         }
 }
     
-    
+//validation for first name
 function checkFname(inputValue)
 {
-
-	var bName = true;
-	var patt = /^[a-zA-Z'.]{1,40}$/;
-	var nameCheck = inputValue;
-
-	if(nameCheck == null || nameCheck == "")
+	var bName = false;
+	if(userType == "A")
 	{
-		bName = false;
+		
+		var pattAd = /^[a-zA-Z'.]{1,40}$/;
+		//var nameCheckAd = inputValue;
+		
+		if(inputValue != null && inputValue != "" && inputValue.match(pattAd) != null)
+		{
+			bName = true;
+		}
+		/*else
+		{
+			if(inputValue.match(pattAd) == null)
+			{
+				bName = false;
+			}
+		}*/
 	}
 	else
 	{
-		if(inputValue.match(patt) == null)
+		var number = /[\d+]/;
+		var pattGe = /[a-zA-Z-`\s]{1,40}/;
+		if(inputValue == null || inputValue == "" || inputValue.match(pattGe) != null)
 		{
-			bName = false;
+			if(inputValue.match(number) == null)
+			{
+				bName = true;
+			}
 		}
 	}
+	
 	return bName;
-}  
-    
+}
 //validation for last name
 function checkLname(inputValue)
 {
-
-	var bName = true;
-	var patt = /^[a-zA-Z'.]{1,40}$/;
-	var nameCheck = inputValue;
-
-	if(nameCheck == null || nameCheck == "")
+	var bName = false;
+	if(userType == "A")
 	{
-		bName = false;
+		
+		var pattAd = /^[a-zA-Z'.]{1,40}$/;
+		//var nameCheckAd = inputValue;
+		
+		if(inputValue != null && inputValue != "" && inputValue.match(pattAd) != null)
+		{
+			bName = true;
+		}
+		/*else
+		{
+			if(inputValue.match(pattAd) == null)
+			{
+				bName = false;
+			}
+		}*/
 	}
 	else
 	{
-		if(inputValue.match(patt) == null)
+		var number = /[\d+]/;
+		var pattGe = /[a-zA-Z-`\s]{1,40}/;
+		if(inputValue == null || inputValue == "" || inputValue.match(pattGe) != null)
 		{
-			bName = false;
+			if(inputValue.match(number) == null)
+			{
+				bName = true;
+			}
 		}
 	}
+	
 	return bName;
-}    
+}   
 //validation for comapny
 function checkCompany(inputValue)
 {
 
-	var bCompany = true;
-	var companyCheck = inputValue;
 
-	if(companyCheck == null || companyCheck == "")
+	var bCompany = true;
+	if(userType == "A")
 	{
-		bCompany = false;
+		if(inputValue == null || inputValue == "")
+		{
+			bCompany = false;
+		}
 	}
+	else
+	{
+		bCompany = true;
+	}
+
+	
 	return bCompany;
 }   
     
-//validaiton for date of birth
-function checkDateOfBirth(value)
-{
-	var bDate  = true;
-	var dateReg = /^\d{4}-\d{2}-\d{2}$/;
-	
-	if(value == null || value == "")
-	{
-		bDate = false;
-	}
-	else
-	{
-		if(value.match(dateReg) != null)
-		{
-			var regs = value.split("-");
-			var yyyy = parseInt(regs[0]);
-			var mm = parseInt(regs[1]);
-			var dd = parseInt(regs[2]);
-
-			if(yyyy < 1902 || yyyy > (new Date().getFullYear())) 
-			{
-	          bDate = false;
-	        }
-	        if (mm < 1 || mm > 12) 
-	        {
-	        	bDate = false;
-	        }
-	        if (dd < 1 || dd > 31) 
-	        {
-	        	bDate = false;
-	        }
-	        else
-	        {
-	        	if(mm == 2 && dd > 28)
-	        	{
-	        		bDate = false;
-	        	}
-	        }				
-		}
-		else
-		{
-			bDate = false;	
-		}
-	}
-	return bDate;	
-}
-//validation for date of hire
 function checkDateOfHire(value)
 {
-	var bDate  = true;
-	var dateReg = /^\d{4}-\d{2}-\d{2}$/;
+	var bDate  = false;
+	//var dateReg = /^\d{4}-\d{2}-\d{2}$/;
+	var dateReg = /^\d{4}-\d{2}-\d{2}|^\d{4}-\d{1}-\d{1}|^\d{4}-\d{1}-\d{2}|^\d{4}-\d{2}-\d{1}$/;
 	
-	if(value == null || value == "")
+	if(userType == "A")
 	{
-		bDate = false;
+		if(value != null && value != "" && value.match(dateReg) != null)
+		{
+			var regs = value.split("-");
+			var yyyy = parseInt(regs[0]);
+			var mm = parseInt(regs[1]);
+			var dd = parseInt(regs[2]);
+			hYYYY = yyyy;
+			hMM = mm;
+			hDD = dd;
+			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31 && compareBirthdayAndHireDay(bYYYY, yyyy) == true)
+			{
+				if(mm == 2 && mm <= 28)
+				{
+					bDate = true;
+				}
+			}
+		}
 	}
 	else
 	{
+		if(value == null || value == "" || value == "0") 
+		{
+			bDate = true;
+		}
 		if(value.match(dateReg) != null)
 		{
 			var regs = value.split("-");
 			var yyyy = parseInt(regs[0]);
-            
 			var mm = parseInt(regs[1]);
 			var dd = parseInt(regs[2]);
-
-			if(yyyy < 1902 || yyyy > (new Date().getFullYear())) 
+			bYYYY = yyyy;
+			
+			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31) 
 			{
-	          bDate = false;
-	        }
-	        if (mm < 1 || mm > 12) 
-	        {
-	        	bDate = false;
-	        }
-	        if (dd < 1 || dd > 31) 
-	        {
-	        	bDate = false;
-	        }
-	        else
-	        {
-	        	if(mm == 2 && dd > 28)
-	        	{
-	        		bDate = false;
-	        	}
-	        }				
-		}
-		else
-		{
-			bDate = false;	
+				if(mm == 2 && mm <= 28)
+				{
+					bDate = true;
+				}
+				
+			}
 		}
 	}
+	return bDate;
+}
+//validaiton for date of birth
+
+function checkDateOfBirth(value)
+{
+	var bDate  = false;
+	var dateRegFormat = /^\d{4}-\d{2}-\d{2}|^\d{4}-\d{1}-\d{1}|^\d{4}-\d{1}-\d{2}|^\d{4}-\d{2}-\d{1}$/;
+	if(userType == "A")
+	{
+		
+		if(value != null && value != "" && value.match(dateRegFormat) != null)
+		{
+			var regs = value.split("-");
+			var yyyy = parseInt(regs[0]);
+			var mm = parseInt(regs[1]);
+			var dd = parseInt(regs[2]);
+			bYYYY = yyyy;
+			
+			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31) 
+			{
+				if(mm == 2 && mm <= 28)
+				{
+					bDate = true;
+				}
+				
+			}
+			
+		}
+	}
+	else
+	{
+		if(value == null || value == "" || value == "0") 
+		{
+			bDate = true;
+		}
+		if(value.match(dateRegFormat) != null)  //this check for real, actual valid date for general user
+		{
+			var regs = value.split("-");
+			var yyyy = parseInt(regs[0]);
+			var mm = parseInt(regs[1]);
+			var dd = parseInt(regs[2]);
+			bYYYY = yyyy;
+			
+			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31) 
+			{
+                bDate = true;
+                
+				if(mm == 2 && dd > 28)
+				{
+					bDate = false;
+				}
+				
+			}
+		}
+	}
+	
 	return bDate;	
 }
+
+//compare birthday with hire day
+//for now, I didn't add work type(fulltime and seasonal 18+) (parttime 16+)
+function compareBirthdayAndHireDay(bYYYY, hYYYY)
+{
+	bResult = false;
+	if(hYYYY - bYYYY >= 18)
+	{
+		bResult = true;
+	}
+	
+	return bResult;
+	
+}
+
 //validaiton for season year
 function checkSeasonYear(value)
 {
@@ -3228,9 +3343,9 @@ function sampleCallBack()
     }
 }
 
-function checkSin(value)
+function checkSin(inputValue)
 {
-	esum = 0;
+   	esum = 0;
     enumbers = "";
     checknum = 0;
     ch_sum = "";
@@ -3238,20 +3353,33 @@ function checkSin(value)
     sin = "";
     lastdigit = 0;
 	var bCheckSinResult = false;
-	
-    if (isNum(value.value))
+	if(userType == "A")
 	{
-		bCheckSinResult = true;
+		if (isNum(inputValue))
+		{
+			bCheckSinResult = true;
+		}
 	}
+	else
+	{
+		if(isNum(inputValue) || inputValue == "" || inputValue == 0 || inputValue.length == 0)
+		{
+			bCheckSinResult = true;
+		}
+	}
+    
 
 	return bCheckSinResult;
 }
 
 function isNum(text) 
 {
+    //alert(text);
 	if(text == "" || text == null || text.length == 0) 
 	{
+       // alert("1");
 		return false;
+        
 	}
 	inStr = text;
 	sin = text;
@@ -3259,7 +3387,9 @@ function isNum(text)
 
 	if (inLen > 11 || inLen < 11) 
 	{
+          //alert("2");
 		return false;
+       
 	}
 
 	for (var i = 0; i < text.length; i++) 
@@ -3268,10 +3398,13 @@ function isNum(text)
 
 		if ((ch < "0" || "9" < ch) && (ch != " "))  
 		{
+             //alert("3");
 			return false;
+            
 		}
 		if ((i == 3 || i == 7) && (ch != " ")) 
 		{
+             //alert("4");
 			return false;
 		}
 	}
@@ -3330,11 +3463,11 @@ function isNum(text)
 			
     if (checkdigit != lastdigit) 
 	{
+         //alert("5");
 		return false;
 	}					  			
 	return true;
-}
-   
+}   
 </script>
 </head>
 <body>
@@ -3538,12 +3671,12 @@ function isNum(text)
           </div>
       
       <div id="searchDiv" class="centerDiv">
-        <label id="userAction" class="employeeType"></label>
+        <label id="userAction" class="employeeType"></label><span style="position:absolute; top:5%; left:70%;" id="searchError"></span>
         <label id="searchFnameLabel">First Name</label><input type="text" id="searchFnameText" name="searchFnameText"><span style="position:absolute; top:10%; left:70%;" id="searchSpanGenFname"></span>
         <label id="searchLnameLabel">Last Name</label><input type="text" id="searchLnameText" name="searchLnameText"><span style="position:absolute; top:20%; left:70%;" id="searchSpanGenLname"></span>
         <label id="searchSinLabel">SIN</label><input type="text" id="searchSinText" name="searchSinText"><span style="position:absolute; top:30%; left:70%;" id="searchSpanGenSin"></span>
         <button id="searchEmpBtn">Search</button>
-      <div id="searchResultDiv" style="position:absolute; width:100%;top:0px;left:0px;"></div>   
+      <div id="searchResultDiv" style="position:absolute;top:50%;left:10%; background-color:white;"></div>   
       </div>
 
       <div id="reportsDiv" class="centerDiv"></div>
