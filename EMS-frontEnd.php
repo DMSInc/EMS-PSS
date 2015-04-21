@@ -775,7 +775,16 @@ position:absolute;
     left:40%;
     top:50%;
 }
-
+#serverMsgs{
+position:absolute;
+    left:38%;
+    top:10%;
+    height:70%;
+    width:20%;
+    background-color:#33FF66;
+    visibility:hidden;
+    opacity:0;
+}
 #cstopDLabelAdminC{
 position:absolute;
     left:10%;
@@ -1531,7 +1540,8 @@ function createJSONModifyObject(userAction)
 							data : sendData,
 							success:function(result)
 							{
-                                alert(result);   
+								//alert("sfsf");
+                                //alert(result);   
 								var values = [];
 								values = makeItAnObject(result);
                                 showModifyResultFT(values,employeeType);
@@ -1549,20 +1559,21 @@ function createJSONModifyObject(userAction)
 function showModifyResultFT(values,employeeType)
 {
 
-    oldSin = values[3];
-    oldCompany=values[2];
-    
+    oldSin = values[4];
+    oldCompany=values[3];
+    var status="";
     if(employeeType=="FT")
     {   
+	status = values[0];
         document.getElementById("employeeTypeFT").innerHTML = "Fulltime Employee";
-        document.getElementById("fnameTextAdmin").value = values[0];
-        document.getElementById("lnameTextAdmin").value = values[1];
+        document.getElementById("fnameTextAdmin").value = values[1];
+        document.getElementById("lnameTextAdmin").value = values[2];
         document.getElementById("compTextAdmin").value = document.getElementById("modifyCompanyText").value;
         document.getElementById("sinTextAdmin").value = document.getElementById("modifySinText").value;
-        document.getElementById("dobTextAdmin").value = values[4];
-        document.getElementById("dohTextAdmin").value = values[5];
-        document.getElementById("dotTextAdmin").value = values[6];
-        document.getElementById("salary").value = values[7];
+        document.getElementById("dobTextAdmin").value = values[5];
+        document.getElementById("dohTextAdmin").value = values[6];
+        document.getElementById("dotTextAdmin").value = values[7];
+        document.getElementById("salary").value = values[8];
     }
     if(employeeType=="PT")
     {
@@ -1936,7 +1947,7 @@ $(document).ready(function () {
     "use strict";
     $("#adminUserChoiceFTEmp").click(function () {  
         employeeType="FT";
-        alert("sameer");
+        //alert("sameer");
         if(maintaineneceType=="addEmployee"){
                 $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function () {
                 document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
@@ -1960,7 +1971,7 @@ $(document).ready(function () {
             {
                  if(maintaineneceType=="modifyEmployee")
                  {
-                     alert("mmmmmmm");
+                     //alert("mmmmmmm");
                      $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function (){
                   document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
                   document.getElementById("adminModifyingEmp").style.visibility = "visible";
@@ -3385,19 +3396,20 @@ function createJSONObjectAdminAddPT(userAction)
 		
 		sendData += makeUpJson("HourlyRate",{"HourlyRate":hourly});
 		
-	////alert(sendData);
+	//alert(sendData);
 	 $.ajax({url: "Database.php",
 							type: "GET",
 							async:true,
 							data : sendData,
 							success:function(result)
 							{
-							
-								////alert(result);
+							     //alert("1");
+								//alert(result);
 							},
 							 error: function( objRequest )
 							 {
-								////alert(objRequest);
+                                      //alert("2");
+								//alert(objRequest);
 							 }
 							
 							});
@@ -3858,7 +3870,7 @@ function emptyAllSpanValues()
         document.getElementById("dobGenSpan").innerHTML = "";
         document.getElementById("dohGenSpan").innerHTML = "";
         document.getElementById("seasonYearGenSpan").innerHTML = "";
-         document.getElementById("seasonGenSpan").innerHTML = ""
+        document.getElementById("seasonGenSpan").innerHTML = ""
 }
 function emptyAllTCSpanValues()
 {
@@ -3881,6 +3893,8 @@ function createJSONObjectAddEmp(userAction,empType,userType)
      var sin = document.getElementById("sinText").value;
      var dob = document.getElementById("dobText").value;
      var doh = document.getElementById("dohText").value;
+	  var syear = document.getElementById("seasonYearText").value;
+	    var ss = document.getElementById("seasonTypeDD").value;
 		sendData += makeUpJson("q",{"q":userAction},true);
 		
 		sendData += makeUpJson("UT",{"UT":userType});
@@ -3899,9 +3913,9 @@ function createJSONObjectAddEmp(userAction,empType,userType)
 		
 		sendData += makeUpJson("DOH",{"DOH":doh});
 		
-		sendData += makeUpJson("DOT",{"DOT":"20101010"});
-		
-		sendData += makeUpJson("Salary",{"Salary":"90000"});
+		sendData += makeUpJson("SY",{"SY":syear});
+//		
+		sendData += makeUpJson("S",{"S":ss});
 		
 	//alert(sendData);
 	 $.ajax({url: "Database.php",
@@ -3909,16 +3923,24 @@ function createJSONObjectAddEmp(userAction,empType,userType)
 							async:true,
 							data : sendData,
 							success:function(result)
-							{
-							
-								//alert(result);
+                            {
+                                 document.getElementById("serverMsgs").style.visibility="visible";
+    document.getElementById("msg").innerHTML="Employee Added Successfully.";
+                                 $("#serverMsgs").fadeTo(1200, 1);
+     $("#serverMsgs").fadeTo(1200, 0);
 							},
 							 error: function( objRequest )
 							 {
+                                       document.getElementById("serverMsgs").style.visibility="visible";
+    document.getElementById("msg").innerHTML="Cannot Add Employee";
+                                 $("#serverMsgs").fadeTo(1200, 1);
+     $("#serverMsgs").fadeTo(1200, 0);
 								//alert(objRequest);
 							 }
 							
 							});
+ 
+    
 }
     
 //$(document).ready(function () {
@@ -4368,7 +4390,7 @@ function createJSONObjectDataModFT(userAction)
     
 		sendData += makeUpJson("q",{"q":userAction},true);
     
-        sendData += makeUpJson("modify",{"modify":"true"},true);
+        sendData += makeUpJson("MOD",{"MOD":"true"});
 		
 		sendData += makeUpJson("UT",{"UT":userType});
 		
@@ -4381,6 +4403,29 @@ function createJSONObjectDataModFT(userAction)
 		sendData += makeUpJson("CM",{"CM":company});
 		
 		sendData += makeUpJson("SIN",{"SIN":sin});
+		
+		alert(sin);
+		alert(oldSin);
+		if(sin==oldSin)
+		{
+				sendData += makeUpJson("MODSIN",{"MODSIN":"false"});
+		}
+		else
+		{
+			sendData += makeUpJson("MODSIN",{"MODSIN":"true"});
+		}
+		if(company==oldCompany)
+		{
+			sendData += makeUpJson("MODCOM",{"MODCOM":"false"});
+		}
+		else
+		{
+			sendData += makeUpJson("MODCOM",{"MODCOM":"true"});
+		}
+		
+		sendData += makeUpJson("OLDSIN",{"OLDSIN":oldSin});
+		
+			sendData += makeUpJson("OLDCOM",{"OLDCOM":oldCompany});
 		
 		sendData += makeUpJson("DOB",{"DOB":dob});
 		
@@ -4395,7 +4440,7 @@ function createJSONObjectDataModFT(userAction)
         sendData += makeUpJson("OldCompany",{"OldCompany":oldCompany});
     
 		
-	//alert(sendData);
+	alert(sendData);
 	 $.ajax({url: "Database.php",
 							type: "GET",
 							async:true,
@@ -4403,11 +4448,11 @@ function createJSONObjectDataModFT(userAction)
 							success:function(result)
 							{
 							
-								//alert(result);
+								alert(result);
 							},
 							 error: function( objRequest )
 							 {
-								//alert(objRequest);
+								alert(objRequest);
 							 }
 							
 							});
@@ -4597,8 +4642,7 @@ function checkDateOfHire(value)
 			hDD = dd;
 			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31 && compareBirthdayAndHireDay(bYYYY, yyyy) == true)
 			{
-			
-				
+				bDate = true;
 				if(mm == 2)
 				{
 					if(dd == 29)
@@ -4621,7 +4665,6 @@ function checkDateOfHire(value)
 						bDate = false;
 					}
 					
-				
 				}
 			}
 		}
@@ -4642,7 +4685,7 @@ function checkDateOfHire(value)
 			
 			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31 && compareBirthdayAndHireDay(bYYYY, yyyy) == true) 
 			{
-					
+				bDate = true;
 				if(mm == 2)
 				{
 					if(dd == 29)
@@ -4665,7 +4708,6 @@ function checkDateOfHire(value)
 						bDate = false;
 					}
 					
-				
 				}
 				
 			}
@@ -5145,6 +5187,9 @@ function isNum(text)
   <div id="topDiv">
     <p id="appLabel">EMS-PSS</p>
     <button id="logOutOfTheApp">Log Out</button>
+      <div id="serverMsgs">
+        <p id="msg" style="position:absolute; left:10%;top:10%;"></p>
+      </div>
   </div>
 
   <div id="backDiv">  
@@ -5304,7 +5349,7 @@ function isNum(text)
                 <label id="modifySinLabel" class="timeCardLabel">SIN</label><input type="text" id="modifySinText" class="timeCardText"><span id="spanModifySin" style="position:absolute; top:10%; left:70%;"></span>
                <label id="modifyCompanyLabel" class="timeCardLabel">Company Name</label><input type="text" id="modifyCompanyText" class="timeCardText"><span id="spanModifyCompany" style="position:absolute; top:20%; left:70%;"></span>
                <button type="button" id="submitModify">Modify</button>
-           <div id="modifyResultDiv" style="position:absolute;top:50%;left:10%; background-color:white;"></div>
+            <!-- <div id="modifyResultDiv" style="position:absolute;top:50%;left:10%; background-color:white;"></div> -->
 <!--               <div id="adminUserAddingFTEmp" class="centerDiv">-->
            <button class="backBtn" onclick="goBack()">Back</button> 
            <div id="adminUserAddingFTEmp" style="position:absolute; top:50%; width:80%;height:100%;left:10%;">
