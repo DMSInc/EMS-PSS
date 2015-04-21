@@ -4,10 +4,10 @@ use EMSPSS;
 
 create table login(
 username varchar(100) NOT NULL,
-firstname varchar(40),
-lastname varchar(40),
 `password` varchar(200) NOT NULL,
 `type` varchar(5) NOT NULL,
+firstname varchar(40),
+lastname varchar(40),
 primary key(username)
 );
 
@@ -31,7 +31,7 @@ Create table IF NOT EXISTS PERSON(
 ID integer NOT null auto_increment,
 FIRSTNAME VARCHAR(40),
 LASTNAME VARCHAR(40),
-SIN		VARCHAR(10),
+SIN		VARCHAR(40),
 DATEOFBIRTH VARCHAR(40),
 PRIMARY KEY(ID)
 );
@@ -47,7 +47,7 @@ Create table if not exists  employee(
 ID integer not null auto_increment,
 company_id integer not null,
 person_id  integer not null,
-Employeestatus varchar(40) default 'Inactive',
+Employeestatus varchar(40) default 'Incomplete',
 EmployType     varchar(10), 
 Foreign key fk_companyid(company_id) references company(ID),
 Foreign key fk_personid(person_id) references person(ID),
@@ -75,6 +75,7 @@ thursdayHours	 decimal(3,1),
 fridayHours		 decimal(3,1),
 saturdayHours	 decimal(3,1),
 sundayHours 	decimal(3,1),
+amount			decimal(5,2),
 FOREIGN KEY fk_employeeid(employee_id) references employee(id),
 primary key(ID)
 );
@@ -105,7 +106,8 @@ Create table if not exists SeasonalEmployee(
 	season varchar(40),
 	piecePay varchar(40),
 	seasonYear varchar(40),
-	Employeestatus varchar(40) default 'Inactive',
+	dateofhire	varchar(40),
+	Employeestatus varchar(40) default 'Incomplete',
 
 	Foreign key fk_employeeid(employee_id) references employee(id),
 	primary key(ID)
