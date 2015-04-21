@@ -1139,6 +1139,21 @@ function getSeniorityReport()
         report="generalSeniorityReport";
         //alert(report);
     }
+    if(reportType=="Active")
+        {
+            report="Active";
+            //alert(report);
+        }
+    if(reportType=="Inactive")
+    {
+        report="Inactive";
+        //alert(report);
+    }
+    if(reportType=="Payroll")
+    {
+        report="Payroll";
+        //alert(report);
+    }
 		var sendData = "";
 		var company = document.getElementById("reportCompanyNameText").value;
 		sendData += makeUpJson("q",{"q":report},true);
