@@ -116,6 +116,7 @@ session_start();
     color: white;
     visibility: hidden;
 }
+/*
 #delEmp{
     position:absolute;
     top: 49%;
@@ -123,6 +124,7 @@ session_start();
     color: white;
     visibility: hidden;
 }
+*/
 #timeCardEmp{
     position:absolute;
     top: 37%;
@@ -339,9 +341,11 @@ position:absolute;
 #adminModifyingEmp{
     visibility:hidden;
 }
+/*
 #adminUserDeleteEmp{
     visibility:hidden;
 }
+*/
 #searchDiv{
     visibility:hidden;
 }
@@ -366,7 +370,7 @@ position:absolute;
      top:90%;
 }
  #btnSubmitS{
-     top:80%;
+     top:90%;
 }
 #btnSubmitC{
     top:80%;
@@ -515,8 +519,8 @@ position:absolute;
         
 .employeeType{
     position:absolute;
-    top:5%;
-    left:20%;
+    top:3%;
+    left:35%;
 }
 .fnameL{
     position: absolute;
@@ -595,7 +599,7 @@ position: absolute;
 }
 .season{
     position: absolute;
-    left: 40%;
+    left: 50%;
     top: 60%;
 }
 .seasonyearL{
@@ -603,10 +607,19 @@ position: absolute;
     left: 10%;
     top: 70%;
 }
+.piecePayL{
+ position: absolute;
+    left: 10%;
 
+}
+        #piecePayTextAdminS{
+            position: absolute;
+    left: 50%;
+            top:80%;
+        }
 .seasonyear{
     position: absolute;
-    left: 40%;
+    left: 50%;
     top: 70%;
 }
 
@@ -673,7 +686,8 @@ position: absolute;
 #piecePayLabelAdmin{
     position: absolute;
     left: 10%;
-    top: 100%;
+    
+    top: 80%;
 }
 #piecePay{
     position: absolute;
@@ -842,7 +856,7 @@ position:absolute;
 }
 #addEmployeeLabelAdmin{
 position:absolute;
-    left:25%;
+    left:35%;
     top:5%;
 }
  #addEmployeeLabelGen{
@@ -943,7 +957,7 @@ var reportType="";
        {
            document.getElementById("addEmpAdminUser").style.visibility = "visible";
            document.getElementById("modEmp").style.visibility = "visible";
-           document.getElementById("delEmp").style.visibility = "visible";
+          // document.getElementById("delEmp").style.visibility = "visible";
           // document.getElementById("timeCardEmpAdminUser").style.visibility = "visible";
            document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
            document.getElementById("middleDiv").style.visibility = "visible";
@@ -1081,34 +1095,34 @@ function hideAdminModifyForm()
     }
 }
     
-function hideAdminDeleteForm()
-{
-    if(document.getElementById("selectEmpTypeDivForAdminUser").style.visibility == "visible")
-    {
-        $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0,function(){
-         document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
-
-        //show card time divs
-        document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
-        $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
-               // document.getElementById("addEmployeeLabelAdmin").innerHTML="Add Employee Admin";
-     });
-    }
-    else
-    {
-        if(document.getElementById("adminUserDeleteEmp").style.visibility == "visible")
-        {
-            $("#adminUserDeleteEmp").fadeTo(1000, 0,function(){
-             document.getElementById("adminUserDeleteEmp").style.visibility = "hidden";
-
-            //show card time divs
-            document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
-            $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
-                 //   document.getElementById("addEmployeeLabelAdmin").innerHTML="Add Employee Admin";
-         });
-        }
-    }
-}
+//function hideAdminDeleteForm()
+//{
+//    if(document.getElementById("selectEmpTypeDivForAdminUser").style.visibility == "visible")
+//    {
+//        $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0,function(){
+//         document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
+//
+//        //show card time divs
+//        document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
+//        $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
+//               // document.getElementById("addEmployeeLabelAdmin").innerHTML="Add Employee Admin";
+//     });
+//    }
+//    else
+//    {
+//        if(document.getElementById("adminUserDeleteEmp").style.visibility == "visible")
+//        {
+//            $("#adminUserDeleteEmp").fadeTo(1000, 0,function(){
+//             document.getElementById("adminUserDeleteEmp").style.visibility = "hidden";
+//
+//            //show card time divs
+//            document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
+//            $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
+//                 //   document.getElementById("addEmployeeLabelAdmin").innerHTML="Add Employee Admin";
+//         });
+//        }
+//    }
+//}
     
 function getSeniorityReport()
 {	
@@ -1239,23 +1253,19 @@ function addEmpDivsAdmin()
             if(maintaineneceType==="timeCardEmp")
             {
                 hideAdminTimeCardForm();
+                 document.getElementById("addEmployeeLabelAdmin").innerHTML="Add Employee Admin";
             }
             else
             {
                 if(maintaineneceType==="modifyEmployee")
                 {
                     hideAdminModifyForm();
-                }
-                else
-                {
-                    if(maintaineneceType==="deleteEmployee")
-                    {
-                        hideAdminDeleteForm();
-                    }
+                     document.getElementById("addEmployeeLabelAdmin").innerHTML="Add Employee Admin";
                 }
             }
         }           
     }
+    
      //document.getElementById("addEmployeeLabelAdmin").innerHTML="Add Employee Admin";
      maintaineneceType = "addEmployee";
 }
@@ -1278,6 +1288,7 @@ function modifyEmpDivsAdmin()
         if(maintaineneceType==="addEmployee")
         {
             hideAdminAddEmpForm();
+                document.getElementById("addEmployeeLabelAdmin").innerHTML="Modify Employee Admin";
                 
         }
         //last button pressed was time card button
@@ -1286,6 +1297,7 @@ function modifyEmpDivsAdmin()
             if(maintaineneceType==="timeCardEmp")
             {
                 hideAdminTimeCardForm();
+                    document.getElementById("addEmployeeLabelAdmin").innerHTML="Modify Employee Admin";
             }
             else
             {
@@ -1293,63 +1305,63 @@ function modifyEmpDivsAdmin()
                 {
                    // alert("fsfsfs");
                 }
-                else
-                {
-                    if(maintaineneceType==="deleteEmployee")
-                    {
-                       hideAdminDeleteForm();
-                    }
-                }
+//                else
+//                {
+//                    if(maintaineneceType==="deleteEmployee")
+//                    {
+//                       hideAdminDeleteForm();
+//                    }
+//                }
             }
         }           
     }
-    //document.getElementById("addEmployeeLabelAdmin").innerHTML="Modify Employee Admin";
+
      maintaineneceType = "modifyEmployee";
 }
 
-function adminDeleteEmp()
-{
-
-    //if its the first choice
-    if(maintaineneceType=="")
-    {
-        document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
-        $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
-        document.getElementById("addEmployeeLabelAdmin").innerHTML="Delete Employee Admin";
-    }
-    else
-    {
-        //if going back and forth in add emp meny only
-        if(maintaineneceType==="addEmployee")
-        {
-            hideAdminAddEmpForm();
-        }
-        //last button pressed was time card button
-        else
-        {
-            if(maintaineneceType==="timeCardEmp")
-            {
-                hideAdminTimeCardForm();
-            }
-            else
-            {
-                if(maintaineneceType==="modifyEmployee")
-                {
-                    hideAdminModifyForm();
-                }
-                else
-                {
-                    if(maintaineneceType==="deleteEmployee")
-                    {
-                        
-                    }
-                }
-            }
-        }           
-    }
-     //document.getElementById("addEmployeeLabelAdmin").innerHTML="Delete Employee Admin";
-     maintaineneceType = "deleteEmployee";
-}
+//function adminDeleteEmp()
+//{
+//
+//    //if its the first choice
+//    if(maintaineneceType=="")
+//    {
+//        document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
+//        $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
+//        document.getElementById("addEmployeeLabelAdmin").innerHTML="Delete Employee Admin";
+//    }
+//    else
+//    {
+//        //if going back and forth in add emp meny only
+//        if(maintaineneceType==="addEmployee")
+//        {
+//            hideAdminAddEmpForm();
+//        }
+//        //last button pressed was time card button
+//        else
+//        {
+//            if(maintaineneceType==="timeCardEmp")
+//            {
+//                hideAdminTimeCardForm();
+//            }
+//            else
+//            {
+//                if(maintaineneceType==="modifyEmployee")
+//                {
+//                    hideAdminModifyForm();
+//                }
+//                else
+//                {
+//                    if(maintaineneceType==="deleteEmployee")
+//                    {
+//                        
+//                    }
+//                }
+//            }
+//        }           
+//    }
+//     //document.getElementById("addEmployeeLabelAdmin").innerHTML="Delete Employee Admin";
+//     maintaineneceType = "deleteEmployee";
+//}
     
 function timeCardDivs()
 {
@@ -1642,13 +1654,13 @@ function validateNewUserFields()
     return boolToSubmit;
 }
     
-    //Admin user wants to delete an employee
-  $(document).ready(function () {
-    "use strict";
-    $("#delEmp").click(function () {
-        adminDeleteEmp();
-            });
-  });
+//    //Admin user wants to delete an employee
+//  $(document).ready(function () {
+//    "use strict";
+//    $("#delEmp").click(function () {
+//       // adminDeleteEmp();
+//            });
+//  });
     
 function clearSearchSpans()
 {
@@ -1893,17 +1905,17 @@ $(document).ready(function () {
                 $("#adminModifyingEmp").fadeTo(1000, 1);
               });
                  }
-                else
-                {
-                    if(maintaineneceType=="deleteEmployee")
-                    {
-                        $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function (){
-                        document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
-                        document.getElementById("adminUserDeleteEmp").style.visibility = "visible";
-                        $("#adminUserDeleteEmp").fadeTo(1000, 1);
-                        });
-                    }
-                }
+//                else
+//                {
+//                    if(maintaineneceType=="deleteEmployee")
+//                    {
+//                        $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function (){
+//                        document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
+//                        document.getElementById("adminUserDeleteEmp").style.visibility = "visible";
+//                        $("#adminUserDeleteEmp").fadeTo(1000, 1);
+//                        });
+//                    }
+//                }
             }
         }
         //clear the previous form data
@@ -1978,17 +1990,17 @@ $(document).ready(function () {
                     $("#adminModifyingEmp").fadeTo(1000, 1);
                     });
                  }
-                else
-                {
-                    if(maintaineneceType=="deleteEmployee")
-                    {
-                        $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function (){
-                        document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
-                        document.getElementById("adminUserDeleteEmp").style.visibility = "visible";
-                        $("#adminUserDeleteEmp").fadeTo(1000, 1);
-                        });
-                    }
-                }
+//                else
+//                {
+//                    if(maintaineneceType=="deleteEmployee")
+//                    {
+//                        $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function (){
+//                        document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
+//                        document.getElementById("adminUserDeleteEmp").style.visibility = "visible";
+//                        $("#adminUserDeleteEmp").fadeTo(1000, 1);
+//                        });
+//                    }
+//                }
             }
         }
     //clear the previous form data
@@ -2066,17 +2078,17 @@ $(document).ready(function () {
                     $("#adminModifyingEmp").fadeTo(1000, 1);
                     });
                  }
-                else
-                {
-                    if(maintaineneceType=="deleteEmployee")
-                    {
-                        $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function (){
-                        document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
-                        document.getElementById("adminUserDeleteEmp").style.visibility = "visible";
-                        $("#adminUserDeleteEmp").fadeTo(1000, 1);
-                        });
-                    }
-                }
+//                else
+//                {
+//                    if(maintaineneceType=="deleteEmployee")
+//                    {
+//                        $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function (){
+//                        document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
+//                        document.getElementById("adminUserDeleteEmp").style.visibility = "visible";
+//                        $("#adminUserDeleteEmp").fadeTo(1000, 1);
+//                        });
+//                    }
+//                }
             }
         }
         
@@ -2120,17 +2132,17 @@ $(document).ready(function () {
                     $("#adminModifyingEmp").fadeTo(1000, 1);
                     });
                  }
-                else
-                {
-                    if(maintaineneceType=="deleteEmployee")
-                    {
-                        $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function (){
-                        document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
-                        document.getElementById("adminUserDeleteEmp").style.visibility = "visible";
-                        $("#adminUserDeleteEmp").fadeTo(1000, 1);
-                        });
-                    }
-                }
+//                else
+//                {
+//                    if(maintaineneceType=="deleteEmployee")
+//                    {
+//                        $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function (){
+//                        document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
+//                        document.getElementById("adminUserDeleteEmp").style.visibility = "visible";
+//                        $("#adminUserDeleteEmp").fadeTo(1000, 1);
+//                        });
+//                    }
+//                }
             }
         }
 
@@ -2604,7 +2616,7 @@ function showMaintainenceButtons()
 {
     document.getElementById("addEmpAdminUser").style.visibility = "visible";
     document.getElementById("modEmp").style.visibility = "visible";
-    document.getElementById("delEmp").style.visibility = "visible";
+   // document.getElementById("delEmp").style.visibility = "visible";
     //document.getElementById("timeCardEmpAdminUser").style.visibility = "visible";
     $("#addEmpAdminUser").animate(
         {
@@ -2618,12 +2630,12 @@ function showMaintainenceButtons()
         },
         "slow"
     );
-     $("#delEmp").animate(
-        {
-            width: "15%"
-        },
-        "slow"
-    );
+//     $("#delEmp").animate(
+//        {
+//            width: "15%"
+//        },
+//        "slow"
+//    );
 }
 
 function showAdminSystemButtons()
@@ -2778,14 +2790,14 @@ function hideMaintaineneceButtons()
                 document.getElementById("modEmp").style.visibility = "hidden";
             }
        );
-       $("#delEmp").animate(
-            {
-                width: "0%"
-            },
-            600,
-            function () {
-                document.getElementById("delEmp").style.visibility = "hidden";
-        });
+//       $("#delEmp").animate(
+//            {
+//                width: "0%"
+//            },
+//            600,
+//            function () {
+//                document.getElementById("delEmp").style.visibility = "hidden";
+//        });
     }
 }
     
@@ -2865,12 +2877,12 @@ function hideAllAdminForms()
             document.getElementById("adminUserAddingCEmp").style.visibility = "hidden";
         });
     }
-    if(document.getElementById("adminUserDeleteEmp").style.visibility == "visible")
-    {
-        $("#adminUserDeleteEmp").fadeTo(1000, 0, function () {
-            document.getElementById("adminUserDeleteEmp").style.visibility = "hidden";
-        });
-    }
+//    if(document.getElementById("adminUserDeleteEmp").style.visibility == "visible")
+//    {
+//        $("#adminUserDeleteEmp").fadeTo(1000, 0, function () {
+//            document.getElementById("adminUserDeleteEmp").style.visibility = "hidden";
+//        });
+//    }
     if(document.getElementById("adminModifyingEmp").style.visibility == "visible")
     {
         $("#adminModifyingEmp").fadeTo(1000, 0, function () {
@@ -3262,6 +3274,7 @@ function emptySpanSAdminAdd()
     document.getElementById("spanSAdminAddDob").innerHTML = "";
     document.getElementById("spanSAdminAddSeason").innerHTML = "";
     document.getElementById("spanSAdminAddSeasonYear").innerHTML = "";
+    document.getElementById("spanSAdminAddPiecePay").innerHTML = "";
 }
 function  validateAdminEmpS()
 {
@@ -3310,20 +3323,26 @@ function  validateAdminEmpS()
         document.getElementById("spanSAdminAddSeasonYear").innerHTML = "*Invalid Data";
          boolToSubmit="false";
     } 
+    if(!checkHours(document.getElementById("piecePayTextAdminS").value))
+    {
+        //show error message
+        document.getElementById("spanSAdminAddPiecePay").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
     return boolToSubmit;
 }
     
 function createJSONObjectSAddEmpAdmin()
 {
-    var sendData = "";
-        var fname = document.getElementById("fnameTextAdminPTAdd").value;
-        var lname = document.getElementById("lnameTextAdminPTAdd").value;
-        var company = document.getElementById("compTextAdminPTAdd").value;
-        var sin = document.getElementById("sinTextAdminPTAdd").value;
-        var dob = document.getElementById("dobTextAdminPTAdd").value;
-        var doh = document.getElementById("dohTextAdminPTAdd").value;
-    var dot = document.getElementById("dotTextAdminPTAdd").value;
-     var hourly = document.getElementById("hourlyRatePTAdd").value;
+        var sendData = "";
+        var fname = document.getElementById("fnameTextAdminS").value;
+        var lname = document.getElementById("lnameTextAdminS").value;
+        var company = document.getElementById("compTextAdminS").value;
+        var sin = document.getElementById("sinTextAdminS").value;
+        var dob = document.getElementById("dobTextAdminS").value;
+        var piecePay = document.getElementById("piecePayTextAdminS").value;
+        var seasonYear = document.getElementById("seasonYearTextAdminS").value;
+        var season = document.getElementById("seasonTypeDDAdminS").value;
     
 		sendData += makeUpJson("q",{"q":userAction},true);
 		
@@ -3341,11 +3360,12 @@ function createJSONObjectSAddEmpAdmin()
 		
 		sendData += makeUpJson("DOB",{"DOB":dob});
 		
-		sendData += makeUpJson("DOH",{"DOH":doh});
+		sendData += makeUpJson("PP",{"PP":piecePay});
 		
-		sendData += makeUpJson("DOT",{"DOT":dot});
+		sendData += makeUpJson("SY",{"SY":seasonYear});
+        sendData += makeUpJson("S",{"S":season});
 		
-		sendData += makeUpJson("HourlyRate",{"HourlyRate":hourly});
+		//sendData += makeUpJson("HourlyRate",{"HourlyRate":hourly});
 		
 	//alert(sendData);
 	 $.ajax({url: "Database.php",
@@ -4637,7 +4657,7 @@ function isNum(text)
 <!--      Button for Admin User-->
     <button id="addEmpAdminUser" class="buttonStyles">Add Employee</button>
     <button id="modEmp" class="buttonStyles">Modify Employee</button>
-    <button id="delEmp" class="buttonStyles">Delete Employee</button>
+<!--    <button id="delEmp" class="buttonStyles">Delete Employee</button>-->
 <!--    <button id="timeCardEmpAdminUser" class="buttonStyles">Time Card</button>-->
 <!--    Buttons for General User-->
     <button id="addEmp" class="buttonStyles">Add Employee</button>
@@ -4756,6 +4776,7 @@ function isNum(text)
                             <option value="summer">Summer</option>
                         </select> <span id="spanSAdminAddSeason" style="position:absolute; top:60%; left:80%;"></span>
                         <label id="seasonYearLabelAdmin" class="seasonyearL">Season Year</label><input type="text" id="seasonYearTextAdminS" class="seasonyear" name="seasonYearTextAdminS" /><span id="spanSAdminAddSeasonYear" style="position:absolute; top:70%; left:80%;"></span>
+                       <label id="piecePayLabelAdmin" class="piecePayL">Piece Pay</label><input type="text" id="piecePayTextAdminS" name="seasonYearTextAdminS" /><span id="spanSAdminAddPiecePay" style="position:absolute; top:80%; left:80%;"></span>
                         <button type="button" class="submitBtn" id="btnSubmitS" onclick="submitAdminSeasonEmp()">Submit</button>
                 </form>
     
@@ -4806,7 +4827,7 @@ function isNum(text)
                     <button type="button" class="submitBtn" id="btnSubmitFT" onclick="submitModAdminFullTimeEmp()">Submit</button>
 <!--                </form>-->
 <!--                <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>-->
-<!--                <button class="backBtn" onclick="goBack()">Back</button> -->
+                <button class="backBtn" onclick="goBack()">Back</button> 
 
                       </div>
                 <div id="adminUserAddingPTEmp" style="position:absolute; top:50%; width:80%;height:100%;left:10%;">
@@ -4823,7 +4844,7 @@ function isNum(text)
                         <button type="button" class="submitBtn" id="btnSubmitPT" onclick="submitModAdminPartTimeEmp()">Submit</button>
 <!--                    </form>-->
 <!--                    <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>-->
-<!--                    <button class="backBtn" onclick="goBack()">Back</button> -->
+                    <button class="backBtn" onclick="goBack()">Back</button> 
 
                 </div>
            
@@ -4910,11 +4931,13 @@ function isNum(text)
 -->
 
       
+<!--
         <div id="adminUserDeleteEmp" class="centerDiv">
             <label id="ok">admin delete card</label>
             <input type="image" src="cancel.png" id="cancelImageTimeCardAdmin" class="cancelImage"/>
             <button id="goBackTimeCardAdmin" class="backBtn">Back</button> 
           </div>
+-->
       
       <div id="searchDiv" class="centerDiv">
         <label id="userAction" class="employeeType"></label><span style="position:absolute; top:5%; left:70%;" id="searchError"></span>
