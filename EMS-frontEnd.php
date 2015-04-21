@@ -531,7 +531,7 @@ position:absolute;
 }
 .fname{
     position: absolute;
-    left: 50%;
+    left: 43%;
     top: 10%;
 }
 .lnameL{
@@ -541,7 +541,7 @@ position:absolute;
 }
 .lname{
     position: absolute;
-    left: 50%;
+    left: 43%;
     top: 20%;
 }
 .companyL{
@@ -551,7 +551,7 @@ position:absolute;
 }
 .company{
     position: absolute;
-    left: 50%;
+    left: 43%;
     top: 30%;
 }
 .sinL{
@@ -561,7 +561,7 @@ position:absolute;
 }
 .sin{
     position: absolute;
-    left: 50%;
+    left: 43%;
     top: 40%;
 }
 .dobL{
@@ -571,7 +571,7 @@ position:absolute;
 }
 .dob{
     position: absolute;
-    left: 50%;
+    left: 43%;
     top: 50%;
 }
 .dohL{
@@ -581,7 +581,7 @@ position:absolute;
 }
 .doh{
     position: absolute;
-    left: 50%;
+    left: 43%;
     top: 60%;
 }
 .seasonL{
@@ -621,7 +621,7 @@ position: absolute;
         }
 .seasonyear{
     position: absolute;
-    left: 50%;
+    left: 43%;
     top: 70%;
 }
 
@@ -632,12 +632,12 @@ position: absolute;
 }
 #dotTextAdmin{
     position: absolute;
-    left: 50%;
+    left: 43%;
     top: 70%;
 }
     #dotTextAdminAdd{
     position: absolute;
-    left: 50%;
+    left: 43%;
     top: 70%;
 }    
     #dotTextAdminPT{
@@ -647,7 +647,7 @@ position: absolute;
 }    
           #dotTextAdminPTAdd{
     position: absolute;
-    left: 50%;
+    left: 43%;
     top: 70%;
 }  
  #salaryLabelAdmin{
@@ -657,12 +657,12 @@ position: absolute;
 }
 #salary{
     position: absolute;
-    left: 50%;
+    left: 43%;
     top: 80%;
 } 
         #salaryAdd{
     position: absolute;
-    left: 50%;
+    left: 43%;
     top: 80%;
 } 
     #hourlyRatePT{
@@ -672,7 +672,7 @@ position: absolute;
 }  
           #hourlyRatePTAdd{
     position: absolute;
-    left: 50%;
+    left: 43%;
     top: 80%;
 }  
 #hourlyRateLabelAdmin{
@@ -904,9 +904,10 @@ position:absolute;
 .backBtn{
      position: absolute;
     left: 80%;
-    top: 90%;
-    height: 8%;
+    top: 2%;
+    height: 6%;
     width: 15%;
+    
 }
 .cancelImage{
     position: absolute;
@@ -951,6 +952,7 @@ var hYYYY;
 var hMM;
 var hDD;
 var oldSin="";  
+var oldCompany="";
 var reportType="";
 
    $(document).ready(function () {
@@ -1529,18 +1531,10 @@ function createJSONModifyObject(userAction)
 							data : sendData,
 							success:function(result)
 							{
-                                //alert(result);   
+                                alert(result);   
 								var values = [];
 								values = makeItAnObject(result);
                                 showModifyResultFT(values,employeeType);
-//                                if(employeeType=="FT")
-//                                {
-//                                    showModifyResultFT(values,employeeType);
-//                                }
-//                                if(employeeType=="PT")
-//                                {
-//                                    showModifyResultPT(values,employeeType);
-//                                }
                                
 							},
 							 error: function( objRequest )
@@ -1555,7 +1549,9 @@ function createJSONModifyObject(userAction)
 function showModifyResultFT(values,employeeType)
 {
 
-        
+    oldSin = values[3];
+    oldCompany=values[2];
+    
     if(employeeType=="FT")
     {   
         document.getElementById("employeeTypeFT").innerHTML = "Fulltime Employee";
@@ -1563,10 +1559,10 @@ function showModifyResultFT(values,employeeType)
         document.getElementById("lnameTextAdmin").value = values[1];
         document.getElementById("compTextAdmin").value = document.getElementById("modifyCompanyText").value;
         document.getElementById("sinTextAdmin").value = document.getElementById("modifySinText").value;
-        document.getElementById("dobTextAdmin").value = values[2];
-        document.getElementById("dohTextAdmin").value = values[3];
-        document.getElementById("dotTextAdmin").value = values[4];
-        document.getElementById("salary").value = values[5];
+        document.getElementById("dobTextAdmin").value = values[4];
+        document.getElementById("dohTextAdmin").value = values[5];
+        document.getElementById("dotTextAdmin").value = values[6];
+        document.getElementById("salary").value = values[7];
     }
     if(employeeType=="PT")
     {
@@ -1575,10 +1571,10 @@ function showModifyResultFT(values,employeeType)
         document.getElementById("lnameTextAdminPT").value = values[1];
         document.getElementById("compTextAdminPT").value = document.getElementById("modifyCompanyText").value;
         document.getElementById("sinTextAdminPT").value = document.getElementById("modifySinText").value;
-        document.getElementById("dobTextAdminPT").value = values[2];
-        document.getElementById("dohTextAdminPT").value = values[3];
-        document.getElementById("dotTextAdminPT").value = values[4];
-         document.getElementById("hourlyRatePT").value = values[5];
+        document.getElementById("dobTextAdminPT").value = values[4];
+        document.getElementById("dohTextAdminPT").value = values[5];
+        document.getElementById("dotTextAdminPT").value = values[6];
+        sdocument.getElementById("hourlyRatePT").value = values[7];
     }
     
 }
@@ -1644,7 +1640,7 @@ function createJSONObjectForNewUser()
 		sendData += makeUpJson("UN",{"UN":uname});
         sendData += makeUpJson("PD",{"PD":password});
 		sendData += makeUpJson("UT",{"UT":userType});
-    alert(sendData);
+    //alert(sendData);
 		//document.getElementById("searchResultDiv").style.visibility = "visible";
 	
 		////alert(sendData);
@@ -1940,7 +1936,7 @@ $(document).ready(function () {
     "use strict";
     $("#adminUserChoiceFTEmp").click(function () {  
         employeeType="FT";
-        
+        alert("sameer");
         if(maintaineneceType=="addEmployee"){
                 $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function () {
                 document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
@@ -1964,6 +1960,7 @@ $(document).ready(function () {
             {
                  if(maintaineneceType=="modifyEmployee")
                  {
+                     alert("mmmmmmm");
                      $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 0, function (){
                   document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "hidden";
                   document.getElementById("adminModifyingEmp").style.visibility = "visible";
@@ -2226,7 +2223,7 @@ $(document).ready(function () {
     "use strict";
     
     $("#activeEmpReportAdmin").click(function () {
-          alert("active");
+          //alert("active");
         if(reportType=="Weekly" || reportType=="Inactive" ||reportType=="Seniority"||reportType=="Payroll")
         {
             $("#reportsResult").empty();
@@ -2241,7 +2238,7 @@ $(document).ready(function () {
     "use strict";
      
     $("#inactiveEmpReportAdmin").click(function () {
-         alert("inactive");
+         //alert("inactive");
          if(reportType=="Weekly" || reportType=="Active" ||reportType=="Seniority"||reportType=="Payroll")
         {
             $("#reportsResult").empty();
@@ -2255,7 +2252,7 @@ $(document).ready(function () {
 $(document).ready(function () {
     "use strict";
     $("#payrollReportAdmin").click(function () {
-         alert("payroll");
+         //alert("payroll");
          if(reportType=="Weekly" || reportType=="Inactive" ||reportType=="Seniority"||reportType=="Active")
         {
             $("#reportsResult").empty();
@@ -2269,7 +2266,7 @@ $(document).ready(function () {
 $(document).ready(function () {
     "use strict";
     $("#seniorityReportAdmin").click(function () {
-         alert("seniority");
+         //alert("seniority");
          if(reportType=="Weekly" || reportType=="Inactive" ||reportType=="Payroll"||reportType=="Active")
         {
             $("#reportsResult").empty();
@@ -2281,7 +2278,7 @@ $(document).ready(function () {
   $(document).ready(function () {
     "use strict";
     $("#weeklyHoursReportAdmin").click(function () {
-         alert("weekly");
+         //alert("weekly");
          if(reportType=="Seniority" || reportType=="Inactive" ||reportType=="Payroll"||reportType=="Active")
         {
             $("#reportsResult").empty();
@@ -3074,6 +3071,21 @@ function goBack()
                         $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
                     });
                 }
+                else
+                {
+                    if(document.getElementById("adminModifyingEmp").style.visibility == "visible")
+                    {
+                        $("#adminModifyingEmp").fadeTo(1000, 0, function () {
+                            document.getElementById("adminModifyingEmp").style.visibility = "hidden";
+                            $("#adminUserAddingFTEmp").fadeTo(1000, 0);
+                            document.getElementById("adminUserAddingFTEmp").style.visibility = "hidden";
+                            $("#adminUserAddingFTEmp").empty();
+                            $("#adminUserAddingPTEmp").empty();
+                            document.getElementById("selectEmpTypeDivForAdminUser").style.visibility = "visible";
+                            $("#selectEmpTypeDivForAdminUser").fadeTo(1000, 1);
+                        });
+                    }
+                }
             }
         }
     }
@@ -3290,12 +3302,15 @@ function validatePTAdminAdd()
         document.getElementById("spanPTAdminAddDoh").innerHTML = "*Invalid Data";
          boolToSubmit="false";
     } 
-    if(!checkDateOfTermination(document.getElementById("dotTextAdminPTAdd").value))
+    if(document.getElementById("dotTextAdminPTAdd").value !="")
     {
-        //show error message
-        document.getElementById("spanPTAdminAddDot").innerHTML = "*Invalid Data";
-         boolToSubmit="false";
-    } 
+        if(!checkDateOfTermination(document.getElementById("dotTextAdminPTAdd").value))
+        {
+            //show error message
+            document.getElementById("spanPTAdminAddDot").innerHTML = "*Invalid Data";
+             boolToSubmit="false";
+        } 
+    }
     if(!checkHours(document.getElementById("hourlyRatePTAdd").value))
     {
         //show error message
@@ -3933,7 +3948,7 @@ function emptyAllAdminSpansAdd()
     document.getElementById("spanFTAdminAddDob").innerHTML = "";
     document.getElementById("spanFTAdminAddDot").innerHTML = "";
     document.getElementById("spanFTAdminAddDoh").innerHTML = "";
-    document.getElementById("spanFTAdminAddSalary").innerHTML = ""
+    document.getElementById("spanFTAdminAddSalary").innerHTML = "";
 }
     
 function validateFTAdminAddEmp()
@@ -3977,12 +3992,15 @@ function validateFTAdminAddEmp()
         document.getElementById("spanFTAdminAddDoh").innerHTML = "*Invalid Data";
          boolToSubmit="false";
     } 
-    if(!checkDateOfTermination(document.getElementById("dotTextAdminAdd").value))
+    if(document.getElementById("dotTextAdminAdd").value !="")
     {
-        //show error message
-        document.getElementById("spanFTAdminAddDot").innerHTML = "*Invalid Data";
-         boolToSubmit="false";
-    } 
+        if(!checkDateOfTermination(document.getElementById("dotTextAdminAdd").value))
+        {
+            //show error message
+            document.getElementById("spanFTAdminAddDot").innerHTML = "*Invalid Data";
+             boolToSubmit="false";
+        } 
+    }
     if(!checkSalary(document.getElementById("salaryAdd").value))
     {
         //show error message
@@ -4164,6 +4182,236 @@ function createJSONObjectTimeCardGen(userAction,empType)
 							
 							});
 }    
+    
+function submitModAdminPartTimeEmp()
+{
+    //empty spans
+    emptySpansModPT();
+    //validate the fields
+    if(validateModPTEmp()=="true")
+    {
+         //submit the data
+        createJSONObjectDataModPT("addEmployee");
+    }
+}
+
+function  emptySpansModPT()
+{
+    document.getElementById("spanAdminModPTFname").innerHTML = "";
+    document.getElementById("spanAdminModPTLname").innerHTML = "";
+    document.getElementById("spanAdminModPTCompany").innerHTML = "";
+    document.getElementById("spanAdminModPTSin").innerHTML = "";
+    document.getElementById("spanAdminModPTDob").innerHTML = "";
+    document.getElementById("spanAdminModPTDot").innerHTML = "";
+    document.getElementById("spanAdminModPTDoh").innerHTML = "";
+    document.getElementById("spanAdminModPTHourlyRate").innerHTML = "";
+}
+    
+function validateModPTEmp()
+{
+    var boolToSubmit = "true";
+
+    if(!checkFname(document.getElementById("fnameTextAdminPT").value))
+    {
+        
+        //show error message
+        document.getElementById("spanAdminModPTFname").innerHTML = "*Invalid Data";
+        boolToSubmit="false";
+    } 
+    if(!checkLname(document.getElementById("lnameTextAdminPT").value))
+    {
+        //show error message
+        document.getElementById("spanAdminModPTLname").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkCompany(document.getElementById("compTextAdminPT").value, "false"))
+    {
+        //show error message
+        document.getElementById("spanAdminModPTCompany").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkSin(document.getElementById("sinTextAdminPT").value,"true"))
+    {
+       // alert(document.getElementById("sinText").value);
+        //show error message
+        document.getElementById("spanAdminModPTSin").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkDateOfBirth(document.getElementById("dobTextAdminPT").value))
+    {
+        //show error message
+        document.getElementById("spanAdminModPTDob").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkDateOfHire(document.getElementById("dohTextAdminPT").value))
+    {
+        //show error message
+        document.getElementById("spanAdminModPTDoh").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(document.getElementById("dotTextAdminPT").value !="")
+    {
+        if(!checkDateOfTermination(document.getElementById("dotTextAdmin").value))
+        {
+            //show error message
+            document.getElementById("spanAdminModPTDot").innerHTML = "*Invalid Data";
+             boolToSubmit="false";
+        } 
+    }
+    if(!checkSalary(document.getElementById("hourlyRatePT").value))
+    {
+        //show error message
+        document.getElementById("spanAdminModPTHourlyRate").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+   
+    return boolToSubmit;
+}
+    
+function submitModAdminFullTimeEmp()
+{
+   //empty spans
+    emptySpansModFT();
+    //validate the fields
+    if(validateModFTEmp()=="true")
+    {
+         //submit the data
+        createJSONObjectDataModFT("addEmployee");
+    }
+   
+}
+    
+function emptySpansModFT()
+{
+    document.getElementById("spanAdminModFTFname").innerHTML = "";
+    document.getElementById("spanAdminModFTLname").innerHTML = "";
+    document.getElementById("spanAdminModFTCompany").innerHTML = "";
+    document.getElementById("spanAdminModFTSin").innerHTML = "";
+    document.getElementById("spanAdminModFTDob").innerHTML = "";
+    document.getElementById("spanAdminModFTDot").innerHTML = "";
+    document.getElementById("spanAdminModFTDoh").innerHTML = "";
+    document.getElementById("spanAdminModFTSalary").innerHTML = "";
+}
+    
+function validateModFTEmp()
+{
+     var boolToSubmit = "true";
+
+    if(!checkFname(document.getElementById("fnameTextAdmin").value))
+    {
+        
+        //show error message
+        document.getElementById("spanAdminModFTFname").innerHTML = "*Invalid Data";
+        boolToSubmit="false";
+    } 
+    if(!checkLname(document.getElementById("lnameTextAdmin").value))
+    {
+        //show error message
+        document.getElementById("spanAdminModFTLname").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkCompany(document.getElementById("compTextAdmin").value, "false"))
+    {
+        //show error message
+        document.getElementById("spanAdminModFTCompany").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkSin(document.getElementById("sinTextAdmin").value,"true"))
+    {
+       // alert(document.getElementById("sinText").value);
+        //show error message
+        document.getElementById("spanAdminModFTSin").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkDateOfBirth(document.getElementById("dobTextAdmin").value))
+    {
+        //show error message
+        document.getElementById("spanAdminModFTDob").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkDateOfHire(document.getElementById("dohTextAdmin").value))
+    {
+        //show error message
+        document.getElementById("spanAdminModFTDoh").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(document.getElementById("dotTextAdmin").value !="")
+    {
+        if(!checkDateOfTermination(document.getElementById("dotTextAdmin").value))
+        {
+            //show error message
+            document.getElementById("spanAdminModFTDot").innerHTML = "*Invalid Data";
+             boolToSubmit="false";
+        } 
+    }
+    if(!checkSalary(document.getElementById("salary").value))
+    {
+        //show error message
+        document.getElementById("spanAdminModFTSalary").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+   
+    return boolToSubmit;
+}
+    
+function createJSONObjectDataModFT(userAction)
+{
+        var sendData = "";
+        var fname = document.getElementById("fnameTextAdmin").value;
+        var lname = document.getElementById("lnameTextAdmin").value;
+        var company = document.getElementById("compTextAdmin").value;
+        var sin = document.getElementById("sinTextAdmin").value;
+        var dob = document.getElementById("dobTextAdmin").value;
+        var doh = document.getElementById("dohTextAdmin").value;
+        var dot = document.getElementById("dotTextAdmin").value;
+        var salary = document.getElementById("salary").value;
+    
+		sendData += makeUpJson("q",{"q":userAction},true);
+    
+        sendData += makeUpJson("modify",{"modify":"true"},true);
+		
+		sendData += makeUpJson("UT",{"UT":userType});
+		
+		sendData += makeUpJson("ET",{"ET":employeeType});
+		
+		sendData += makeUpJson("FN",{"FN":fname});
+		
+		sendData += makeUpJson("LN",{"LN":lname});
+		
+		sendData += makeUpJson("CM",{"CM":company});
+		
+		sendData += makeUpJson("SIN",{"SIN":sin});
+		
+		sendData += makeUpJson("DOB",{"DOB":dob});
+		
+		sendData += makeUpJson("DOH",{"DOH":doh});
+		
+		sendData += makeUpJson("DOT",{"DOT":dot});
+		
+		sendData += makeUpJson("Salary",{"Salary":salary});
+    
+        sendData += makeUpJson("OldSin",{"OldSin":oldSin});
+    
+        sendData += makeUpJson("OldCompany",{"OldCompany":oldCompany});
+    
+		
+	//alert(sendData);
+	 $.ajax({url: "Database.php",
+							type: "GET",
+							async:true,
+							data : sendData,
+							success:function(result)
+							{
+							
+								//alert(result);
+							},
+							 error: function( objRequest )
+							 {
+								//alert(objRequest);
+							 }
+							
+							});
+}
     
 function makeItAnObject(jsonvalue)
       {
@@ -4349,10 +4597,31 @@ function checkDateOfHire(value)
 			hDD = dd;
 			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31 && compareBirthdayAndHireDay(bYYYY, yyyy) == true)
 			{
-				bDate = true;
-				if(mm == 2 && dd >28)
+			
+				
+				if(mm == 2)
 				{
-					bDate = false;
+					if(dd == 29)
+					{
+						if(new Date(yyyy, 1, 29).getMonth() == 1)
+	        			{
+	        				bDate = true;
+	        			}
+	        			else
+	        			{
+	        				bDate = false;
+	        			}
+					}
+					else if(dd < 29)
+					{
+						bDate = true;
+					}
+					else
+					{
+						bDate = false;
+					}
+					
+				
 				}
 			}
 		}
@@ -4373,10 +4642,30 @@ function checkDateOfHire(value)
 			
 			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31 && compareBirthdayAndHireDay(bYYYY, yyyy) == true) 
 			{
-				bDate = true;
-				if(mm == 2 && dd > 28)
+					
+				if(mm == 2)
 				{
-					bDate = false;
+					if(dd == 29)
+					{
+						if(new Date(yyyy, 1, 29).getMonth() == 1)
+	        			{
+	        				bDate = true;
+	        			}
+	        			else
+	        			{
+	        				bDate = false;
+	        			}
+					}
+					else if(dd < 29)
+					{
+						bDate = true;
+					}
+					else
+					{
+						bDate = false;
+					}
+					
+				
 				}
 				
 			}
@@ -4404,9 +4693,28 @@ function checkDateOfBirth(value)
 			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31) 
 			{
 				bDate = true;
-				if(mm == 2 && dd > 28)
+				if(mm == 2)
 				{
-					bDate = false;
+					if(dd == 29)
+					{
+						if(new Date(yyyy, 1, 29).getMonth() == 1)
+	        			{
+	        				bDate = true;
+	        			}
+	        			else
+	        			{
+	        				bDate = false;
+	        			}
+					}
+					else if(dd < 29)
+					{
+						bDate = true;
+					}
+					else
+					{
+						bDate = false;
+					}
+					
 				}
 				
 			}
@@ -4430,9 +4738,27 @@ function checkDateOfBirth(value)
 			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31) 
 			{
 				bDate = true;
-				if(mm == 2 && dd > 28)
+				if(mm == 2)
 				{
-					bDate = false;
+					if(dd == 29)
+					{
+						if(new Date(yyyy, 1, 29).getMonth() == 1)
+	        			{
+	        				bDate = true;
+	        			}
+	        			else
+	        			{
+	        				bDate = false;
+	        			}
+					}
+					else if(dd < 29)
+					{
+						bDate = true;
+					}
+					else
+					{
+						bDate = false;
+					}
 				}
 				
 			}
@@ -4461,9 +4787,27 @@ function checkDateOfTermination(value)
 			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31 && compareHireDayandTermination(hYYYY, hMM, hDD, yyyy, mm, dd) == true)
 			{
 				bDate = true;
-				if (mm == 2 && dd >28)
+				if (mm == 2)
 				{
-					bDate = false;
+					if(dd == 29)
+					{
+						if(new Date(yyyy, 1, 29).getMonth() == 1)
+	        			{
+	        				bDate = true;
+	        			}
+	        			else
+	        			{
+	        				bDate = false;
+	        			}
+					}
+					else if(dd < 29)
+					{
+						bDate = true;
+					}
+					else
+					{
+						bDate = false;
+					}
 				}
 			}
 		}
@@ -4485,9 +4829,27 @@ function checkDateOfTermination(value)
 			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31) 
 			{
 				bDate = true;
-				if(mm == 2 && dd > 28)
+				if(mm == 2)
 				{
-					bDate = false;
+					if(dd == 29)
+					{
+						if(new Date(yyyy, 1, 29).getMonth() == 1)
+	        			{
+	        				bDate = true;
+	        			}
+	        			else
+	        			{
+	        				bDate = false;
+	        			}
+					}
+					else if(dd < 29)
+					{
+						bDate = true;
+					}
+					else
+					{
+						bDate = false;
+					}
 				}
 				
 			}
@@ -4535,15 +4897,21 @@ function compareBirthdayAndHireDay(bYYYY, hYYYY)
 
 function compareHireDayandTermination(hYYYY, hMM, hDD, tYYYY, tMM, tDD)   
 {
+
 	bResult = false;
-	if(tYYYY - hYYYY >= 0)
+	if(tYYYY - hYYYY > 0)
 	{
-		if(tMM - hMM >= 0)
+		bResult = true;
+	}
+	else if(tYYYY - hYYYY == 0)
+	{
+		if(tMM - hMM > 0)
 		{
-			if(tDD - hDD >= 0)
-			{
-				bResult = true;
-			}
+			bResult = true;
+		}
+		else if(tDD - hDD >=0)
+		{
+			bResult = true;
 		}
 	}
 	return bResult;
@@ -4811,7 +5179,7 @@ function isNum(text)
             <button id="genUserChoiceFTEmp" class="empTypeBtn">Full Time Employee</button>
             <button id="genUserChoicePTEmp" class="empTypeBtn">Part Time Employee</button>
             <button id="genUserSEmp" class="empTypeBtn">Season Employee</button>
-            <input type="image" src="cancel.png" id="cancelImageEmpType" class="cancelImage"/>
+<!--            <input type="image" src="cancel.png" id="cancelImageEmpType" class="cancelImage"/>-->
         </div>
       
          <div id="selectEmpTypeDivForAdminUser" class="centerDiv"> 
@@ -4820,7 +5188,7 @@ function isNum(text)
             <button id="adminUserChoicePTEmp" class="empTypeBtn">Part Time Employee</button>
             <button id="adminUserSEmp" class="empTypeBtn">Season Employee</button>
             <button id="adminUserChoiceCEmp" class="empTypeBtn">Contract Employee</button>
-            <input type="image" src="cancel.png" id="cancelImageEmpTypeAdmin" class="cancelImage"/>
+<!--            <input type="image" src="cancel.png" id="cancelImageEmpTypeAdmin" class="cancelImage"/>-->
         </div>
       
           <div id="genUserAddingEmp" class="centerDiv">
@@ -4844,7 +5212,7 @@ function isNum(text)
                     <input type="hidden" name="needCompletion" value="Y">
                     <button type="button" class="submitBtn" id="genUserAddEmp" onclick="submitGenEmp()">Submit</button>
             </form>
-            <input type="image" src="cancel.png" id="cancelImageAddEmp" class="cancelImage"/>
+<!--            <input type="image" src="cancel.png" id="cancelImageAddEmp" class="cancelImage"/>-->
             <button id="goBack" class="backBtn">Back</button> 
           </div>
       
@@ -4862,7 +5230,7 @@ function isNum(text)
                     <label id="salaryLabelAdmin">Salary</label><input type="text"  name="salary" id="salaryAdd"/><span id="spanFTAdminAddSalary" style="position:absolute; top:80%; left:80%;"></span>
                     <button type="button" class="submitBtn" id="btnSubmitFT" onclick="submitAdminFullTimeEmp()">Submit</button>
                 </form>
-                <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>
+<!--                <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>-->
                 <button class="backBtn" onclick="goBack()">Back</button> 
         </div>
       
@@ -4879,7 +5247,7 @@ function isNum(text)
                         <label id="hourlyRateLabelAdmin">Hourly Rate</label><input type="text"  name="hourlyRate" id="hourlyRatePTAdd"/><span id="spanPTAdminAddHourlyRate" style="position:absolute; top:80%; left:80%;"></span>
                         <button type="button" class="submitBtn" id="btnSubmitPT" onclick="submitAdminPartTimeEmp()">Submit</button>
                     </form>
-                    <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>
+<!--                    <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>-->
                     <button class="backBtn" onclick="goBack()">Back</button> 
 
                 </div>
@@ -4938,39 +5306,39 @@ function isNum(text)
                <button type="button" id="submitModify">Modify</button>
            <div id="modifyResultDiv" style="position:absolute;top:50%;left:10%; background-color:white;"></div>
 <!--               <div id="adminUserAddingFTEmp" class="centerDiv">-->
-           
+           <button class="backBtn" onclick="goBack()">Back</button> 
            <div id="adminUserAddingFTEmp" style="position:absolute; top:50%; width:80%;height:100%;left:10%;">
 <!--                <form class="adminAddEmpForm">-->
                     <label id="employeeTypeFT" class="employeeType"></label>
-                    <label id="fnameLabelAdmin" class="fnameL">First Name</label><input type="text" id="fnameTextAdmin" name="fnameTextAdmin" class="fname"/>
-                    <label id="lnameLabelAdmin" class="lnameL">Last Name</label><input type="text" id="lnameTextAdmin"  name="lnameTextAdmin" class="lname"/>
-                    <label id="companyLabelAdmin" class="companyL">Company</label><input type="text" id="compTextAdmin"  name="compTextAdmin" class="company"/>
-                    <label id="sinLabelAdmin" class="sinL">SIN</label><input type="text" id="sinTextAdmin"  name="sinTextAdmin" class="sin"/>
-                    <label id="dobLabelAdmin" class="dobL">Date OF Birth</label><input type="text" id="dobTextAdmin"  name="dobTextAdmin" class="dob"/>
-                    <label id="dohLabelAdmin" class="dohL">Date Of Hire</label><input type="text" id="dohTextAdmin"  name="dohTextAdmin" class="doh"/>
-                    <label id="dotLabelAdmin">Date Of Termination</label><input type="text" id="dotTextAdmin"  name="dotTextAdmin" class="dot"/>
-                    <label id="salaryLabelAdmin">Salary</label><input type="text"  name="salary" id="salary"/>
+                    <label id="fnameLabelAdmin" class="fnameL">First Name</label><input type="text" id="fnameTextAdmin" name="fnameTextAdmin" class="fname"/><span id="spanAdminModFTFname" style="position:absolute; top:10%; left:78%;"></span>
+                    <label id="lnameLabelAdmin" class="lnameL">Last Name</label><input type="text" id="lnameTextAdmin"  name="lnameTextAdmin" class="lname"/><span id="spanAdminModFTLname" style="position:absolute; top:20%; left:78%;"></span>
+                    <label id="companyLabelAdmin" class="companyL">Company</label><input type="text" id="compTextAdmin"  name="compTextAdmin" class="company"/><span id="spanAdminModFTCompany" style="position:absolute; top:30%; left:78%;"></span>
+                    <label id="sinLabelAdmin" class="sinL">SIN</label><input type="text" id="sinTextAdmin"  name="sinTextAdmin" class="sin"/><span id="spanAdminModFTSin" style="position:absolute; top:40%; left:78%;"></span>
+                    <label id="dobLabelAdmin" class="dobL">Date OF Birth</label><input type="text" id="dobTextAdmin"  name="dobTextAdmin" class="dob"/><span id="spanAdminModFTDob" style="position:absolute; top:50%; left:78%;"></span>
+                    <label id="dohLabelAdmin" class="dohL">Date Of Hire</label><input type="text" id="dohTextAdmin"  name="dohTextAdmin" class="doh"/><span id="spanAdminModFTDoh" style="position:absolute; top:60%; left:78%;"></span>
+                    <label id="dotLabelAdmin">Date Of Termination</label><input type="text" id="dotTextAdmin"  name="dotTextAdmin" class="dot"/><span id="spanAdminModFTDot" style="position:absolute; top:70%; left:78%;"></span>
+                    <label id="salaryLabelAdmin">Salary</label><input type="text"  name="salary" id="salary"/><span id="spanAdminModFTSalary" style="position:absolute; top:80%; left:78%;"></span>
                     <button type="button" class="submitBtn" id="btnSubmitFT" onclick="submitModAdminFullTimeEmp()">Submit</button>
 <!--                </form>-->
 <!--                <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>-->
-                <button class="backBtn" onclick="goBack()">Back</button> 
+                
 
                       </div>
                 <div id="adminUserAddingPTEmp" style="position:absolute; top:50%; width:80%;height:100%;left:10%;">
 <!--                    <form class="adminAddEmpForm">-->
                         <label id="employeeTypePT" class="employeeType"></label>
-                        <label id="fnameLabelAdmin" class="fnameL">First Name</label><input type="text" id="fnameTextAdminPT" name="fnameTextAdmin" class="fname"/>
-                        <label id="lnameLabelAdmin" class="lnameL">Last Name</label><input type="text" id="lnameTextAdminPT" name="lnameTextAdmin" class="lname"/>
-                        <label id="companyLabelAdmin" class="companyL">Company</label><input type="text" id="compTextAdminPT" name="compTextAdmin" class="company"/>
-                        <label id="sinLabelAdmin" class="sinL">SIN</label><input type="text" id="sinTextAdminPT"  name="sinTextAdmin" class="sin"/>
-                        <label id="dobLabelAdmin" class="dobL">Date OF Birth</label><input type="text" id="dobTextAdminPT" name="dobTextAdmin"  class="dob"/>
-                        <label id="dohLabelAdmin" class="dohL">Date Of Hire</label><input type="text" id="dohTextAdminPT"  name="dohTextAdmin" class="doh"/>
-                        <label id="dotLabelAdmin">Date Of Termination</label><input type="text" id="dotTextAdminPT"  name="dotTextAdmin" class="dot"/>
-                        <label id="hourlyRateLabelAdmin">Hourly Rate</label><input type="text"  name="hourlyRate" id="hourlyRatePT"/>
+                        <label id="fnameLabelAdmin" class="fnameL">First Name</label><input type="text" id="fnameTextAdminPT" name="fnameTextAdmin" class="fname"/><span id="spanAdminModPTFname" style="position:absolute; top:10%; left:78%;"></span>
+                        <label id="lnameLabelAdmin" class="lnameL">Last Name</label><input type="text" id="lnameTextAdminPT" name="lnameTextAdmin" class="lname"/><span id="spanAdminModPTLname" style="position:absolute; top:20%; left:78%;"></span>
+                        <label id="companyLabelAdmin" class="companyL">Company</label><input type="text" id="compTextAdminPT" name="compTextAdmin" class="company"/><span id="spanAdminModPTCompany" style="position:absolute; top:30%; left:78%;"></span>
+                        <label id="sinLabelAdmin" class="sinL">SIN</label><input type="text" id="sinTextAdminPT"  name="sinTextAdmin" class="sin"/><span id="spanAdminModPTSin" style="position:absolute; top:40%; left:78%;"></span>
+                        <label id="dobLabelAdmin" class="dobL">Date OF Birth</label><input type="text" id="dobTextAdminPT" name="dobTextAdmin"  class="dob"/><span id="spanAdminModPTDob" style="position:absolute; top:50%; left:78%;"></span>
+                        <label id="dohLabelAdmin" class="dohL">Date Of Hire</label><input type="text" id="dohTextAdminPT"  name="dohTextAdmin" class="doh"/><span id="spanAdminModPTDoh" style="position:absolute; top:60%; left:78%;"></span>
+                        <label id="dotLabelAdmin">Date Of Termination</label><input type="text" id="dotTextAdminPT"  name="dotTextAdmin" class="dot"/><span id="spanAdminModPTDot" style="position:absolute; top:70%; left:78%;"></span>
+                        <label id="hourlyRateLabelAdmin">Hourly Rate</label><input type="text"  name="hourlyRate" id="hourlyRatePT"/><span id="spanAdminModPTHourlyRate" style="position:absolute; top:80%; left:78%;"></span>
                         <button type="button" class="submitBtn" id="btnSubmitPT" onclick="submitModAdminPartTimeEmp()">Submit</button>
 <!--                    </form>-->
 <!--                    <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>-->
-                    <button class="backBtn" onclick="goBack()">Back</button> 
+<!--                    <button class="backBtn" onclick="goBack()">Back</button> -->
 
                 </div>
            
@@ -5028,7 +5396,7 @@ function isNum(text)
             <label id="satLabelTC" class="timeCardLabel">Saturday</label><input type="text" id="satTextTC" class="timeCardText" name="satText"><span style="position:absolute; top:80%; left:70%;" id="satGenSpan"></span>
             <label id="sunLabelTC" class="timeCardLabel">Sunday</label><input type="text" id="sunTextTC" class="timeCardText" name="sunText"><span style="position:absolute; top:90%; left:70%;" id="sunGenSpan"></span>
               <button type="button" id="submitTimeCardBtnFTPT" onclick="submitTimeCardForFTPT()">Submit</button>  
-            <input type="image" src="cancel.png" id="cancelImageTimeCard" class="cancelImage">
+<!--            <input type="image" src="cancel.png" id="cancelImageTimeCard" class="cancelImage">-->
             <button id="goBackTimeCard" class="backBtn">Back</button> 
           </div>
       
@@ -5044,7 +5412,7 @@ function isNum(text)
             <label id="satLabelTCS" class="seasonalTimeCardLabel">Saturday</label><input type="text" id="satTextTCS" class="timeCardTextSS" name="satTextS"><span style="position:absolute; top:80%; left:41%;" id="satGenSpanS"></span><input type="text" id="satPieces" class="piecesText"><span style="position:absolute; top:80%; left:76%;" id="satPSpanS"></span>
             <label id="sunLabelTCS" class="seasonalTimeCardLabel">Sunday</label><input type="text" id="sunTextTCS" class="timeCardTextSS" name="sunTextS"><span style="position:absolute; top:90%; left:41%;" id="sunGenSpanS"></span><input type="text" id="sunPieces" class="piecesText"><span style="position:absolute; top:90%; left:76%;" id="sunPSpanS"></span>
               <button type="button" id="submitTimeCardBtnS" onclick="submitTimeCardForS()">Submit</button>  
-            <input type="image" src="cancel.png" id="cancelImageTimeCard" class="cancelImage">
+<!--            <input type="image" src="cancel.png" id="cancelImageTimeCard" class="cancelImage">-->
             <button id="goBackTimeCard" class="backBtn" onclick="goBackTimeCardS()">Back</button> 
         </div>
       
