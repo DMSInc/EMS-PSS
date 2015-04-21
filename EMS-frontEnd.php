@@ -2987,12 +2987,12 @@ function hideAllAdminForms()
             document.getElementById("adminUserAddingCEmp").style.visibility = "hidden";
         });
     }
-//    if(document.getElementById("adminUserDeleteEmp").style.visibility == "visible")
-//    {
-//        $("#adminUserDeleteEmp").fadeTo(1000, 0, function () {
-//            document.getElementById("adminUserDeleteEmp").style.visibility = "hidden";
-//        });
-//    }
+    if( document.getElementById("reportsDiv").style.visibility == "visible")
+    {
+        $("#reportsDiv").fadeTo(1000, 0, function () {
+            document.getElementById("reportsDiv").style.visibility = "hidden";
+        });   
+    }
     if(document.getElementById("adminModifyingEmp").style.visibility == "visible")
     {
         $("#adminModifyingEmp").fadeTo(1000, 0, function () {
