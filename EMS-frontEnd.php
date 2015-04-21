@@ -934,7 +934,8 @@ var bYYYY = 0;
 var hYYYY;
 var hMM;
 var hDD;
-var oldSin="";    
+var oldSin="";  
+var reportType="";
 
    $(document).ready(function () {
     userType="<?php echo $_SESSION["userType"]; ?>";
@@ -1111,10 +1112,20 @@ function hideAdminDeleteForm()
     
 function getSeniorityReport()
 {	
-
+        var report="";
+        if(reportType=="Weekly")
+        {
+            report="weeklyReport";
+            alert(report);
+        }
+    if(reportType=="Seniority")
+    {
+        report="generalSeniorityReport";
+        alert(report);
+    }
 		var sendData = "";
 		var company = document.getElementById("reportCompanyNameText").value;
-		sendData += makeUpJson("q",{"q":"generalSeniorityReport"},true);
+		sendData += makeUpJson("q",{"q":report},true);
 		sendData += makeUpJson("CM",{"CM":company});
 
 		
@@ -2431,11 +2442,34 @@ $(document).ready(function () {
     "use strict";
     $("#seniorityReportGen").click(function (){    
        //saveFileContent(); 
-        showReportDiv();
         
+       
+        if(reportType=="Weekly")
+        {
+            $("#reportsResult").empty();
+        }
+         reportType="Seniority";
+         showReportDiv();
+       
     });
  });
     
+    
+     $(document).ready(function () {
+    "use strict";
+    $("#weeklyHoursReportGen").click(function (){    
+       //saveFileContent();
+        
+      
+        if(reportType=="Seniority")
+        {
+            $("#reportsResult").empty();
+        }
+         reportType="Weekly";
+          showReportDiv();
+        
+    });
+ });
     $(document).ready(function () {
     "use strict";
     $("#generateReport").click(function (){ 
