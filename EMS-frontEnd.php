@@ -2824,13 +2824,13 @@ function hideAllAdminForms()
             document.getElementById("adminUserAddingSEmpAdd").style.visibility = "hidden";
         });
     }
-//
-//    if(document.getElementById("adminUserAddingCEmp").style.visibility == "visible")
-//    {
-//        $("#adminUserAddingCEmp").fadeTo(1000, 0, function () {
-//            document.getElementById("adminUserAddingCEmp").style.visibility = "hidden";
-//        });
-//    }
+
+    if(document.getElementById("adminUserAddingCEmp").style.visibility == "visible")
+    {
+        $("#adminUserAddingCEmp").fadeTo(1000, 0, function () {
+            document.getElementById("adminUserAddingCEmp").style.visibility = "hidden";
+        });
+    }
     if(document.getElementById("adminUserDeleteEmp").style.visibility == "visible")
     {
         $("#adminUserDeleteEmp").fadeTo(1000, 0, function () {
@@ -2941,8 +2941,140 @@ function cancelImage()
         }
     }
 }
+    
+  $(document).ready(function () {
+    "use strict";
+    $("#btnsubmitC").click(function (){
+        alert("sapra");
+        emptyCAddEmpAdminSpans();
+        //validate fields first
+        if(validateAddEmpAdminC()=="true")
+        {
+            createJSONObjectCAddEmp("addEmployee");
+        }
+    });
+  });
+    
+function emptyCAddEmpAdminSpans()  
+{
+    
+    document.getElementById("spanCAdminAddLname").innerHTML = "";
+    document.getElementById("spanCdminAddCompany").innerHTML = "";
+    document.getElementById("spanCAdminAddSin").innerHTML = "";
+    document.getElementById("spanCAdminAddDob").innerHTML = "";
+    document.getElementById("spanCAdminAddCSD").innerHTML = "";
+    document.getElementById("spanCAdminAddCstopD").innerHTML = "";
+    document.getElementById("spanCAdminAddAmount").innerHTML = "";
+}
+    
+    
+    
+function validateAddEmpAdminC()
+{
+    var boolToSubmit="true";
+    if(!checkLname(document.getElementById("lnameTextAdminC").value))
+    {
+        //show error message
+        document.getElementById("spanCAdminAddFname").innerHTML = "*Invalid Data";
+        boolToSubmit="false";
+    } 
+    if(!checkCompany(document.getElementById("compTextAdminC").value, "false"))
+    {
+        //show error message
+        document.getElementById("spancAdminAddCompany").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkSin(document.getElementById("sinTextAdminC").value,"true"))
+    {
+       // alert(document.getElementById("sinText").value);
+        //show error message
+        document.getElementById("spanCAdminAddSin").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkDateOfBirth(document.getElementById("dobTextAdminSinC").value))
+    {
+        //show error message
+        document.getElementById("spanCAdminAddDob").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkDateOfHire(document.getElementById("csdTextAdminSinC").value))
+    {
+        //show error message
+        document.getElementById("spanCAdminAddCSD").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkDateOfTermination(document.getElementById("cstopDTextAdminSinC").value))
+    {
+        //show error message
+        document.getElementById("spanCAdminAddCstopD").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    }
+    if(!checkSalary(document.getElementById("contractAmountTextAdminC").value))
+    {
+        //show error message
+        document.getElementById("spanCAdminAddAmount").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    return boolToSubmit;
+}
+    
+    function createJSONObjectCAddEmp(userAction)
+    {
+     var sendData = "";
+       
+        var lname = document.getElementById("lnameTextAdminC").value;
+        var company = document.getElementById("compTextAdminC").value;
+        var sin = document.getElementById("sinTextAdminC").value;
+        var dob = document.getElementById("dobTextAdminC").value;
+        var csd = document.getElementById("csdTextAdminC").value;
+    var cstop = document.getElementById("cstopDTextAdminC").value;
+     var amount = document.getElementById("contractAmontAdminC").value;
+    
+		sendData += makeUpJson("q",{"q":userAction},true);
+		
+		sendData += makeUpJson("UT",{"UT":userType});
+		
+		sendData += makeUpJson("ET",{"ET":employeeType});
+		
+//		sendData += makeUpJson("FN",{"FN":fname});
+		
+		sendData += makeUpJson("LN",{"LN":lname});
+		
+		sendData += makeUpJson("CM",{"CM":company});
+		
+		sendData += makeUpJson("SIN",{"SIN":sin});
+		
+		sendData += makeUpJson("DOB",{"DOB":dob});
+		
+		//sendData += makeUpJson("DOH",{"DOH":doh});
+		
+		//sendData += makeUpJson("DOT",{"DOT":dot});
+		
+	//	sendData += makeUpJson("HourlyRate",{"HourlyRate":hourly});
+		
+	//alert(sendData);
+	 $.ajax({url: "Database.php",
+							type: "GET",
+							async:true,
+							data : sendData,
+							success:function(result)
+							{
+							
+								//alert(result);
+							},
+							 error: function( objRequest )
+							 {
+								//alert(objRequest);
+							 }
+							
+							});   
+    }
+    
+    
 function validatePTAdminAdd()
 {
+    
+    var boolToSubmit="true";
      if(!checkFname(document.getElementById("fnameTextAdminPTAdd").value))
     {
         //show error message
@@ -3005,24 +3137,25 @@ function submitAdminContractEmp()
 
 function submitAdminPartTimeEmp()
 {
+ 
     emptyAllPTAdminSpans();
     //start the validation
     if(validatePTAdminAdd()=="true")
     {
-        alert("sdfsf");
+        
         createJSONObjectAdminAddPT("addEmployee");
     }
 }
     function emptyAllPTAdminSpans()
     {
         document.getElementById("spanPTAdminAddFname").innerHTML = "";
-    document.getElementById("spanPTAdminAddLname").innerHTML = "";
-    document.getElementById("spanTAdminAddCompany").innerHTML = "";
-    document.getElementById("spanPTAdminAddSin").innerHTML = "";
-    document.getElementById("spanPTAdminAddDob").innerHTML = "";
-    document.getElementById("spanPTAdminAddDot").innerHTML = "";
-    document.getElementById("spanPTAdminAddDoh").innerHTML = "";
-    document.getElementById("spanPTAdminAddHourlyRate").innerHTML = ""
+        document.getElementById("spanPTAdminAddLname").innerHTML = "";
+        document.getElementById("spanPTAdminAddCompany").innerHTML = "";
+        document.getElementById("spanPTAdminAddSin").innerHTML = "";
+        document.getElementById("spanPTAdminAddDob").innerHTML = "";
+        document.getElementById("spanPTAdminAddDot").innerHTML = "";
+        document.getElementById("spanPTAdminAddDoh").innerHTML = "";
+        document.getElementById("spanPTAdminAddHourlyRate").innerHTML = "";
     }
     
 function createJSONObjectAdminAddPT(userAction)
@@ -3078,11 +3211,126 @@ function createJSONObjectAdminAddPT(userAction)
 }
 function submitAdminSeasonEmp()
 {
+    emptySpanSAdminAdd();
    //start the validation
-
-    //if no errors then goto this page
-  
+    if(validateAdminEmpS()=="true")
+    {
+           //if no errors then goto this page
+        createJSONObjectSAddEmpAdmin();
+    }
 }
+function emptySpanSAdminAdd()
+{
+    document.getElementById("spanSAdminAddFname").innerHTML = "";
+    document.getElementById("spanSAdminAddLname").innerHTML = "";
+    document.getElementById("spanSAdminAddCompany").innerHTML = "";
+    document.getElementById("spanSAdminAddSin").innerHTML = "";
+    document.getElementById("spanSAdminAddDob").innerHTML = "";
+    document.getElementById("spanSAdminAddSeason").innerHTML = "";
+    document.getElementById("spanSAdminAddSeasonYear").innerHTML = "";
+}
+function  validateAdminEmpS()
+{
+    var boolToSubmit = "true";
+
+    if(!checkFname(document.getElementById("fnameTextAdminS").value))
+    {
+        //show error message
+        document.getElementById("spanSAdminAddFname").innerHTML = "*Invalid Data";
+        boolToSubmit="false";
+    } 
+    if(!checkLname(document.getElementById("lnameTextAdminS").value))
+    {
+        //show error message
+        document.getElementById("spanSAdminAddLname").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkCompany(document.getElementById("compTextAdminS").value, "true"))
+    {
+        //show error message
+        document.getElementById("spanSAdminAddCompany").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkSin(document.getElementById("sinTextAdminS").value,"true"))
+    {
+       // alert(document.getElementById("sinText").value);
+        //show error message
+        document.getElementById("spanSAdminAddSin").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkDateOfBirth(document.getElementById("dobTextAdminS").value))
+    {
+        //show error message
+        document.getElementById("spanSAdminAddDob").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(document.getElementById("seasonTypeDDAdminS").selectedIndex == 0)
+    {
+        //show error message
+        document.getElementById("spanSAdminAddSeason").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkSeasonYear(document.getElementById("seasonYearTextAdminS").value))
+    {
+        //show error message
+        document.getElementById("spanSAdminAddSeasonYear").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    return boolToSubmit;
+}
+    
+function createJSONObjectSAddEmpAdmin()
+{
+    var sendData = "";
+        var fname = document.getElementById("fnameTextAdminPTAdd").value;
+        var lname = document.getElementById("lnameTextAdminPTAdd").value;
+        var company = document.getElementById("compTextAdminPTAdd").value;
+        var sin = document.getElementById("sinTextAdminPTAdd").value;
+        var dob = document.getElementById("dobTextAdminPTAdd").value;
+        var doh = document.getElementById("dohTextAdminPTAdd").value;
+    var dot = document.getElementById("dotTextAdminPTAdd").value;
+     var hourly = document.getElementById("hourlyRatePTAdd").value;
+    
+		sendData += makeUpJson("q",{"q":userAction},true);
+		
+		sendData += makeUpJson("UT",{"UT":userType});
+		
+		sendData += makeUpJson("ET",{"ET":employeeType});
+		
+		sendData += makeUpJson("FN",{"FN":fname});
+		
+		sendData += makeUpJson("LN",{"LN":lname});
+		
+		sendData += makeUpJson("CM",{"CM":company});
+		
+		sendData += makeUpJson("SIN",{"SIN":sin});
+		
+		sendData += makeUpJson("DOB",{"DOB":dob});
+		
+		sendData += makeUpJson("DOH",{"DOH":doh});
+		
+		sendData += makeUpJson("DOT",{"DOT":dot});
+		
+		sendData += makeUpJson("HourlyRate",{"HourlyRate":hourly});
+		
+	//alert(sendData);
+	 $.ajax({url: "Database.php",
+							type: "GET",
+							async:true,
+							data : sendData,
+							success:function(result)
+							{
+							
+								//alert(result);
+							},
+							 error: function( objRequest )
+							 {
+								//alert(objRequest);
+							 }
+							
+							});
+}
+    
 function submitTimeCardForFTPT()
 {
 
@@ -4460,19 +4708,20 @@ function isNum(text)
                <div id="adminUserAddingSEmpAdd" class="centerDiv">
                   <form class="adminAddEmpForm">
                         <label id="employeeTypeS" class="employeeType"></label>
-                        <label id="fnameLabelAdmin" class="fnameL">First Name</label><input type="text" id="fnameTextAdminS" class="fname" name="fnameTextAdminS"/>
-                        <label id="lnameLabelAdmin" class="lnameL">Last Name</label><input type="text" id="lnameTextAdminS" class="lname" name="lnameTextAdminS"/>
-                        <label id="companyLabelAdmin" class="companyL">Company</label><input type="text" id="compTextAdminS" class="company" name="compTextAdminS"/>
-                        <label id="sinLabelAdmin" class="sinL">SIN</label><input type="text" id="sinTextAdminS" name="sinTextAdminS" class="sin"/>
-                        <label id="dobLabelAdmin" class="dobL">Date OF Birth</label><input type="text" id="dobTextAdminS" name="dobTextAdminS" class="dob"/>         
+                        <label id="fnameLabelAdmin" class="fnameL">First Name</label><input type="text" id="fnameTextAdminS" class="fname" name="fnameTextAdminS"/><span id="spanSAdminAddFname" style="position:absolute; top:10%; left:80%;"></span>
+                        <label id="lnameLabelAdmin" class="lnameL">Last Name</label><input type="text" id="lnameTextAdminS" class="lname" name="lnameTextAdminS"/><span id="spanSAdminAddLname" style="position:absolute; top:20%; left:80%;"></span>
+                        <label id="companyLabelAdmin" class="companyL">Company</label><input type="text" id="compTextAdminS" class="company" name="compTextAdminS"/><span id="spanSAdminAddCompany" style="position:absolute; top:30%; left:80%;"></span>
+                        <label id="sinLabelAdmin" class="sinL">SIN</label><input type="text" id="sinTextAdminS" name="sinTextAdminS" class="sin"/><span id="spanSAdminAddSin" style="position:absolute; top:40%; left:80%;"></span>
+                        <label id="dobLabelAdmin" class="dobL">Date OF Birth</label><input type="text" id="dobTextAdminS" name="dobTextAdminS" class="dob"/><span id="spanSAdminAddDob" style="position:absolute; top:50%; left:80%;"></span>         
                         <label id="seasonTypeLabelAdmin" class="seasonL">Season</label>
                           <select id="seasonTypeDDAdminS" name="seasonTypeDDAdminS" class="season">
-                            <option value="winter">Winter</option>
+                            <option value="">Select Season</option>
+                              <option value="winter">Winter</option>
                             <option value="spring">Spring</option>
                             <option value="fall">Fall</option>
                             <option value="summer">Summer</option>
-                        </select> 
-                        <label id="seasonYearLabelAdmin" class="seasonyearL">Season Year</label><input type="text" id="seasonYearTextAdminS" class="seasonyear" name="seasonYearTextAdminS" />
+                        </select> <span id="spanSAdminAddSeason" style="position:absolute; top:60%; left:80%;"></span>
+                        <label id="seasonYearLabelAdmin" class="seasonyearL">Season Year</label><input type="text" id="seasonYearTextAdminS" class="seasonyear" name="seasonYearTextAdminS" /><span id="spanSAdminAddSeasonYear" style="position:absolute; top:70%; left:80%;"></span>
                         <button type="button" class="submitBtn" id="btnSubmitS" onclick="submitAdminSeasonEmp()">Submit</button>
                 </form>
     
@@ -4486,13 +4735,13 @@ function isNum(text)
         <div id="adminUserAddingCEmp" class="centerDiv">   
             <form class="adminAddEmpForm">
                 <label id="employeeTypeC" class="employeeType"></label>
-                <label id="lnameLabelAdminC">Corporation Name</label><input type="text" id="lnameTextAdminC" name="lnameTextAdminC"/><span id="spanPTAdminAddHourlyRate" style="position:absolute; top:80%; left:80%;"></span>
-                <label id="companyLabelAdminC">Company</label><input type="text" id="compTextAdminC" name="compTextAdminC"/>
-                <label id="sinLabelAdminC">SIN</label><input type="text" id="sinTextAdminC" name="sinTextAdminC"/>
-                <label id="dobLabelAdminC">Date OF Birth</label><input type="text" id="dobTextAdminC" name="dobTextAdminC"/>
-                <label id="csdLabelAdminC">Contract Start Date</label><input type="text" id="csdTextAdminC" name="csdTextAdminC"/>
-                <label id="cstopDLabelAdminC">Contract Stop Date</label><input type="text" id="cstopDTextAdminC" name="cstopDTextAdminC"/>
-                <label id="contractAmountLabelC">Contract Amount</label><input type="text" id="contractAmountC" name="contractAmountC"/>
+                <label id="lnameLabelAdminC">Corporation Name</label><input type="text" id="lnameTextAdminC" name="lnameTextAdminC"/><span id="spanCAdminAddLname" style="position:absolute; top:10%; left:80%;"></span>
+                <label id="companyLabelAdminC">Company</label><input type="text" id="compTextAdminC" name="compTextAdminC"/><span id="spanCAdminAddCompany" style="position:absolute; top:20%; left:80%;"></span>
+                <label id="sinLabelAdminC">SIN</label><input type="text" id="sinTextAdminC" name="sinTextAdminC"/><span id="spanCAdminAddSin" style="position:absolute; top:30%; left:80%;"></span>
+                <label id="dobLabelAdminC">Date OF Birth</label><input type="text" id="dobTextAdminC" name="dobTextAdminC"/><span id="spanCAdminAddDob" style="position:absolute; top:40%; left:80%;"></span>
+                <label id="csdLabelAdminC">Contract Start Date</label><input type="text" id="csdTextAdminC" name="csdTextAdminC"/><span id="spanCAdminAddCSD" style="position:absolute; top:50%; left:80%;"></span>
+                <label id="cstopDLabelAdminC">Contract Stop Date</label><input type="text" id="cstopDTextAdminC" name="cstopDTextAdminC"/><span id="spanCAdminAddCstopD" style="position:absolute; top:60%; left:80%;"></span>
+                <label id="contractAmountLabelC">Contract Amount</label><input type="text" id="contractAmountC" name="contractAmountC"/><span id="spanCAdminAddAmount" style="position:absolute; top:70%; left:80%;"></span>
                 <button type="submit" class="submitBtn" id="btnSubmitC">Submit</button>
             </form>
             <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>
