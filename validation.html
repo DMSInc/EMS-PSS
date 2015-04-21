@@ -481,14 +481,19 @@ function terminationValidation(value)
 function compareHireDayandTermination(hYYYY, hMM, hDD, tYYYY, tMM, tDD)   
 {
 	bResult = false;
-	if(tYYYY - hYYYY >= 0)
+	if(tYYYY - hYYYY > 0)
 	{
-		if(tMM - hMM >= 0)
+		bResult = true;
+	}
+	else if(tYYYY - hYYYY == 0)
+	{
+		if(tMM - hMM > 0)
 		{
-			if(tDD - hDD >= 0)
-			{
-				bResult = true;
-			}
+			bResult = true;
+		}
+		else if(tDD - hDD >=0)
+		{
+			bResult = true;
 		}
 	}
 	return bResult;
