@@ -372,7 +372,7 @@ position:absolute;
  #btnSubmitS{
      top:90%;
 }
-#btnSubmitCC{
+#submitContractAdminAdd{
     top:80%;
 }
 
@@ -1629,7 +1629,7 @@ function createJSONObjectForNewUser()
 		sendData += makeUpJson("UN",{"UN":uname});
         sendData += makeUpJson("PD",{"PD":password});
 		sendData += makeUpJson("UT",{"UT":userType});
-    
+    alert(sendData);
 		//document.getElementById("searchResultDiv").style.visibility = "visible";
 	
 		////alert(sendData);
@@ -1932,6 +1932,7 @@ $(document).ready(function () {
                 document.getElementById("adminUserAddingFTEmpAdd").style.visibility = "visible";
                 $("#adminUserAddingFTEmpAdd").fadeTo(1000, 1);
                 document.getElementById("employeeTypeFT").innerHTML = "Fulltime Employee";
+                    emptyAllAdminSpansAdd();
             });
         }
         else
@@ -2017,6 +2018,7 @@ $(document).ready(function () {
                 document.getElementById("adminUserAddingPTEmpAdd").style.visibility = "visible";
                 $("#adminUserAddingPTEmpAdd").fadeTo(1000, 1);
                  document.getElementById("employeeTypePT").innerHTML = "Parttime Employee";
+                emptyAllPTAdminSpans();
             });
         }
         else
@@ -2105,6 +2107,7 @@ $(document).ready(function () {
                 document.getElementById("adminUserAddingSEmpAdd").style.visibility = "visible";
                 $("#adminUserAddingSEmpAdd").fadeTo(1000, 1);
                 document.getElementById("employeeTypeS").innerHTML = "Seasonal Employee";
+                emptySpanSAdminAdd();
             });
         }
         else
@@ -2159,6 +2162,7 @@ $(document).ready(function () {
                 document.getElementById("adminUserAddingCEmp").style.visibility = "visible";
                 $("#adminUserAddingCEmp").fadeTo(1000, 1);
                  document.getElementById("employeeTypeC").innerHTML = "Contract Employee";
+            emptyCAddEmpAdminSpans();
             });
         }
         else
@@ -3097,33 +3101,27 @@ function cancelImage()
         }
     }
 }
-    
-//  $(document).ready(function () {
-//    "use strict";
-//    $("#btnsubmitCC").click(function (){
-//        alert("sapra");
-//        
-//    });
-//  });
-    
-    
-    function submitContractAdminAdd()
-    {
-        alert("sfsf");
+
+     $(document).ready(function () {
+    "use strict";
+    $("#submitContractAdminAdd").click(function (){
+        
         emptyCAddEmpAdminSpans();
         //validate fields first
-        if(validateAddEmpAdminC()=="true")
+        if(validateAddEmpAdminContract() == "true")
         {
             createJSONObjectCAddEmp("addEmployee");
         }
-    }
+            
+        });
+     });
     
     
 function emptyCAddEmpAdminSpans()  
 {
     
     document.getElementById("spanCAdminAddLname").innerHTML = "";
-    document.getElementById("spanCdminAddCompany").innerHTML = "";
+    document.getElementById("spanCAdminAddCompany").innerHTML = "";
     document.getElementById("spanCAdminAddSin").innerHTML = "";
     document.getElementById("spanCAdminAddDob").innerHTML = "";
     document.getElementById("spanCAdminAddCSD").innerHTML = "";
@@ -3133,47 +3131,48 @@ function emptyCAddEmpAdminSpans()
     
     
     
-function validateAddEmpAdminC()
+function validateAddEmpAdminContract()
 {
     var boolToSubmit="true";
     if(!checkLname(document.getElementById("lnameTextAdminC").value))
     {
+
         //show error message
-        document.getElementById("spanCAdminAddFname").innerHTML = "*Invalid Data";
+        document.getElementById("spanCAdminAddLname").innerHTML = "*Invalid Data";
         boolToSubmit="false";
     } 
-    if(!checkCompany(document.getElementById("compTextAdminC").value, "false"))
+    if(!checkCompany(document.getElementById("compTextAdminC").value, "true"))
     {
+    
         //show error message
-        document.getElementById("spancAdminAddCompany").innerHTML = "*Invalid Data";
+        document.getElementById("spanCAdminAddCompany").innerHTML = "*Invalid Data";
          boolToSubmit="false";
     } 
     if(!checkSin(document.getElementById("sinTextAdminC").value,"true"))
     {
-       // //alert(document.getElementById("sinText").value);
         //show error message
         document.getElementById("spanCAdminAddSin").innerHTML = "*Invalid Data";
          boolToSubmit="false";
     } 
-    if(!checkDateOfBirth(document.getElementById("dobTextAdminSinC").value))
+    if(!checkDateOfBirth(document.getElementById("dobTextAdminC").value))
     {
         //show error message
         document.getElementById("spanCAdminAddDob").innerHTML = "*Invalid Data";
          boolToSubmit="false";
     } 
-    if(!checkDateOfHire(document.getElementById("csdTextAdminSinC").value))
+    if(!checkDateOfHire(document.getElementById("csdTextAdminC").value))
     {
         //show error message
         document.getElementById("spanCAdminAddCSD").innerHTML = "*Invalid Data";
          boolToSubmit="false";
     } 
-    if(!checkDateOfTermination(document.getElementById("cstopDTextAdminSinC").value))
+    if(!checkDateOfTermination(document.getElementById("cstopDTextAdminC").value))
     {
         //show error message
         document.getElementById("spanCAdminAddCstopD").innerHTML = "*Invalid Data";
          boolToSubmit="false";
     }
-    if(!checkSalary(document.getElementById("contractAmountTextAdminC").value))
+    if(!checkSalary(document.getElementById("contractAmountC").value))
     {
         //show error message
         document.getElementById("spanCAdminAddAmount").innerHTML = "*Invalid Data";
@@ -3192,7 +3191,7 @@ function validateAddEmpAdminC()
         var dob = document.getElementById("dobTextAdminC").value;
         var csd = document.getElementById("csdTextAdminC").value;
     var cstop = document.getElementById("cstopDTextAdminC").value;
-     var amount = document.getElementById("contractAmontAdminC").value;
+     var amount = document.getElementById("contractAmountC").value;
     
 		sendData += makeUpJson("q",{"q":userAction},true);
 		
@@ -4902,14 +4901,14 @@ function isNum(text)
         <div id="adminUserAddingCEmp" class="centerDiv">   
 <!--            <form class="adminAddEmpForm">-->
                 <label id="employeeTypeC" class="employeeType"></label>
-                <label id="lnameLabelAdminC">Corporation Name</label><input type="text" id="lnameTextAdminC" name="lnameTextAdminC"/><span id="spanCAdminAddLname" style="position:absolute; top:10%; left:80%;"></span>
-                <label id="companyLabelAdminC">Company</label><input type="text" id="compTextAdminC" name="compTextAdminC"/><span id="spanCAdminAddCompany" style="position:absolute; top:20%; left:80%;"></span>
-                <label id="sinLabelAdminC">SIN</label><input type="text" id="sinTextAdminC" name="sinTextAdminC"/><span id="spanCAdminAddSin" style="position:absolute; top:30%; left:80%;"></span>
-                <label id="dobLabelAdminC">Date OF Birth</label><input type="text" id="dobTextAdminC" name="dobTextAdminC"/><span id="spanCAdminAddDob" style="position:absolute; top:40%; left:80%;"></span>
-                <label id="csdLabelAdminC">Contract Start Date</label><input type="text" id="csdTextAdminC" name="csdTextAdminC"/><span id="spanCAdminAddCSD" style="position:absolute; top:50%; left:80%;"></span>
-                <label id="cstopDLabelAdminC">Contract Stop Date</label><input type="text" id="cstopDTextAdminC" name="cstopDTextAdminC"/><span id="spanCAdminAddCstopD" style="position:absolute; top:60%; left:80%;"></span>
-                <label id="contractAmountLabelC">Contract Amount</label><input type="text" id="contractAmountC" name="contractAmountC"/><span id="spanCAdminAddAmount" style="position:absolute; top:70%; left:80%;"></span>
-                <button type="button" class="submitBtn" id="btnSubmitC" onclick="submitContractAdminAdd()">Submit</button>
+                <label id="lnameLabelAdminC">Corporation Name</label><input type="text" id="lnameTextAdminC" name="lnameTextAdminC"/><span id="spanCAdminAddLname" style="position:absolute; top:10%; left:70%;"></span>
+                <label id="companyLabelAdminC">Company</label><input type="text" id="compTextAdminC" name="compTextAdminC"/><span id="spanCAdminAddCompany" style="position:absolute; top:20%; left:70%;"></span>
+                <label id="sinLabelAdminC">SIN</label><input type="text" id="sinTextAdminC" name="sinTextAdminC"/><span id="spanCAdminAddSin" style="position:absolute; top:30%; left:70%;"></span>
+                <label id="dobLabelAdminC">Date Of Incorporation</label><input type="text" id="dobTextAdminC" name="dobTextAdminC"/><span id="spanCAdminAddDob" style="position:absolute; top:40%; left:70%;"></span>
+                <label id="csdLabelAdminC">Contract Start Date</label><input type="text" id="csdTextAdminC" name="csdTextAdminC"/><span id="spanCAdminAddCSD" style="position:absolute; top:50%; left:70%;"></span>
+                <label id="cstopDLabelAdminC">Contract Stop Date</label><input type="text" id="cstopDTextAdminC" name="cstopDTextAdminC"/><span id="spanCAdminAddCstopD" style="position:absolute; top:60%; left:70%;"></span>
+                <label id="contractAmountLabelC">Contract Amount</label><input type="text" id="contractAmountC" name="contractAmountC"/><span id="spanCAdminAddAmount" style="position:absolute; top:70%; left:70%;"></span>
+                <button type="button" class="submitBtn" id="submitContractAdminAdd">Submit</button>
 <!--            </form>-->
 <!--            <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>-->
             <button class="backBtn" onclick="goBack()">Back</button>       
@@ -4991,7 +4990,7 @@ function isNum(text)
       
         <div id="newUserForm" class="centerDiv">
             <label id="fnameNewUserLabel" class="timeCardLabel">First Name</label><input type="text" id="fnameNewUserText" class="timeCardText"><span id="spanFnameNewUser" style="position:absolute; top:10%; left:70%;"></span>
-             <label id="lnameNewUserLabel" class="timeCardLabel">First Name</label><input type="text" class="timeCardText" id="lnameNewUserText"><span id="spanLnameNewUser" style="position:absolute; top:20%; left:70%;"></span>
+             <label id="lnameNewUserLabel" class="timeCardLabel">Last Name</label><input type="text" class="timeCardText" id="lnameNewUserText"><span id="spanLnameNewUser" style="position:absolute; top:20%; left:70%;"></span>
              <label id="securityLevelNewUserLabel" class="timeCardLabel">Security Level</label>
             <select id="selectSecurityLevel" class="timeCardText">
                 <option value="">Select Security Level</option>
