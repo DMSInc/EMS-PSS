@@ -436,11 +436,43 @@
 				$DateOfBirth = "";
 				$SeasonYear = "";
 				$Season = "";
-				$DateOfHire = "";
-				getFirstNameLastNameDOB($SIN,$FirstName,$LastName,$DateOfBirth);
-
-				$array = array('FN' => $FirstName, 'LN' => $LastName, 'DOB' => $DateOfBirth,'DOH' => $DateOfHire, 'SY' => $SeasonYear, 'S' => $Season, 'SIN' => $SIN, 'COM' => $COM);
-				echo json_encode($array);
+				$PiecePay = "";
+				$EmployeeStatus = "";
+				
+				//getFirstNameLastNameDOBSandSYPPES($SIN,$FirstName,$LastName,$DateOfBirth, $SeasonYear, $Season, $PiecePay, $EmployeeStatus, $EmployID);
+				$result1 = mysql_query("Select FIRSTNAME,LASTNAME,DATEOFBIRTH FROM person where SIN = '$SIN'");
+				$result2 = mysql_query("Select SEASONYEAR, SEASON, PIECEPAY, EMPLPYEESTATUS FROM SeasonalEmployee WHERE Employ_ID = '$EmployID'");
+				if($resultNum1 > 0 && $resultNum2 > 0)
+				{
+					$FirstName = mysql_result($result1,0,0);
+					$LastName = mysql_result($result1,0,1);
+					$DateOfBirth  = mysql_result($result1,0,2);
+					$rowsForEmployee = mysql_num_rows(resultNum2);
+					if($rowsForEmployee > 1)
+					{
+						
+						for( $i = 0; $i < $rowsForEmployee; $i++)
+						{
+							$SeasonYear = mysql_result($result2,$i,0);
+							$Season = mysql_result($result2,$i,1);
+							$PiecePay = mysql_result($result2,$i,2);
+							$EmployeeStatus = mysql_result($result2,$i,3);
+							$array = array('FN' => $FirstName, 'LN' => $LastName, 'DOB' => $DateOfBirth, 'SY' => $SeasonYear, 'S' => $Season, 'PP' => $PiecePay,'ES' => $EmployeeStatus, 'SIN' => $SIN, 'COM' => $COM);
+							echo json_encode($array);
+						}
+					}
+					else
+					{
+						$SeasonYear = mysql_result($result2,0,0);
+						$Season = mysql_result($result2,0,1);
+						$PiecePay = mysql_result($result2,0,2);
+						$EmployeeStatus = mysql_result($result2,0,3);
+						$array = array('FN' => $FirstName, 'LN' => $LastName, 'DOB' => $DateOfBirth,'DOH' => $DateOfHire, 'SY' => $SeasonYear, 'S' => $Season, 'SIN' => $SIN, 'COM' => $COM);
+						echo json_encode($array);
+					}
+					mysql_free_result($result1);
+					mysql_free_result($result2);
+				}
 			}
 		}
 		else
@@ -1861,7 +1893,10 @@
 		createWorklyReport('FT');
 		createWorklyReport('PT');
 		createWorklyReport('SN');
-		return;
+	}
+	
+	function createWorklyReport($EmployeeType)
+	{
 		$Company = getValueFromRequest('CM');
 		$result_Com = mysql_query("Select ID from company where CORPORATIONNAME = '$Company'") or exit(mysql_error());
 		$result_COMID = "";
@@ -1874,81 +1909,8 @@
 					$result_COMID = mysql_result($result_Com,0,0);
 					if($result_COMID !== "")
 					{
-						$colum1 = $colum2 =$colum3 =$colum4 =$colum5 = "";
-						//$result = mysql_query("Select ID, person_id, Employeestatus,EmployType from employee where company_id = '$result_COMID' AND (EmployType = 'FT'  OR EmployType = 'PT' )AND employeestatus != 'Incomplete'") or exit(mysql_error());
 						
-						//Select from employee where  
-						$query = "select b.id, a.maxHour, person.FIRSTNAME, person.LastName, person.SIN from employee b
-					inner join  (select  employee_id, MAX(amount) maxHour from timecard  group by employee_id order by id Desc) a on a.employee_id  = b.id and b.employtype = 'FT' and b.Employeestatus = 'Active'
-					inner join person on b.person_id = person.ID order by maxHour DESC, FirstName ";
-								$result = mysql_query($query) ;
-								if($result)
-								{
-									$tableLists = "<table>"; 
-									$tableLists .= "<tr><th></th><th>FullTime</th><th></th></tr>";
-									
-									$tableLists .= "<tr><td>Employee Name</td><td>SIN</td><td>Hours</td></tr>";
-									$result_count = mysql_num_rows($result);
-									if($result_count > 0)
-									{
-										
-										
-										
-										for($i = 0; $i < $result_count; $i++)
-										{
-											$Name = mysql_result($result,$i,2);
-										
-											$Name .= ",   ";
-											$Name .= mysql_result($result,$i,3);
-											
-											$SIN = mysql_result($result,$i,4);
-											$Hours = mysql_result($result,$i,1);
-											
-											$tableLists .= "<tr><td>$Name</td><td>$SIN</td><td>$Hours</td></tr>";
-											
-										}
-										$tableLists .= "</table>";
-										echo $tableLists;
-									}
-									
-									
-								}
-								mysql_free_result($result);
-								
-										$query = "select b.id, a.maxHour, person.FIRSTNAME, person.LastName, person.SIN from employee b
-					inner join  (select  employee_id, MAX(amount) maxHour from timecard  group by employee_id order by id Desc) a on a.employee_id  = b.id and b.employtype = 'FT' and b.Employeestatus = 'Active'
-					inner join person on b.person_id = person.ID order by maxHour DESC, FirstName ";
 					
-					
-					
-					
-					
-					}
-				
-				}
-				
-				
-		}
-	}
-	
-	function createWorklyReport($EmployeeType)
-	{
-				$Company = getValueFromRequest('CM');
-		$result_Com = mysql_query("Select ID from company where CORPORATIONNAME = '$Company'") or exit(mysql_error());
-		$result_COMID = "";
-		if($result_Com)
-		{						
-		
-				$result_Count = mysql_num_rows($result_Com);
-				if($result_Count > 0)
-				{
-					$result_COMID = mysql_result($result_Com,0,0);
-					if($result_COMID !== "")
-					{
-						$colum1 = $colum2 =$colum3 =$colum4 =$colum5 = "";
-						//$result = mysql_query("Select ID, person_id, Employeestatus,EmployType from employee where company_id = '$result_COMID' AND (EmployType = 'FT'  OR EmployType = 'PT' )AND employeestatus != 'Incomplete'") or exit(mysql_error());
-						
-						//Select from employee where  
 						$query = "select b.id, a.maxHour, person.FIRSTNAME, person.LastName, person.SIN from employee  b
 					inner join  (select  employee_id, MAX(amount) maxHour from timecard  group by employee_id order by id Desc) a on a.employee_id  = b.id and b.employtype = '$EmployeeType' and b.Employeestatus = 'Active' and b.company_id = '$result_COMID'
 					inner join person on b.person_id = person.ID order by maxHour DESC, FirstName ";
@@ -2021,6 +1983,24 @@
 				}
 				
 				
+		}
+	}
+	
+	
+	function activeReport($EmployType, $Company)
+	{
+		$Company = getValueFromRequest('CM');
+		$result_Com = mysql_query("Select ID from company where CORPORATIONNAME = '$Company'") or exit(mysql_error());
+		$result_COMID = "";
+		if($result_Com)
+		{	
+			$result_Count = mysql_num_rows($result_Com);
+				if($result_Count > 0)
+				{
+					$result_COMID = mysql_result($result_Com,0,0);
+					
+					
+				}
 		}
 	}
 	
