@@ -395,6 +395,9 @@ top:30%;
         #passwordNewUserLabel{
 top:40%;
 }
+        #userNameNewUserLabel{
+            top:50%;
+        }
 #fnameNewUserText{
 top:10%;
 }
@@ -407,10 +410,13 @@ top:30%;
         #passwordNewUserText{
 top:40%;
 }   
+        #userNameNewUserText{
+            top:50%;
+        }
 #submitNewUser{
     position:absolute;
     left:30%;
-    top:50%;
+    top:60%;
 }
 #compLabelTC{
     top:20%;
@@ -1130,12 +1136,12 @@ function getSeniorityReport()
         if(reportType=="Weekly")
         {
             report="weeklyReport";
-            alert(report);
+            //alert(report);
         }
     if(reportType=="Seniority")
     {
         report="generalSeniorityReport";
-        alert(report);
+        //alert(report);
     }
 		var sendData = "";
 		var company = document.getElementById("reportCompanyNameText").value;
@@ -1143,7 +1149,7 @@ function getSeniorityReport()
 		sendData += makeUpJson("CM",{"CM":company});
 
 		
-		alert(sendData);
+		//alert(sendData);
 			 $.ajax({url: "Database.php",
 							type: "GET",
 							async:true,
@@ -1158,7 +1164,7 @@ function getSeniorityReport()
 							},
 							 error: function( objRequest )
 							 {
-								alert(objRequest);
+								//alert(objRequest);
 							 }
 							
 							});
@@ -1512,7 +1518,7 @@ function createJSONModifyObject(userAction)
 							data : sendData,
 							success:function(result)
 							{
-                                alert(result);   
+                                //alert(result);   
 								var values = [];
 								values = makeItAnObject(result);
                                 showModifyResultFT(values,employeeType);
@@ -1604,9 +1610,49 @@ function createNewUser()
     if(validateNewUserFields()=="true")
     {
         //create New User in database
+        createJSONObjectForNewUser();
     }
 }
+
+function createJSONObjectForNewUser()
+{
+    var sendData = "";
+        var fname = document.getElementById("fnameNewUserText").value;
+        var lname = document.getElementById("lnameNewUserText").value;
+        var secLevel = document.getElementById("selectSecurityLevel").value;
+    var password = document.getElementById("passwordNewUserText").value;
+    var uname =  document.getElementById("userNameNewUserText").value;
+    //alert(uname);
+		sendData += makeUpJson("q",{"q":"addNewUser"},true);
+
+		sendData += makeUpJson("FN",{"FN":fname});
+		
+		sendData += makeUpJson("LN",{"LN":lname});
+	
+		sendData += makeUpJson("SL",{"SL":secLevel});
+		sendData += makeUpJson("UN",{"UN":uname});
+        sendData += makeUpJson("PD",{"PD":password});
+		sendData += makeUpJson("UT",{"UT":userType});
     
+		//document.getElementById("searchResultDiv").style.visibility = "visible";
+	
+		////alert(sendData);
+	 $.ajax({url: "Database.php",
+							type: "GET",
+							async:true,
+							data : sendData,
+							success:function(result)
+							{
+								////alert(result);
+								//$("#searchResultDiv").html(result);
+							},
+							 error: function( objRequest )
+							 {
+								////alert(objRequest);
+							 }
+							
+							});
+}
 function emptyAllNewUserFields()
 {
     document.getElementById("fnameNewUserText").value = "";
@@ -1621,6 +1667,7 @@ function emptyAllNewUserSpans()
     document.getElementById("spanLnameNewUser").innerHTML = "";
     document.getElementById("spanSecLevelNewUser").innerHTML = "";
     document.getElementById("spanpasswordNewUser").innerHTML  = "";
+    document.getElementById("spanUsernameNewUser").innerHTML  = "";
 }
     
 function validateNewUserFields()
@@ -1648,6 +1695,12 @@ function validateNewUserFields()
     {
         //show error message
         document.getElementById("spanpasswordNewUser").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(document.getElementById("userNameNewUserText").value=="")
+    {
+        //show error message
+        document.getElementById("spanUsernameNewUser").innerHTML = "*Invalid Data";
          boolToSubmit="false";
     } 
   
@@ -1747,19 +1800,19 @@ function clearSearchSpans()
 		sendData += makeUpJson("UT",{"UT":userType});
 		document.getElementById("searchResultDiv").style.visibility = "visible";
 	
-		//alert(sendData);
+		////alert(sendData);
 	 $.ajax({url: "Database.php",
 							type: "GET",
 							async:true,
 							data : sendData,
 							success:function(result)
 							{
-								//alert(result);
+								////alert(result);
 								$("#searchResultDiv").html(result);
 							},
 							 error: function( objRequest )
 							 {
-								//alert(objRequest);
+								////alert(objRequest);
 							 }
 							
 							});
@@ -1787,12 +1840,12 @@ function SelectEmp(EmployeeID)
 							data : sendData,
 							success:function(result)
 							{
-							//alert(result);	
+							////alert(result);	
                             $("#searchResultDiv").html(result);
 							},
 							 error: function( objRequest )
 							 {
-							//	alert(objRequest);
+							//	//alert(objRequest);
 							 }
 							
 							});
@@ -2486,7 +2539,7 @@ $(document).ready(function () {
     "use strict";
     $("#generateReport").click(function (){ 
         //get the report from the server and show it in the div
-       // alert("generate report, USE reportsResult this div to show result");
+       // //alert("generate report, USE reportsResult this div to show result");
         getSeniorityReport();
     });
 });
@@ -2991,7 +3044,7 @@ function cancelImage()
   $(document).ready(function () {
     "use strict";
     $("#btnsubmitC").click(function (){
-        alert("sapra");
+        //alert("sapra");
         emptyCAddEmpAdminSpans();
         //validate fields first
         if(validateAddEmpAdminC()=="true")
@@ -3032,7 +3085,7 @@ function validateAddEmpAdminC()
     } 
     if(!checkSin(document.getElementById("sinTextAdminC").value,"true"))
     {
-       // alert(document.getElementById("sinText").value);
+       // //alert(document.getElementById("sinText").value);
         //show error message
         document.getElementById("spanCAdminAddSin").innerHTML = "*Invalid Data";
          boolToSubmit="false";
@@ -3098,7 +3151,7 @@ function validateAddEmpAdminC()
 		
 	//	sendData += makeUpJson("HourlyRate",{"HourlyRate":hourly});
 		
-	//alert(sendData);
+	////alert(sendData);
 	 $.ajax({url: "Database.php",
 							type: "GET",
 							async:true,
@@ -3106,11 +3159,11 @@ function validateAddEmpAdminC()
 							success:function(result)
 							{
 							
-								//alert(result);
+								////alert(result);
 							},
 							 error: function( objRequest )
 							 {
-								//alert(objRequest);
+								////alert(objRequest);
 							 }
 							
 							});   
@@ -3141,7 +3194,7 @@ function validatePTAdminAdd()
     } 
     if(!checkSin(document.getElementById("sinTextAdminPTAdd").value,"true"))
     {
-       // alert(document.getElementById("sinText").value);
+       // //alert(document.getElementById("sinText").value);
         //show error message
         document.getElementById("spanPTAdminAddSin").innerHTML = "*Invalid Data";
          boolToSubmit="false";
@@ -3238,7 +3291,7 @@ function createJSONObjectAdminAddPT(userAction)
 		
 		sendData += makeUpJson("HourlyRate",{"HourlyRate":hourly});
 		
-	//alert(sendData);
+	////alert(sendData);
 	 $.ajax({url: "Database.php",
 							type: "GET",
 							async:true,
@@ -3246,11 +3299,11 @@ function createJSONObjectAdminAddPT(userAction)
 							success:function(result)
 							{
 							
-								//alert(result);
+								////alert(result);
 							},
 							 error: function( objRequest )
 							 {
-								//alert(objRequest);
+								////alert(objRequest);
 							 }
 							
 							});
@@ -3300,7 +3353,7 @@ function  validateAdminEmpS()
     } 
     if(!checkSin(document.getElementById("sinTextAdminS").value,"true"))
     {
-       // alert(document.getElementById("sinText").value);
+       // //alert(document.getElementById("sinText").value);
         //show error message
         document.getElementById("spanSAdminAddSin").innerHTML = "*Invalid Data";
          boolToSubmit="false";
@@ -3367,7 +3420,7 @@ function createJSONObjectSAddEmpAdmin()
 		
 		//sendData += makeUpJson("HourlyRate",{"HourlyRate":hourly});
 		
-	//alert(sendData);
+	////alert(sendData);
 	 $.ajax({url: "Database.php",
 							type: "GET",
 							async:true,
@@ -3591,6 +3644,7 @@ if(!checkLname(document.getElementById("lnameText").value))
     {
         if(!checkSeasonYear(document.getElementById("seasonYearText").value))
         {
+            //alert(document.getElementById("seasonYearText").value);
             //show error message
             document.getElementById("seasonYearGenSpan").innerHTML = "*Invalid Data";
              boolToSubmit="false";
@@ -4419,47 +4473,38 @@ function compareHireDayandTermination(hYYYY, hMM, hDD, tYYYY, tMM, tDD)
 //validate season year    
 function checkSeasonYear(value)
 {
-	var bSeasonYear = true;
+
+	var bSeasonYear = false;
 	var yearReg = /^\d{4}$/;
 	if(userType == "A")
 	{
-		if(value == null || value == "")
+		if(value != null && value != "" && value.match(yearReg) != null)
 		{
-			bSeasonYear = false;
-		}
-		else
-		{
-			if(value.match(yearReg) != null)
+			
+			var yyyy = parseInt(value);
+			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear())) 
 			{
-				var yyyy = parseInt(value);
-				if(yyyy < 1902 || yyyy > (new Date().getFullYear())) 
-				{
-					bSeasonYear = false;
-				}
-			}
-			else
-			{
-				bSeasonYear = false;
+				bSeasonYear = true;
 			}
 		}
 	}
 	else
 	{
-		if(value != null || value != "" || value.match(yearReg) == null)
+		if(value != null && value != "" && value.match(yearReg) != null)
 		{
-			bSeasonYear = false;
-		}
-		else
-		{
+			
 			var yyyy = parseInt(value);
-			if(yyyy < 1902 || yyyy > (new Date().getFullYear())) 
+			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear())) 
 			{
-				bSeasonYear = false;
+				bSeasonYear = true;
 			}
-		}
+        }
+			
 	}
-    return bSeasonYear;
+	
+	return bSeasonYear;
 }
+
 	
 	
 //validation for hour
@@ -4699,14 +4744,14 @@ function isNum(text)
       
           <div id="genUserAddingEmp" class="centerDiv">
                <form class="adminAddEmpForm">
-                    <label id="fnameLabel" class="fnameL">First Name</label><input type="text" id="fnameText" name="fnameTextG" class="fname"/><span style="position:absolute; top:10%; left:70%;" id="fnameGenSpan"></span>
-                    <label id="lnameLabel" class="lnameL">Last Name</label><input type="text" id="lnameText"  name="lnameTextG" class="lname"/><span style="position:absolute; top:20%; left:70%;" id="lnameGenSpan"></span>
-                    <label id="companyLabel" class="companyL">Company</label><input type="text" id="compText"  name="compTextG" class="company"/><span style="position:absolute; top:30%; left:70%;" id="companyGenSpan"></span>
-                    <label id="sinLabel" class="sinL">SIN</label><input type="text" id="sinText" class="sin" name="sinTextG" /><span style="position:absolute; top:40%; left:70%;" id="sinGenSpan"></span>
-                    <label id="dobLabel" class="dobL">Date OF Birth</label><input type="text" id="dobText" class="dob" name="dobTextG" /><span style="position:absolute; top:50%; left:70%;" id="dobGenSpan"></span>
+                    <label id="fnameLabel" class="fnameL">First Name</label><input type="text" id="fnameText" name="fnameTextG" class="fname"/><span style="position:absolute; top:10%; left:80%;" id="fnameGenSpan"></span>
+                    <label id="lnameLabel" class="lnameL">Last Name</label><input type="text" id="lnameText"  name="lnameTextG" class="lname"/><span style="position:absolute; top:20%; left:80%;" id="lnameGenSpan"></span>
+                    <label id="companyLabel" class="companyL">Company</label><input type="text" id="compText"  name="compTextG" class="company"/><span style="position:absolute; top:30%; left:80%;" id="companyGenSpan"></span>
+                    <label id="sinLabel" class="sinL">SIN</label><input type="text" id="sinText" class="sin" name="sinTextG" /><span style="position:absolute; top:40%; left:80%;" id="sinGenSpan"></span>
+                    <label id="dobLabel" class="dobL">Date OF Birth</label><input type="text" id="dobText" class="dob" name="dobTextG" /><span style="position:absolute; top:50%; left:80%;" id="dobGenSpan"></span>
                     <label id="dohLabel" class="dohL">Date Of Hire</label><input type="text" id="dohText" class="doh" name="dohTextG" />
-                   <span style="position:absolute; top:60%; left:70%;" id="dohGenSpan"></span>
-                    <label id="seasonYearLabel" class="seasonyearL">Season Year</label><input type="text" id="seasonYearText" class="seasonyear" name="seasonYearTextG" /> <span style="position:absolute; top:70%; left:70%;" id="seasonYearGenSpan"></span>
+                   <span style="position:absolute; top:60%; left:80%;" id="dohGenSpan"></span>
+                    <label id="seasonYearLabel" class="seasonyearL">Seasonal Year</label><input type="text" id="seasonYearText" class="seasonyear" name="seasonYearTextG" /> <span style="position:absolute; top:70%; left:80%;" id="seasonYearGenSpan"></span>
                     <label id="seasonTypeLabel" class="seasonLGen">Season</label>
                       <select id="seasonTypeDD" class="seasonTypeGen" name="seasonTypeDDG">
                         <option value="">Select Your Season</option>
@@ -4714,7 +4759,7 @@ function isNum(text)
                         <option value="spring">Spring</option>
                         <option value="fall">Fall</option>
                         <option value="summer">Summer</option>
-                    </select><span style="position:absolute; top:80%; left:70%;" id="seasonGenSpan"></span>
+                    </select><span style="position:absolute; top:80%; left:80%;" id="seasonGenSpan"></span>
                     <input type="hidden" name="needCompletion" value="Y">
                     <button type="button" class="submitBtn" id="genUserAddEmp" onclick="submitGenEmp()">Submit</button>
             </form>
@@ -4883,11 +4928,12 @@ function isNum(text)
              <label id="securityLevelNewUserLabel" class="timeCardLabel">Security Level</label>
             <select id="selectSecurityLevel" class="timeCardText">
                 <option value="">Select Security Level</option>
-                <option value="Admin">Admin</option>
-                <option value="General">General</option>
+                <option value="A">Admin</option>
+                <option value="G">General</option>
             </select>
             <span id="spanSecLevelNewUser" style="position:absolute; top:30%; left:70%;"></span>
              <label id="passwordNewUserLabel" class="timeCardLabel">Password</label><input class="timeCardText" type="text" id="passwordNewUserText"><span id="spanpasswordNewUser" style="position:absolute; top:40%; left:70%;"></span>
+             <label id="userNameNewUserLabel" class="timeCardLabel">UserName</label><input class="timeCardText" type="text" id="userNameNewUserText"><span id="spanUsernameNewUser" style="position:absolute; top:50%; left:70%;"></span>
             <button type="button" id="submitNewUser">Create</button>
         </div>
           <div id="gentimeCardFTPT" class="centerDiv">
