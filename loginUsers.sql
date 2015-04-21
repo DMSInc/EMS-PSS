@@ -40,6 +40,7 @@ PRIMARY KEY(ID)
 Create table if not exists company(
 ID integer not null auto_increment,
 CORPORATIONNAME VARCHAR(40),
+DateOfIncorporation varchar(40),
 PRIMARY KEY(ID)
 );
 
@@ -48,6 +49,7 @@ ID integer not null auto_increment,
 company_id integer not null,
 person_id  integer not null,
 Employeestatus varchar(40) default 'Incomplete',
+LeaveReasons   varchar(40),
 EmployType     varchar(10), 
 Foreign key fk_companyid(company_id) references company(ID),
 Foreign key fk_personid(person_id) references person(ID),
