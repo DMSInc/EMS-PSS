@@ -4074,12 +4074,17 @@ function createJSONObjectAddEmpAdmin(userAction)
 							data : sendData,
 							success:function(result)
 							{
-							
-								//alert(result);
+							 document.getElementById("serverMsgs").style.visibility="visible";
+    document.getElementById("msg").innerHTML="Employee Added Successfully.";
+                                 $("#serverMsgs").fadeTo(1200, 1);
+     $("#serverMsgs").fadeTo(1200, 0);
 							},
 							 error: function( objRequest )
 							 {
-								//alert(objRequest);
+								document.getElementById("serverMsgs").style.visibility="visible";
+    document.getElementById("msg").innerHTML="Cannot Add Employee.";
+                                 $("#serverMsgs").fadeTo(1200, 1);
+     $("#serverMsgs").fadeTo(1200, 0);
 							 }
 							
 							});
@@ -4188,18 +4193,19 @@ function createJSONObjectTimeCardGen(userAction,empType)
 							data : sendData,
 							success:function(result)
 							{
-							//alert(result);
-								var values = [];
-								values = makeItAnObject(result);
-								var len= values.length;
-								for(var i = 0; i< len; i++)
-								{
-									//alert(values[i]);
-								}
+		
+							 document.getElementById("serverMsgs").style.visibility="visible";
+    document.getElementById("msg").innerHTML="Time Card Added Successfully.";
+                                 $("#serverMsgs").fadeTo(1200, 1);
+     $("#serverMsgs").fadeTo(1200, 0);
 							},
 							 error: function( objRequest )
 							 {
-								//alert(objRequest);
+							 	
+								 document.getElementById("serverMsgs").style.visibility="visible";
+    document.getElementById("msg").innerHTML="Time Card Not Done.";
+                                 $("#serverMsgs").fadeTo(1200, 1);
+     $("#serverMsgs").fadeTo(1200, 0);
 							 }
 							
 							});
