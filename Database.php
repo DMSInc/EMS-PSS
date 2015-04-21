@@ -69,8 +69,6 @@
 						getCompanyID($OLDCOM,$OLDCompanyID);
 						if($CompanyExist)
 						{
-						
-							
 							getCompanyID($Company,$NewCompanyID);
 							
 							mysql_query("update employee set company_id='$NewCompanyID' where company_id = 'OLDCompanyID' and person_id = '$PersonID' and EmployType = 'FT'") or exit(mysql_error());
@@ -83,96 +81,124 @@
 							mysql_query("update employee set company_id = '$CompanyID' where company_id = 'OLDCompanyID' and person_id = '$PersonID' and EmployType = 'FT' ") or exit(mysql_error());
 						}
 					}
-				}
-				else
-				{
-				
-				$PersonExist = checkPersonExist($SIN);  //Check if the person have been added.
-				
-				if(!$PersonExist)    //If the database has not contain the person , then add the preson to DB.
-				{
-					$insertPerson = mysql_query("Insert into person(FIRSTNAME, LASTNAME,SIN,DATEOFBIRTH) values('$FirstName' , '$LastName','$SIN','$DOB')") or exit(mysql_error());
-				}
-				else
-				{
-					echo "SIN Number Already Exist.";
-				}
-				
-				$CompanyExist = checkCompanyExist($Company);  //Check  if the Company have been added to database.
 					
-			
-				if(!$CompanyExist)   // If the company has not been added to the DB, then add the company to DB
-				{
-					mysql_query("Insert into company(CORPORATIONNAME) values('$Company')");
-				}
-				
-				$PersonID ="";
-				$CompanyID  = "";
-				if(!getPersonID($SIN,$PersonID))
-				{
-					echo "Faile to Add Employee";
-					exit;
-				}
-				if(!getCompanyID($Company,$CompanyID))
-				{
-					echo "Faile to Add Employee";
-					exit;
-				}
-				
-				$EmployeeIDExist = checkEmployeeExist($PersonID,$CompanyID,$EmployType);
-				
-				if(!$EmployeeIDExist)
-				{	
-					if(adminAddGeneralEmployee($PersonID,$CompanyID,$EmployType))
+					
+					
+					
+					$EmployeeID = "";
+					if($DOT !== "")
 					{
-						$EmployeeID = "";
-						$Result = getEmployeeID($PersonID,$CompanyID,$EmployeeID);
+						$ReasonForLeave = getValueFromRequest("RFL");
+						changeLeaveForReasons($EmployeeID,$ReasonForLeave);
 						
-						if($Result)
+						getEmployeeIDIncompleteActive($PersonID,$CompanyID,'FT',$EmployeeID);
+						
+						adminAlterExistFullEmployee($EmployeeID,$DOH,$DOT,$Salary);
+						
+						
+						changeEmployeeStatusToInactive($SIN,$Company,'FT');
+						
+						changeReasonForLeave($SIN,$Company,'FT',$ReasonForLeave);
+						
+					}
+					else 
+					{
+						
+						getEmployeeIDIncompleteActive($PersonID,$CompanyID,'FT',$EmployeeID);
+						
+						adminAlterExistFullEmployee($EmployeeID,$DOH,$DOT,$Salary);
+						changeEmployeeStatusToInactive($SIN,$Company,'FT');
+					}
+				}
+				else
+				{
+				
+					$PersonExist = checkPersonExist($SIN);  //Check if the person have been added.
+					
+					if(!$PersonExist)    //If the database has not contain the person , then add the preson to DB.
+					{
+						$insertPerson = mysql_query("Insert into person(FIRSTNAME, LASTNAME,SIN,DATEOFBIRTH) values('$FirstName' , '$LastName','$SIN','$DOB')") or exit(mysql_error());
+					}
+					else
+					{
+						echo "SIN Number Already Exist.";
+					}
+					
+					$CompanyExist = checkCompanyExist($Company);  //Check  if the Company have been added to database.
+						
+				
+					if(!$CompanyExist)   // If the company has not been added to the DB, then add the company to DB
+					{
+						mysql_query("Insert into company(CORPORATIONNAME) values('$Company')");
+					}
+					
+					$PersonID ="";
+					$CompanyID  = "";
+					if(!getPersonID($SIN,$PersonID))
+					{
+						echo "Faile to Add Employee";
+						exit;
+					}
+					if(!getCompanyID($Company,$CompanyID))
+					{
+						echo "Faile to Add Employee";
+						exit;
+					}
+					
+					$EmployeeIDExist = checkEmployeeExist($PersonID,$CompanyID,$EmployType);
+					
+					if(!$EmployeeIDExist)
+					{	
+						if(adminAddGeneralEmployee($PersonID,$CompanyID,$EmployType))
 						{
-							if(adminAddFullTimeEmployee($EmployeeID,$DOH,$DOT,$Salary))
+							$EmployeeID = "";
+							$Result = getEmployeeID($PersonID,$CompanyID,$EmployeeID);
+							
+							if($Result)
 							{
-								echo "Sucess To add FullTime Employee";
+								if(adminAddFullTimeEmployee($EmployeeID,$DOH,$DOT,$Salary))
+								{
+									echo "Sucess To add FullTime Employee";
+								}
+								else
+								{
+									echo "Failed to add FullTIme Employee";
+								}
 							}
 							else
 							{
-								echo "Failed to add FullTIme Employee";
+								echo "Employee do not exist!";
+							}
+							
+						}
+						else
+						{
+							echo "Admin Add Employee Failed";
+						}
+					}
+					else
+					{
+						
+						$EmployeeID = "";
+						$Result = getEmployeeID($PersonID,$CompanyID,$EmployeeID);
+				
+						if($Result)
+						{
+							if(adminAlterExistFullEmployee($EmployeeID,$DOH,$DOT,$Salary))
+							{
+								echo "Sucess To Alter FullTime Employee";
+							}
+							else
+							{
+								echo "Failed to Alter FullTIme Employee";
 							}
 						}
 						else
 						{
 							echo "Employee do not exist!";
 						}
-						
-					}
-					else
-					{
-						echo "Admin Add Employee Failed";
-					}
-				}
-				else
-				{
 					
-					$EmployeeID = "";
-					$Result = getEmployeeID($PersonID,$CompanyID,$EmployeeID);
-			
-					if($Result)
-					{
-						if(adminAlterExistFullEmployee($EmployeeID,$DOH,$DOT,$Salary))
-						{
-							echo "Sucess To Alter FullTime Employee";
-						}
-						else
-						{
-							echo "Failed to Alter FullTIme Employee";
-						}
 					}
-					else
-					{
-						echo "Employee do not exist!";
-					}
-				
-				}
 			}
 				mysql_close($connection);
 			}
@@ -471,7 +497,7 @@
 	
 				getFullTimeDOHDOTSalary($EmployID,$DateOfHire,$DateOfTermination,$Salary);
 				
-				$array = array('FN' => $FirstName, 'LN' => $LastName, 'CM'=> $COM, 'SIN' => $SIN, 'DOB' => $DateOfBirth, 'DOH' => $DateOfHire, 'DOT' => $DateOfTermination, 'Salary' => $Salary);
+				$array = array('Status' =>$WorkStatus,'FN' => $FirstName, 'LN' => $LastName, 'CM'=> $COM, 'SIN' => $SIN, 'DOB' => $DateOfBirth, 'DOH' => $DateOfHire, 'DOT' => $DateOfTermination, 'Salary' => $Salary);
 				echo json_encode($array);
 				
 			}
@@ -908,6 +934,35 @@
 		}
 	}
 	
+	function changeEmployeeStatusToActive($SIN,$Company,$EmployType)
+	{
+		$PersonID = "";
+		getPersonID($SIN,$PersonID);
+		$CompanyID = "";
+		getCompanyID($Company,$CompanyID);
+		
+		mysql_query("update employee set Employeestatus = 'Active' where company_id = 'CompanyID' and person_id = '$PersonID' and EmployType = '$EmployType' and Employeestatus = 'Incomplete'") or exit(mysql_error());
+	}
+	
+	function changeEmployeeStatusToInactive($SIN,$Company,$EmployType)
+	{
+		$PersonID = "";
+		getPersonID($SIN,$PersonID);
+		$CompanyID = "";
+		getCompanyID($Company,$CompanyID);
+		
+		mysql_query("update employee set Employeestatus = 'Inactive' where company_id = 'CompanyID' and person_id = '$PersonID' and EmployType = '$EmployType' and Employeestatus = 'Active'") or exit(mysql_error());
+	}
+	
+	function changeReasonForLeave($SIN,$Company,$EmployType,$ReasonForLeave)
+	{
+		$PersonID = "";
+		getPersonID($SIN,$PersonID);
+		$CompanyID = "";
+		getCompanyID($Company,$CompanyID);
+		
+		mysql_query("update employee set LeaveReasons = '$ReasonForLeave' where company_id = 'CompanyID' and person_id = '$PersonID' and EmployType = '$EmployType' and Employeestatus = 'Inactive'") or exit(mysql_error());
+	}
 	function adminAddGeneralEmployee($PersonID, $CompanyID, $EmployeeType)
 	{
 		if($PersonID !== "" && $CompanyID !== "" )
@@ -977,6 +1032,22 @@
 		mysql_free_result($result);
 		return $meta;
 	}
+	
+	function getEmployeeIDIncompleteActive($PersonID,$CompanyID,$EmployeeType,&$EmployeeID)
+	{
+		$meta = false;
+		$result  = mysql_query("Select ID From employee where company_id = '$CompanyID' AND person_id = '$PersonID' AND EmployType = '$EmployeeType' AND Employeestatus != 'Inactive'");
+		if(result)
+		{
+			$EmployeeID = mysql_result($result,0,0);
+				
+			$meta = true;
+		}
+		return $meta;
+		
+	}
+	
+
 	
 	function getEmployeeIDBySINComEmpType($SIN,$COM,$EMPTYPE,&$ErrorInfor, &$EmployeeID)
 	{
@@ -1106,6 +1177,12 @@
 			return false;
 		}
 	}
+	
+	function changeLeaveForReasons($EmployeeID, $Reason)
+	{
+		mysql_query("update employee set LeaveReasons = '$Reason' where ID = '$EmployeeID' and Employeestatus != 'Inactive'") or exit(mysql_error());
+	}
+	
 	
 	function getFullTimeDOHDOTSalary($EmployeeID, &$DOH, &$DOT, &$Salary)
 	{
