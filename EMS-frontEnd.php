@@ -372,14 +372,10 @@ position:absolute;
  #btnSubmitS{
      top:90%;
 }
-#btnSubmitC{
+#btnSubmitCC{
     top:80%;
 }
-/*
-#adminUserTimeCard{
-    visibility:hidden;
-}  
-*/
+
 #sinLabelTC{
     top:10%;
 }
@@ -2209,10 +2205,73 @@ $(document).ready(function () {
     
   $(document).ready(function () {
     "use strict";
+    
     $("#activeEmpReportAdmin").click(function () {
-        //saveFileContent();
+          alert("active");
+        if(reportType=="Weekly" || reportType=="Inactive" ||reportType=="Seniority"||reportType=="Payroll")
+        {
+            $("#reportsResult").empty();
+        }
+         reportType="Active";
+         showReportDiv();
+        });
+  });
+    
+
+  $(document).ready(function () {
+    "use strict";
+     
+    $("#inactiveEmpReportAdmin").click(function () {
+         alert("inactive");
+         if(reportType=="Weekly" || reportType=="Active" ||reportType=="Seniority"||reportType=="Payroll")
+        {
+            $("#reportsResult").empty();
+        }
+         reportType="Inactive";
+         showReportDiv();
             });
   });
+    
+    
+$(document).ready(function () {
+    "use strict";
+    $("#payrollReportAdmin").click(function () {
+         alert("payroll");
+         if(reportType=="Weekly" || reportType=="Inactive" ||reportType=="Seniority"||reportType=="Active")
+        {
+            $("#reportsResult").empty();
+        }
+         reportType="Payroll";
+         showReportDiv();
+            });
+  });
+    
+    
+$(document).ready(function () {
+    "use strict";
+    $("#seniorityReportAdmin").click(function () {
+         alert("seniority");
+         if(reportType=="Weekly" || reportType=="Inactive" ||reportType=="Payroll"||reportType=="Active")
+        {
+            $("#reportsResult").empty();
+        }
+         reportType="Seniority";
+         showReportDiv();
+            });
+  });
+  $(document).ready(function () {
+    "use strict";
+    $("#weeklyHoursReportAdmin").click(function () {
+         alert("weekly");
+         if(reportType=="Seniority" || reportType=="Inactive" ||reportType=="Payroll"||reportType=="Active")
+        {
+            $("#reportsResult").empty();
+        }
+         reportType="Seniority";
+         showReportDiv();
+            });
+  });  
+
     
 //go back to employee type div, to select employee type.    
 $(document).ready(function () {
@@ -2505,9 +2564,7 @@ $(document).ready(function () {
     
  $(document).ready(function () {
     "use strict";
-    $("#seniorityReportGen").click(function (){    
-       //saveFileContent(); 
-        
+    $("#seniorityReportGen").click(function (){ 
        
         if(reportType=="Weekly")
         {
@@ -3041,18 +3098,26 @@ function cancelImage()
     }
 }
     
-  $(document).ready(function () {
-    "use strict";
-    $("#btnsubmitC").click(function (){
-        //alert("sapra");
+//  $(document).ready(function () {
+//    "use strict";
+//    $("#btnsubmitCC").click(function (){
+//        alert("sapra");
+//        
+//    });
+//  });
+    
+    
+    function submitContractAdminAdd()
+    {
+        alert("sfsf");
         emptyCAddEmpAdminSpans();
         //validate fields first
         if(validateAddEmpAdminC()=="true")
         {
             createJSONObjectCAddEmp("addEmployee");
         }
-    });
-  });
+    }
+    
     
 function emptyCAddEmpAdminSpans()  
 {
@@ -4690,6 +4755,8 @@ function isNum(text)
 	}					  			
 	return true;
 }   
+    
+
 </script>
 </head>
 <body>
@@ -4805,7 +4872,7 @@ function isNum(text)
       
       
                <div id="adminUserAddingSEmpAdd" class="centerDiv">
-                  <form class="adminAddEmpForm">
+<!--                  <form class="adminAddEmpForm">-->
                         <label id="employeeTypeS" class="employeeType"></label>
                         <label id="fnameLabelAdmin" class="fnameL">First Name</label><input type="text" id="fnameTextAdminS" class="fname" name="fnameTextAdminS"/><span id="spanSAdminAddFname" style="position:absolute; top:10%; left:80%;"></span>
                         <label id="lnameLabelAdmin" class="lnameL">Last Name</label><input type="text" id="lnameTextAdminS" class="lname" name="lnameTextAdminS"/><span id="spanSAdminAddLname" style="position:absolute; top:20%; left:80%;"></span>
@@ -4823,9 +4890,9 @@ function isNum(text)
                         <label id="seasonYearLabelAdmin" class="seasonyearL">Season Year</label><input type="text" id="seasonYearTextAdminS" class="seasonyear" name="seasonYearTextAdminS" /><span id="spanSAdminAddSeasonYear" style="position:absolute; top:70%; left:80%;"></span>
                        <label id="piecePayLabelAdmin" class="piecePayL">Piece Pay</label><input type="text" id="piecePayTextAdminS" name="seasonYearTextAdminS" /><span id="spanSAdminAddPiecePay" style="position:absolute; top:80%; left:80%;"></span>
                         <button type="button" class="submitBtn" id="btnSubmitS" onclick="submitAdminSeasonEmp()">Submit</button>
-                </form>
+<!--                </form>-->
     
-                <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>
+<!--                <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>-->
                 <button class="backBtn" onclick="goBack()">Back</button> 
     
               </div>
@@ -4833,7 +4900,7 @@ function isNum(text)
       
 
         <div id="adminUserAddingCEmp" class="centerDiv">   
-            <form class="adminAddEmpForm">
+<!--            <form class="adminAddEmpForm">-->
                 <label id="employeeTypeC" class="employeeType"></label>
                 <label id="lnameLabelAdminC">Corporation Name</label><input type="text" id="lnameTextAdminC" name="lnameTextAdminC"/><span id="spanCAdminAddLname" style="position:absolute; top:10%; left:80%;"></span>
                 <label id="companyLabelAdminC">Company</label><input type="text" id="compTextAdminC" name="compTextAdminC"/><span id="spanCAdminAddCompany" style="position:absolute; top:20%; left:80%;"></span>
@@ -4842,9 +4909,9 @@ function isNum(text)
                 <label id="csdLabelAdminC">Contract Start Date</label><input type="text" id="csdTextAdminC" name="csdTextAdminC"/><span id="spanCAdminAddCSD" style="position:absolute; top:50%; left:80%;"></span>
                 <label id="cstopDLabelAdminC">Contract Stop Date</label><input type="text" id="cstopDTextAdminC" name="cstopDTextAdminC"/><span id="spanCAdminAddCstopD" style="position:absolute; top:60%; left:80%;"></span>
                 <label id="contractAmountLabelC">Contract Amount</label><input type="text" id="contractAmountC" name="contractAmountC"/><span id="spanCAdminAddAmount" style="position:absolute; top:70%; left:80%;"></span>
-                <button type="submit" class="submitBtn" id="btnSubmitC">Submit</button>
-            </form>
-            <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>
+                <button type="button" class="submitBtn" id="btnSubmitC" onclick="submitContractAdminAdd()">Submit</button>
+<!--            </form>-->
+<!--            <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>-->
             <button class="backBtn" onclick="goBack()">Back</button>       
           </div>
 
