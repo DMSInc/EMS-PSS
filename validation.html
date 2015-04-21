@@ -299,9 +299,28 @@ function birthdayValidation(value)
 			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31) 
 			{
 				bDate = true;
-				if(mm == 2 && dd > 28)
+				if(mm == 2)
 				{
-					bDate = false;
+					if(dd == 29)
+					{
+						if(new Date(yyyy, 1, 29).getMonth() == 1)
+	        			{
+	        				bDate = true;
+	        			}
+	        			else
+	        			{
+	        				bDate = false;
+	        			}
+					}
+					else if(dd < 29)
+					{
+						bDate = true;
+					}
+					else
+					{
+						bDate = false;
+					}
+					
 				}
 				
 			}
@@ -325,9 +344,27 @@ function birthdayValidation(value)
 			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31) 
 			{
 				bDate = true;
-				if(mm == 2 && dd > 28)
+				if(mm == 2)
 				{
-					bDate = false;
+					if(dd == 29)
+					{
+						if(new Date(yyyy, 1, 29).getMonth() == 1)
+	        			{
+	        				bDate = true;
+	        			}
+	        			else
+	        			{
+	        				bDate = false;
+	        			}
+					}
+					else if(dd < 29)
+					{
+						bDate = true;
+					}
+					else
+					{
+						bDate = false;
+					}
 				}
 				
 			}
@@ -369,9 +406,27 @@ function terminationValidation(value)
 			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31 && compareHireDayandTermination(hYYYY, hMM, hDD, yyyy, mm, dd) == true)
 			{
 				bDate = true;
-				if (mm == 2 && dd >28)
+				if (mm == 2)
 				{
-					bDate = false;
+					if(dd == 29)
+					{
+						if(new Date(yyyy, 1, 29).getMonth() == 1)
+	        			{
+	        				bDate = true;
+	        			}
+	        			else
+	        			{
+	        				bDate = false;
+	        			}
+					}
+					else if(dd < 29)
+					{
+						bDate = true;
+					}
+					else
+					{
+						bDate = false;
+					}
 				}
 			}
 		}
@@ -393,9 +448,27 @@ function terminationValidation(value)
 			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear()) && mm >= 1 && mm <= 12 && dd >= 1 && dd <= 31) 
 			{
 				bDate = true;
-				if(mm == 2 && dd > 28)
+				if(mm == 2)
 				{
-					bDate = false;
+					if(dd == 29)
+					{
+						if(new Date(yyyy, 1, 29).getMonth() == 1)
+	        			{
+	        				bDate = true;
+	        			}
+	        			else
+	        			{
+	        				bDate = false;
+	        			}
+					}
+					else if(dd < 29)
+					{
+						bDate = true;
+					}
+					else
+					{
+						bDate = false;
+					}
 				}
 				
 			}
