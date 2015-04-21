@@ -31,12 +31,71 @@
 				$DOT	= getValueFromRequest('DOT');
 				$Salary = getValueFromRequest('Salary');
 				
+				$Modify = getValueFromRequest('MOD');
+				$ModSIN = getValueFromRequest('MODSIN');
+				$ModCOM = getValueFromRequest('MODCOM');
+				$OLDSIN	= getValueFromRequest('OLDSIN');
+				$OLDCOM = getValueFromRequest('OLDCOM');
+				
+				if($Modify == "true")
+				{
+					if($ModSIN == "true")
+					{
+						$PersonExist = checkPersonExist($SIN);
+						if($PersonExist)
+						{
+							echo "SIN Number Exist";
+							exit();
+						}
+						else
+						{
+							mysql_query("update PERSON set SIN = '$SIN', FIRSTNAME = '$FirstName', LASTNAME = '$LastName', DATEOFBIRTH = '$DOB' where SIN = '$OLDSIN'") or exit(mysql_error());
+							
+						}
+					}
+					else
+					{
+							mysql_query("update PERSON set  FIRSTNAME = '$FirstName', LASTNAME = '$LastName', DATEOFBIRTH = '$DOB'  where SIN = '$SIN'") or exit(mysql_error());
+					}
+					
+					$PersonID = "";
+					 getPersonID($SIN,$PersonID);
+					
+					if($ModCOM == "true")
+					{
+						$NewCompanyID = "";
+						$OLDCompanyID = "";
+						$CompanyExist = checkCompanyExist($Company);  
+						getCompanyID($OLDCOM,$OLDCompanyID);
+						if($CompanyExist)
+						{
+						
+							
+							getCompanyID($Company,$NewCompanyID);
+							
+							mysql_query("update employee set company_id='$NewCompanyID' where company_id = 'OLDCompanyID' and person_id = '$PersonID' and EmployType = 'FT'") or exit(mysql_error());
+							
+						}
+						else
+						{
+							$CompanyID = createNewCompany($Company);
+							
+							mysql_query("update employee set company_id = '$CompanyID' where company_id = 'OLDCompanyID' and person_id = '$PersonID' and EmployType = 'FT' ") or exit(mysql_error());
+						}
+					}
+				}
+				else
+				{
 				
 				$PersonExist = checkPersonExist($SIN);  //Check if the person have been added.
 				
 				if(!$PersonExist)    //If the database has not contain the person , then add the preson to DB.
 				{
 					$insertPerson = mysql_query("Insert into person(FIRSTNAME, LASTNAME,SIN,DATEOFBIRTH) values('$FirstName' , '$LastName','$SIN','$DOB')") or exit(mysql_error());
+				}
+				else
+				{
+					echo "SIN Number Already Exist.";
 				}
 				
 				$CompanyExist = checkCompanyExist($Company);  //Check  if the Company have been added to database.
@@ -114,7 +173,7 @@
 					}
 				
 				}
-				
+			}
 				mysql_close($connection);
 			}
 			else if ($EmployType == "PT")
@@ -397,7 +456,8 @@
 		$EmplyeeType = getValueFromRequest('ET');
 		$EmployID = "";
 		$ErrorInfor = "";
-		if(getEmployeeIDBySINComEmpType($SIN,$COM,$EmplyeeType,$ErrorInfor,$EmployID))
+		$WorkStatus = "";
+		if(getEmployeeIDBySINComEmpTypeStatus($SIN,$COM,$EmplyeeType,$ErrorInfor,$EmployID,$WorkStatus))
 		{
 			if($EmplyeeType == "FT")
 			{
@@ -676,6 +736,8 @@
 		}
 	}
 	
+
+	
 	function insertSeasonEmpWeekPiece($TimeCardID,$PieceAmount)
 	{
 		$result = mysql_query("Insert into SeasonEmpWeekPiece(timecard_id,pieceamount) values('$TimeCardID','$PieceAmount')") or exit(mysql_error()) ;
@@ -689,6 +751,12 @@
 			mysql_free_result($result);
 			return false;
 		}
+	}
+	
+	function createNewCompany($CompanyName)
+	{
+			mysql_query("insert company(CORPORATIONNAME) values($CompanyName)") or exit(mysql_error());
+			return mysql_insert_id();
 	}
 	
 	function insertTimeCard($EmpID, $MondayH, $TuesdayH, $WednesdayH, $ThursdayH, $FridayH,$SaturdayH,$SundayH)
@@ -734,6 +802,8 @@
 			
 		}
 	}
+	
+
 	
 	function checkPersonExist($PersonSIN)
 	{
@@ -919,7 +989,7 @@
 			if(getCompanyID($COM,$CompanyID))
 			{
 	
-				$result = mysql_query("Select ID from employee where  company_id = '$CompanyID' AND person_id = '$PersonID' AND EmployType = '$EMPTYPE'");
+				$result = mysql_query("Select ID from employee where  company_id = '$CompanyID' AND person_id = '$PersonID' AND EmployType = '$EMPTYPE' AND Employeestatus != 'Inactive'");
 				$resultNum = mysql_num_rows($result);
 				if($resultNum > 0)
 				{
@@ -945,6 +1015,43 @@
 	}
 	
 	
+	function getEmployeeIDBySINComEmpTypeStatus($SIN,$COM,$EMPTYPE,&$ErrorInfor, &$EmployeeID,&$WorkStatus)
+	{
+		$resultValue = false;
+		$PersonID = "";
+		$CompanyID = "";
+		
+		if(getPersonID($SIN,$PersonID))
+		{
+			if(getCompanyID($COM,$CompanyID))
+			{
+	
+				$result = mysql_query("Select ID,Employeestatus from employee where  company_id = '$CompanyID' AND person_id = '$PersonID' AND EmployType = '$EMPTYPE' AND Employeestatus != 'Inactive'");
+				$resultNum = mysql_num_rows($result);
+				if($resultNum > 0)
+				{
+					$EmployeeID = mysql_result($result,0,0);
+					$WorkStatus = mysql_result($result,0,1);
+					$resultValue = true;
+				}
+				else
+				{
+					$ErrorInfor = array('ErrorInfor' => "Can Not Find Employee ID");
+				}
+			}
+			else
+			{
+				$ErrorInfor = array('ErrorInfor' => "Can Not Find Company ID");
+			}
+		}
+		else
+		{
+			$ErrorInfor = array('ErrorInfor' => "Can Not Find Person ID");
+		}
+		
+		return $resultValue;
+	}
+	
 	function getWorkStatusByEmployeeIDFTPTCT($EmployeeID,&$WorkStatus)
 	{
 		$result = mysql_query("Select Employeestatus from employee where ID = '$EmployeeID' ");
@@ -957,7 +1064,7 @@
 	
 	function checkEmployeeExist($PersonID, $CompanyID, $EmployeeType)
 	{
-		$result = mysql_query("Select * From employee where company_id = '$CompanyID' AND person_id = '$PersonID' AND EmployType = '$EmployeeType'");
+		$result = mysql_query("Select * From employee where company_id = '$CompanyID' AND person_id = '$PersonID' AND EmployType = '$EmployeeType' AND  Employeestatus != 'Inactive'");
 		$EmployeeExist_Rows = mysql_num_rows($result);
 		mysql_free_result($result);
 		if($EmployeeExist_Rows > 0)
