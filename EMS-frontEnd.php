@@ -2943,7 +2943,57 @@ function cancelImage()
 }
 function validatePTAdminAdd()
 {
-    
+     if(!checkFname(document.getElementById("fnameTextAdminPTAdd").value))
+    {
+        //show error message
+        document.getElementById("spanPTAdminAddFname").innerHTML = "*Invalid Data";
+        boolToSubmit="false";
+    } 
+    if(!checkLname(document.getElementById("lnameTextAdminPTAdd").value))
+    {
+        //show error message
+        document.getElementById("spanPTAdminAddLname").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkCompany(document.getElementById("compTextAdminPTAdd").value, "false"))
+    {
+        //show error message
+        document.getElementById("spanPTAdminAddCompany").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkSin(document.getElementById("sinTextAdminPTAdd").value,"true"))
+    {
+       // alert(document.getElementById("sinText").value);
+        //show error message
+        document.getElementById("spanPTAdminAddSin").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkDateOfBirth(document.getElementById("dobTextAdminPTAdd").value))
+    {
+        //show error message
+        document.getElementById("spanPTAdminAddDob").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkDateOfHire(document.getElementById("dohTextAdminPTAdd").value))
+    {
+        //show error message
+        document.getElementById("spanPTAdminAddDoh").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkDateOfTermination(document.getElementById("dotTextAdminPTAdd").value))
+    {
+        //show error message
+        document.getElementById("spanPTAdminAddDot").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+    if(!checkHours(document.getElementById("hourlyRatePTAdd").value))
+    {
+        //show error message
+        document.getElementById("spanPTAdminAddHourlyRate").innerHTML = "*Invalid Data";
+         boolToSubmit="false";
+    } 
+   
+    return boolToSubmit;
 }
 function submitAdminContractEmp()
 {
@@ -2955,17 +3005,83 @@ function submitAdminContractEmp()
 
 function submitAdminPartTimeEmp()
 {
+    emptyAllPTAdminSpans();
     //start the validation
-    validatePTAdminAdd();
-    //if no errors then goto this page
-    location.href = "Database.php";
+    if(validatePTAdminAdd()=="true")
+    {
+        alert("sdfsf");
+        createJSONObjectAdminAddPT("addEmployee");
+    }
+}
+    function emptyAllPTAdminSpans()
+    {
+        document.getElementById("spanPTAdminAddFname").innerHTML = "";
+    document.getElementById("spanPTAdminAddLname").innerHTML = "";
+    document.getElementById("spanTAdminAddCompany").innerHTML = "";
+    document.getElementById("spanPTAdminAddSin").innerHTML = "";
+    document.getElementById("spanPTAdminAddDob").innerHTML = "";
+    document.getElementById("spanPTAdminAddDot").innerHTML = "";
+    document.getElementById("spanPTAdminAddDoh").innerHTML = "";
+    document.getElementById("spanPTAdminAddHourlyRate").innerHTML = ""
+    }
+    
+function createJSONObjectAdminAddPT(userAction)
+{
+        var sendData = "";
+        var fname = document.getElementById("fnameTextAdminPTAdd").value;
+        var lname = document.getElementById("lnameTextAdminPTAdd").value;
+        var company = document.getElementById("compTextAdminPTAdd").value;
+        var sin = document.getElementById("sinTextAdminPTAdd").value;
+        var dob = document.getElementById("dobTextAdminPTAdd").value;
+        var doh = document.getElementById("dohTextAdminPTAdd").value;
+    var dot = document.getElementById("dotTextAdminPTAdd").value;
+     var hourly = document.getElementById("hourlyRatePTAdd").value;
+    
+		sendData += makeUpJson("q",{"q":userAction},true);
+		
+		sendData += makeUpJson("UT",{"UT":userType});
+		
+		sendData += makeUpJson("ET",{"ET":employeeType});
+		
+		sendData += makeUpJson("FN",{"FN":fname});
+		
+		sendData += makeUpJson("LN",{"LN":lname});
+		
+		sendData += makeUpJson("CM",{"CM":company});
+		
+		sendData += makeUpJson("SIN",{"SIN":sin});
+		
+		sendData += makeUpJson("DOB",{"DOB":dob});
+		
+		sendData += makeUpJson("DOH",{"DOH":doh});
+		
+		sendData += makeUpJson("DOT",{"DOT":dot});
+		
+		sendData += makeUpJson("HourlyRate",{"HourlyRate":hourly});
+		
+	//alert(sendData);
+	 $.ajax({url: "Database.php",
+							type: "GET",
+							async:true,
+							data : sendData,
+							success:function(result)
+							{
+							
+								//alert(result);
+							},
+							 error: function( objRequest )
+							 {
+								//alert(objRequest);
+							 }
+							
+							});
 }
 function submitAdminSeasonEmp()
 {
    //start the validation
 
     //if no errors then goto this page
-    location.href = "Database.php";
+  
 }
 function submitTimeCardForFTPT()
 {
@@ -4325,14 +4441,14 @@ function isNum(text)
       <div id="adminUserAddingPTEmpAdd" class="centerDiv">
                     <form class="adminAddEmpForm">
                         <label id="employeeTypePT" class="employeeType"></label>
-                        <label id="fnameLabelAdmin" class="fnameL">First Name</label><input type="text" id="fnameTextAdminPTAdd" name="fnameTextAdmin" class="fname"/>
-                        <label id="lnameLabelAdmin" class="lnameL">Last Name</label><input type="text" id="lnameTextAdminPTAdd" name="lnameTextAdmin" class="lname"/>
-                        <label id="companyLabelAdmin" class="companyL">Company</label><input type="text" id="compTextAdminPTAdd" name="compTextAdmin" class="company"/>
-                        <label id="sinLabelAdmin" class="sinL">SIN</label><input type="text" id="sinTextAdminPTAdd"  name="sinTextAdmin" class="sin"/>
-                        <label id="dobLabelAdmin" class="dobL">Date OF Birth</label><input type="text" id="dobTextAdminPTAdd" name="dobTextAdmin"  class="dob"/>
-                        <label id="dohLabelAdmin" class="dohL">Date Of Hire</label><input type="text" id="dohTextAdminPTAdd"  name="dohTextAdmin" class="doh"/>
-                        <label id="dotLabelAdmin">Date Of Termination</label><input type="text" id="dotTextAdminPTAdd"  name="dotTextAdmin" class="dot"/>
-                        <label id="hourlyRateLabelAdmin">Hourly Rate</label><input type="text"  name="hourlyRate" id="hourlyRatePTAdd"/>
+                        <label id="fnameLabelAdmin" class="fnameL">First Name</label><input type="text" id="fnameTextAdminPTAdd" name="fnameTextAdmin" class="fname"/><span id="spanPTAdminAddFname" style="position:absolute; top:10%; left:80%;"></span>
+                        <label id="lnameLabelAdmin" class="lnameL">Last Name</label><input type="text" id="lnameTextAdminPTAdd" name="lnameTextAdmin" class="lname"/><span id="spanPTAdminAddLname" style="position:absolute; top:20%; left:80%;"></span>
+                        <label id="companyLabelAdmin" class="companyL">Company</label><input type="text" id="compTextAdminPTAdd" name="compTextAdmin" class="company"/><span id="spanPTAdminAddCompany" style="position:absolute; top:30%; left:80%;"></span>
+                        <label id="sinLabelAdmin" class="sinL">SIN</label><input type="text" id="sinTextAdminPTAdd"  name="sinTextAdmin" class="sin"/><span id="spanPTAdminAddSin" style="position:absolute; top:40%; left:80%;"></span>
+                        <label id="dobLabelAdmin" class="dobL">Date OF Birth</label><input type="text" id="dobTextAdminPTAdd" name="dobTextAdmin"  class="dob"/><span id="spanPTAdminAddDob" style="position:absolute; top:50%; left:80%;"></span>
+                        <label id="dohLabelAdmin" class="dohL">Date Of Hire</label><input type="text" id="dohTextAdminPTAdd"  name="dohTextAdmin" class="doh"/><span id="spanPTAdminAddDoh" style="position:absolute; top:60%; left:80%;"></span>
+                        <label id="dotLabelAdmin">Date Of Termination</label><input type="text" id="dotTextAdminPTAdd"  name="dotTextAdmin" class="dot"/><span id="spanPTAdminAddDot" style="position:absolute; top:70%; left:80%;"></span>
+                        <label id="hourlyRateLabelAdmin">Hourly Rate</label><input type="text"  name="hourlyRate" id="hourlyRatePTAdd"/><span id="spanPTAdminAddHourlyRate" style="position:absolute; top:80%; left:80%;"></span>
                         <button type="button" class="submitBtn" id="btnSubmitPT" onclick="submitAdminPartTimeEmp()">Submit</button>
                     </form>
                     <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>
@@ -4370,7 +4486,7 @@ function isNum(text)
         <div id="adminUserAddingCEmp" class="centerDiv">   
             <form class="adminAddEmpForm">
                 <label id="employeeTypeC" class="employeeType"></label>
-                <label id="lnameLabelAdminC">Last Name</label><input type="text" id="lnameTextAdminC" name="lnameTextAdminC"/>
+                <label id="lnameLabelAdminC">Corporation Name</label><input type="text" id="lnameTextAdminC" name="lnameTextAdminC"/><span id="spanPTAdminAddHourlyRate" style="position:absolute; top:80%; left:80%;"></span>
                 <label id="companyLabelAdminC">Company</label><input type="text" id="compTextAdminC" name="compTextAdminC"/>
                 <label id="sinLabelAdminC">SIN</label><input type="text" id="sinTextAdminC" name="sinTextAdminC"/>
                 <label id="dobLabelAdminC">Date OF Birth</label><input type="text" id="dobTextAdminC" name="dobTextAdminC"/>
@@ -4378,7 +4494,6 @@ function isNum(text)
                 <label id="cstopDLabelAdminC">Contract Stop Date</label><input type="text" id="cstopDTextAdminC" name="cstopDTextAdminC"/>
                 <label id="contractAmountLabelC">Contract Amount</label><input type="text" id="contractAmountC" name="contractAmountC"/>
                 <button type="submit" class="submitBtn" id="btnSubmitC">Submit</button>
-                <input type="hidden" name="adminEmpType" value="CONTRACT">
             </form>
             <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>
             <button class="backBtn" onclick="goBack()">Back</button>       
@@ -4422,7 +4537,7 @@ function isNum(text)
                         <label id="dohLabelAdmin" class="dohL">Date Of Hire</label><input type="text" id="dohTextAdminPT"  name="dohTextAdmin" class="doh"/>
                         <label id="dotLabelAdmin">Date Of Termination</label><input type="text" id="dotTextAdminPT"  name="dotTextAdmin" class="dot"/>
                         <label id="hourlyRateLabelAdmin">Hourly Rate</label><input type="text"  name="hourlyRate" id="hourlyRatePT"/>
-                        <button type="button" class="submitBtn" id="btnSubmitPT" onclick="submitAdminPartTimeEmp()">Submit</button>
+                        <button type="button" class="submitBtn" id="btnSubmitPT" onclick="submitModAdminPartTimeEmp()">Submit</button>
 <!--                    </form>-->
 <!--                    <input type="image" src="cancel.png" onclick="cancelImage()" class="cancelImage"/>-->
 <!--                    <button class="backBtn" onclick="goBack()">Back</button> -->
