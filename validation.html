@@ -459,44 +459,31 @@ function seasonValidation(inputValue){
 //validaiton for season year
 function seasonYearValidation(value)
 {
-	var bSeasonYear = true;
+	var bSeasonYear = false;
 	var yearReg = /^\d{4}$/;
 	if(userType == "A")
 	{
-		if(value == null || value == "")
+		if(value != null && value != "" && value.match(yearReg) != null)
 		{
-			bSeasonYear = false;
-		}
-		else
-		{
-			if(value.match(yearReg) != null)
+			
+			var yyyy = parseInt(value);
+			if(yyyy >= 1902 && yyyy <= (new Date().getFullYear())) 
 			{
-				var yyyy = parseInt(value);
-				if(yyyy < 1902 || yyyy > (new Date().getFullYear())) 
-				{
-					bSeasonYear = false;
-				}
-			}
-			else
-			{
-				bSeasonYear = false;
+				bSeasonYear = true;
 			}
 		}
 	}
 	else
 	{
-		if(value != null || value != "" || value.match(yearReg) == null)
+		if(value != null && value != "" && value.match(yearReg) != null)
 		{
-			bSeasonYear = false;
-		}
-		if(value.match(yearReg) != null)
-		{
+			
 			var yyyy = parseInt(value);
 			if(yyyy < 1902 || yyyy > (new Date().getFullYear())) 
 			{
 				bSeasonYear = false;
 			}
-		}
+			
 	}
 	
 	return bSeasonYear;
