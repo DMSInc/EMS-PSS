@@ -82,9 +82,7 @@
 						}
 					}
 					
-					
-					
-					
+				
 					$EmployeeID = "";
 					if($DOT !== "")
 					{
@@ -296,7 +294,7 @@
 						getEmployeeIDIncompleteActive($PersonID,$CompanyID,"PT",$EmployeeID);
 						
 						adminAlterExistFullEmployee($EmployeeID,$DOH,$DOT,$Salary);
-						changeEmployeeStatusToInactive($SIN,$Company,"PT");
+						changeEmployeeStatusToActive($SIN,$Company,"PT");
 					}
 				}
 				else
@@ -347,6 +345,7 @@
 							{
 								if(adminAddPartTimeEmployee($EmployeeID,$DOH,$DOT,$Salary))
 								{
+									changeEmployeeStatusToActive($SIN,$Company,"PT");
 									echo "Sucess To add FullTime Employee";
 								}
 								else
@@ -373,8 +372,9 @@
 				
 						if($Result)
 						{
-							if(adminAlterExistFullEmployee($EmployeeID,$DOH,$DOT,$Salary))
+							if(adminAlterParttimeEmployee($EmployeeID,$DOH,$DOT,$Salary))
 							{
+								changeEmployeeStatusToActive($SIN,$Company,"PT");
 								echo "Sucess To Alter FullTime Employee";
 							}
 							else
@@ -697,7 +697,7 @@
 				$HourlyRate = "";
 				getFirstNameLastNameDOBDOH($SIN,$FirstName,$LastName,$DateOfBirth, $DateOfHire, $DateOfTermination, $HourlyRate);
 
-				$arr = array('FN' => $FirstName, 'LN' => $LastName, 'DOB' => $DateOfBirth,'DOH' => $DateOfHire, 'DOT' => $DateOfTermination, 'HR' => $HourlyRate, 'SIN' => $SIN, 'COM' => $COM);
+				$arr = array('Status' =>$WorkStatus,'FN' => $FirstName, 'LN' => $LastName, 'DOB' => $DateOfBirth,'DOH' => $DateOfHire, 'DOT' => $DateOfTermination, 'HR' => $HourlyRate, 'SIN' => $SIN, 'COM' => $COM);
 				echo json_encode($arr);
 
 			}
@@ -850,16 +850,19 @@
 		$UTP	= getValueFromRequest('UT');
 		
 		searchEmployee($FNP,$LNP,$SINP,$UTP);
+			mysql_close($connection);
 	}
 	else if($q == "selectSearchedEmployee")
 	{
 		
 			userSelectSearchedEmployee();
+				mysql_close($connection);
 		
 	}
 	else if ($q == "generalSeniorityReport")
 	{
 		generateSeniorityReport();
+			mysql_close($connection);
 		
 	}
 	else if($q == "addNewUser")
@@ -883,6 +886,24 @@
 	else if($q == "weeklyReport")
 	{
 		weeklyReport();
+		mysql_close($connection);
+	}
+	else if($q == "Active")
+	{
+
+		activeInActiveReport("FT","Active");
+		activeInActiveReport("PT","Active");
+		activeInActiveReport("SN","Active");
+			mysql_close($connection);
+
+	}
+	else if($q == "Inactive")
+	{
+	
+		activeInActiveReport("FT","Inactive");
+		activeInActiveReport("PT","Inactive");
+		activeInActiveReport("SN","Inactive");
+			mysql_close($connection);
 	}
     else{
         
@@ -902,6 +923,11 @@
 		
 		
 			$return  = $obj[$Request];
+			
+			if($Request == "SIN"  || $Request == "CM")
+			{
+				$return = str_replace(" ","",$return);
+			}
 		}	
 		return $return;
 	}
@@ -1305,7 +1331,7 @@
 			if(getCompanyID($COM,$CompanyID))
 			{
 	
-				$result = mysql_query("Select ID,Employeestatus from employee where  company_id = '$CompanyID' AND person_id = '$PersonID' AND EmployType = '$EMPTYPE' AND Employeestatus != 'Inactive'");
+				$result = mysql_query("Select ID, Employeestatus from employee where  company_id = '$CompanyID' AND person_id = '$PersonID' AND EmployType = '$EMPTYPE' AND Employeestatus != 'Inactive'");
 				$resultNum = mysql_num_rows($result);
 				if($resultNum > 0)
 				{
@@ -1614,9 +1640,9 @@
 			$tableLists .="</table>";
 			mysql_free_result(result);
 		
-			$arr = array('searchResult' =>$tableLists);
-			echo json_encode($arr);
-			//echo $tableLists;
+			//$arr = array('searchResult' =>$tableLists);
+			//echo json_encode($arr);
+			echo $tableLists;
 		}
 		else
 		{
@@ -2411,8 +2437,120 @@
 	}
 	
 	
+	function activeInActiveReport($EmployType,$Status)
+	{	
 	
-	
+		$Company = getValueFromRequest('CM');
+		$result_Com = mysql_query("Select ID from company where CORPORATIONNAME = '$Company'") or exit(mysql_error());
+		$result_COMID = "";
+		if($result_Com)
+		{	
+			$result_Count = mysql_num_rows($result_Com);
+				if($result_Count > 0)
+				{
+					$result_COMID = mysql_result($result_Com,0,0);
+					$tempresult = "";
+					
+					$tempresult = mysql_query("select ID, person_id from employee where Employeestatus= '$Status' and EmployType = '$EmployType' and company_id = '$result_COMID'");
+					
+				
+					if($tempresult)
+					{
+						$tableLists = "<table >"; 
+						$temp = "";
+						if($EmployType == 'FT')
+						{
+							$temp = "FullTime";
+						}
+						else if($EmployType == 'PT')
+						{
+							$temp = "PartTime";
+						}
+						else if($EmployType == 'SN')
+						{
+							$temp = "Seasonal";
+						}
+						else if($EmployType == 'CT')
+						{
+							$temp = "Contract";
+						}
+						$tableLists .= "<tr><th></th><th>$temp</th><th></th></tr>";
+						$tableLists .="<tr><td>Employee Name</td><td>Date Of Hire</td><td>Avg. Hours</td></tr>";
+						$tempresult_num = mysql_num_rows($tempresult);
+						
+						if($tempresult_num > 0)
+						{
+							for($i = 0; $i < $tempresult_num; $i++)
+							{
+								$EmployeeID = mysql_result($tempresult,$i,0);
+								$personID = mysql_result($tempresult,$i,1);
+								$DateofHire = "";
+									$FirstName ="";
+									$LastName = "";
+									$AvgHour = "";
+								$FirstLastNamequery = mysql_query("Select FirstName,Lastname from PERSON where ID = '$personID'") or exit(mysql_error());
+								if($FirstLastNamequery)
+								{	
+									
+									$FirstLastNamequeryNum = mysql_num_rows($FirstLastNamequery);
+									if($FirstLastNamequeryNum > 0)
+									{
+										$FirstName = mysql_result($FirstLastNamequery,0,0);
+										$LastName = mysql_result($FirstLastNamequery,0,1);
+										
+										$FirstName .= ", ";
+										$FirstName .= $LastName;
+									}
+									mysql_free_result($FirstLastNamequery);
+								}
+									
+									$DateOfHirequery = "";
+						
+								
+									if($EmployType == 'FT')
+									{
+										$DateOfHirequery = mysql_query("Select dateofhire from FulltimeEmployee where employee_id =  '$EmployeeID' ") ;
+									}
+									else if($EmployType == 'PT')
+									{
+										$DateOfHirequery = mysql_query("Select dateofhire from ParttimeEmployee where employee_id = '$EmployeeID'  ") ;
+									}
+									else if($EmployType == 'SN')
+									{
+										$DateOfHirequery = mysql_query("Select dateofhire from SeasonalEmployee where employee_id = '$EmployeeID' ") ;
+									}
+									else if($EmployType == 'CT')
+									{
+										$DateOfHirequery = mysql_query("Select dateofhire from Contractor where employee_id = '$EmployeeID' ") ;
+									}
+							
+								if($DateOfHirequery)
+								{
+									$DateofHire = mysql_result($DateOfHirequery,0,0);
+									
+								}
+								else
+								{
+								
+								}
+								
+								
+								$AvgHourquery = mysql_query("select  AVG(amount) avgHour from timecard  where employee_id = '$employeeID' group by employee_id");
+								if($AvgHourquery)
+								{
+									$AvgHour = mysql_result($AvgHourquery,0,0);
+									$AvgHour = sprintf("%.2f",$AvgHour);
+								}
+								
+								$tableLists .= "<tr><td>$FirstName</td><td>$DateOfHire</td><td>$AvgHour</td></tr>";
+							}
+							$tableLists .= "</table>";
+							echo $tableLists;
+						}
+					}
+				}
+		}
+	}
 	
 	
 	
