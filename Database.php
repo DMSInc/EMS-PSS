@@ -578,7 +578,7 @@
 	}
 	else if($q == "weeklyReport")
 	{
-		
+		weeklyReport();
 	}
     else{
         
@@ -1858,6 +1858,10 @@
 	
 	function weeklyReport()
 	{
+		createWorklyReport('FT');
+		createWorklyReport('PT');
+		createWorklyReport('SN');
+		return;
 		$Company = getValueFromRequest('CM');
 		$result_Com = mysql_query("Select ID from company where CORPORATIONNAME = '$Company'") or exit(mysql_error());
 		$result_COMID = "";
@@ -1871,9 +1875,53 @@
 					if($result_COMID !== "")
 					{
 						$colum1 = $colum2 =$colum3 =$colum4 =$colum5 = "";
-						$result = mysql_query("Select ID, person_id, Employeestatus,EmployType from employee where company_id = '$result_COMID' AND (EmployType = 'FT'  OR EmployType = 'PT' )AND employeestatus != 'Incomplete'") or exit(mysql_error());
+						//$result = mysql_query("Select ID, person_id, Employeestatus,EmployType from employee where company_id = '$result_COMID' AND (EmployType = 'FT'  OR EmployType = 'PT' )AND employeestatus != 'Incomplete'") or exit(mysql_error());
 						
 						//Select from employee where  
+						$query = "select b.id, a.maxHour, person.FIRSTNAME, person.LastName, person.SIN from employee b
+					inner join  (select  employee_id, MAX(amount) maxHour from timecard  group by employee_id order by id Desc) a on a.employee_id  = b.id and b.employtype = 'FT' and b.Employeestatus = 'Active'
+					inner join person on b.person_id = person.ID order by maxHour DESC, FirstName ";
+								$result = mysql_query($query) ;
+								if($result)
+								{
+									$tableLists = "<table>"; 
+									$tableLists .= "<tr><th></th><th>FullTime</th><th></th></tr>";
+									
+									$tableLists .= "<tr><td>Employee Name</td><td>SIN</td><td>Hours</td></tr>";
+									$result_count = mysql_num_rows($result);
+									if($result_count > 0)
+									{
+										
+										
+										
+										for($i = 0; $i < $result_count; $i++)
+										{
+											$Name = mysql_result($result,$i,2);
+										
+											$Name .= ",   ";
+											$Name .= mysql_result($result,$i,3);
+											
+											$SIN = mysql_result($result,$i,4);
+											$Hours = mysql_result($result,$i,1);
+											
+											$tableLists .= "<tr><td>$Name</td><td>$SIN</td><td>$Hours</td></tr>";
+											
+										}
+										$tableLists .= "</table>";
+										echo $tableLists;
+									}
+									
+									
+								}
+								mysql_free_result($result);
+								
+										$query = "select b.id, a.maxHour, person.FIRSTNAME, person.LastName, person.SIN from employee b
+					inner join  (select  employee_id, MAX(amount) maxHour from timecard  group by employee_id order by id Desc) a on a.employee_id  = b.id and b.employtype = 'FT' and b.Employeestatus = 'Active'
+					inner join person on b.person_id = person.ID order by maxHour DESC, FirstName ";
+					
+					
+					
+					
 					
 					}
 				
@@ -1883,6 +1931,98 @@
 		}
 	}
 	
+	function createWorklyReport($EmployeeType)
+	{
+				$Company = getValueFromRequest('CM');
+		$result_Com = mysql_query("Select ID from company where CORPORATIONNAME = '$Company'") or exit(mysql_error());
+		$result_COMID = "";
+		if($result_Com)
+		{						
+		
+				$result_Count = mysql_num_rows($result_Com);
+				if($result_Count > 0)
+				{
+					$result_COMID = mysql_result($result_Com,0,0);
+					if($result_COMID !== "")
+					{
+						$colum1 = $colum2 =$colum3 =$colum4 =$colum5 = "";
+						//$result = mysql_query("Select ID, person_id, Employeestatus,EmployType from employee where company_id = '$result_COMID' AND (EmployType = 'FT'  OR EmployType = 'PT' )AND employeestatus != 'Incomplete'") or exit(mysql_error());
+						
+						//Select from employee where  
+						$query = "select b.id, a.maxHour, person.FIRSTNAME, person.LastName, person.SIN from employee  b
+					inner join  (select  employee_id, MAX(amount) maxHour from timecard  group by employee_id order by id Desc) a on a.employee_id  = b.id and b.employtype = '$EmployeeType' and b.Employeestatus = 'Active' and b.company_id = '$result_COMID'
+					inner join person on b.person_id = person.ID order by maxHour DESC, FirstName ";
+								$tableLists = "<table>"; 
+
+								if($EmployeeType == "FT")
+								{
+									$tableLists .= "<tr><th></th><th>FullTime</th><th></th></tr>";
+								}
+								else if($EmployeeType == "PT")
+								{
+									$tableLists .= "<tr><th></th><th>PartTime</th><th></th></tr>";
+								}
+								else if($EmployeeType == "SN")
+								{
+									$tableLists .= "<tr><th></th><th>Seasonal</th><th></th></tr>";
+								}
+								$result = mysql_query($query) ;
+								if($result)
+								{
+									
+									
+									
+									
+									$tableLists .= "<tr><td>Employee Name</td><td>SIN</td><td>Hours</td></tr>";
+									$result_count = mysql_num_rows($result);
+								
+									if($result_count > 0)
+									{
+										for($i = 0; $i < $result_count; $i++)
+										{
+											$Name = mysql_result($result,$i,2);
+										
+											$Name .= ",   ";
+											$Name .= mysql_result($result,$i,3);
+											
+											$SIN = mysql_result($result,$i,4);
+											$Hours = mysql_result($result,$i,1);
+											
+											$tableLists .= "<tr><td>$Name</td><td>$SIN</td><td>$Hours</td></tr>";
+											
+										}
+										$tableLists .= "</table>";
+										echo $tableLists;
+						
+									}
+									else
+									{
+										$tableLists .="<tr><td>No TimeCard Record</td></tr>";
+										$tableLists .= "</table>";
+										echo $tableLists;
+									}
+									
+									
+								}
+								else
+								{
+										$tableLists .="<tr><td>No TimeCard Record</td></tr>";
+										$tableLists .= "</table>";
+										echo $tableLists;
+								}
+								mysql_free_result($result);	
+					
+					}
+				
+				}
+				else
+				{
+					echo "Can not find Company ID";
+				}
+				
+				
+		}
+	}
 	
 	
 	
